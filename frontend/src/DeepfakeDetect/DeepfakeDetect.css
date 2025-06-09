@@ -1,0 +1,297 @@
+.deepfake-detect-container {
+  position: relative;
+  margin: 40px auto 40px auto;
+  width: 672px;
+  background-color: #111;
+  border-radius: 8px;
+  border: 2px solid #888484;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  align-items: center;
+  align-self: center;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  font-size: 18px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  width: 100%;
+  color: white;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 8px;
+}
+
+.upload-section {
+  position: relative;
+  width: 100%;
+  min-height: 100px; /* Keep original height for upload section */
+  padding-bottom: 10px;
+}
+
+
+/* File Input Container */
+.file-input-container {
+  position: absolute;
+  width: 364px;
+  height: 48px;
+  top: 49px; /* 281px - 232px = 49px relative to container */
+  left: 154px; /* 791px - 637px = 154px relative to container */
+  background-color: #1e1e1e;
+  margin-left: -30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15px;
+  color: white;
+  font-size: 15px;
+}
+
+/* Hidden File Input */
+.hidden-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* File Input Label */
+.file-input-label {
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: none;
+  color: white;
+}
+
+/* Upload Button */
+.upload-btn {
+  position: absolute;
+  width: 131px;
+  height: 35px;
+  top: 55px; /* 287px - 232px = 55px relative to container */
+  left: 379px; /* 1016px - 637px = 379px relative to container */
+  background-color: #eee;
+  margin-left: -30px;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 3; /* Ensure upload button is above file input */
+}
+
+.upload-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.upload-btn:active {
+  background-color: #c0c0c0;
+}
+
+.filename-display {
+  font-size: 13px;
+  color: #ccc;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.result-container {
+  position: relative;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.preview-image {
+  position: relative;
+  display: inline-block;
+  max-width: 50%;
+  max-height: 50%;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.preview-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.image-tag {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(255, 255, 255, 0);
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+
+
+.result-box {
+  background-color: #e5e5e5;
+  color: #000;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* =============== Mobile View Adjustments =============== */
+@media (max-width: 500px) {
+  .deepfake-detect-container {
+    width: 90%;
+    padding: 20px;
+    margin: 50px auto;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 20px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .upload-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 0;
+  }
+
+  .file-input-container {
+    position: static;
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  .upload-btn {
+    position: static;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .preview-image {
+    max-width: 100%;
+    max-height: unset;
+  }
+
+  .result-box {
+    font-size: 13px;
+    padding: 6px 12px;
+    text-align: center;
+  }
+
+  .dropdown-menu {
+    left: auto;
+    right: 0;
+    width: 100%;
+  }
+
+  .file-input-label {
+    text-align: center;
+    width: 100%;
+  }
+
+  .top-bar {
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logout-icon {
+  height: 30px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.hamburger-menu {
+  position: absolute;
+  top: 35px;
+  left: 7%;
+  height: 30px;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .platform-label,
+  .nav-items,
+  .custom-dropdown,
+  .top-bar-extra {
+    display: none;
+  }
+
+  .logo {
+    height: 95px;
+  }
+
+  .mobile-dropdown {
+    background-color: #111;
+    padding: 10px 20px;
+    border-top: 1px solid #333;
+  }
+
+  .dropdown-item-title {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .dropdown-item {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .dropdown-item:hover {
+    background-color: #333;
+  }
+}
+
+}
+
+
