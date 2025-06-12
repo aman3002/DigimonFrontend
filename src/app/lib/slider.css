@@ -1,0 +1,24 @@
+.content-slider-wrapper {
+	width: 75%;
+	height: 89vh; /* Restrict height to part of viewport */
+	max-height: 89vh;
+	overflow-y: auto; /* Enable internal scroll */
+	scroll-snap-type: y mandatory;
+	-webkit-overflow-scrolling: touch;
+	display: flex;
+	flex-direction: column;
+	scroll-behavior: smooth;
+	padding-right: 5px;
+	box-sizing: border-box;
+	position: relative; /* Important to isolate from full page scroll */
+}
+
+.slide-item {
+	min-height: 89vh; /* So each card takes full height inside the container */
+	scroll-snap-align: start;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 10px;
+}

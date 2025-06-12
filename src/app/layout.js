@@ -9,8 +9,11 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'Your App',
-  description: '...',
+  title: "DigiMonitor",
+  description: "App description",
+  icons: {
+    icon: "/favicon.ico", // path to your icon in /public
+  },
 };
 
 export default function RootLayout({ children }) {
