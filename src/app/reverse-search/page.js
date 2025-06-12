@@ -1,6 +1,11 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
-import '../HomePage/HomePage.css';
+import { useRouter } from 'next/navigation';
+
+import '../home/HomePage.css';
 import './ReverseImageSearch.css';
+
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
@@ -11,13 +16,13 @@ import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
 import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
-import { useNavigate } from 'react-router-dom';
+
 import { MdOutlineFileUpload } from 'react-icons/md';
 
 function ReverseImageSearch() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [selectedPlatform, setSelectedPlatform] = useState('NONE');
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileName, setFileName] = useState('');
@@ -36,10 +41,11 @@ function ReverseImageSearch() {
     setMenuOpen(false);
   };
 
-  const currentPlatform = platforms.find(p => p.value === selectedPlatform);
+  const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 500);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -51,7 +57,7 @@ function ReverseImageSearch() {
       setFileName(file.name);
       const previewURL = URL.createObjectURL(file);
       setImagePreview(previewURL);
-      setShowPreview(false); // Wait until Upload is clicked
+      setShowPreview(false);
     }
   };
 
@@ -66,16 +72,16 @@ function ReverseImageSearch() {
     <div className="home-page">
       <div className="top-bar">
         <img
-          src={policeLogo}
+          src={policeLogo.src}
           alt="Logo"
           className="logo"
-          onClick={() => navigate('/homepage')}
+          onClick={() => router.push('/homepage')}
           style={{ cursor: 'pointer' }}
         />
 
         {isMobile ? (
           <img
-            src={menuIcon}
+            src={menuIcon.src}
             alt="Menu"
             className="hamburger-menu"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -88,7 +94,7 @@ function ReverseImageSearch() {
               <button className="dropdown-toggle" onClick={() => setMenuOpen(!menuOpen)}>
                 {currentPlatform ? (
                   <>
-                    <img src={currentPlatform.icon} alt={currentPlatform.name} />
+                    <img src={currentPlatform.icon.src} alt={currentPlatform.name} />
                     {currentPlatform.name}
                   </>
                 ) : (
@@ -103,11 +109,11 @@ function ReverseImageSearch() {
                       key={platform.value}
                       className="dropdown-item"
                       onClick={() => {
-                        handleSelectPlatform(platform)
-                        navigate('/home')
+                        handleSelectPlatform(platform);
+                        router.push('/home');
                       }}
                     >
-                      <img src={platform.icon} alt={platform.name} />
+                      <img src={platform.icon.src} alt={platform.name} />
                       {platform.name}
                     </div>
                   ))}
@@ -116,16 +122,16 @@ function ReverseImageSearch() {
             </div>
 
             <div className="nav-items">
-              <div className="nav-item" onClick={() => navigate('/deepfake')}>
-                <img src={deepfakeIcon} alt="Deepfake" />
+              <div className="nav-item" onClick={() => router.push('/deepfake')}>
+                <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
               <div className="nav-item active">
-                <img src={reverseSearchIcon} alt="Reverse Search" />
+                <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span>Reverse Image Search</span>
               </div>
-              <div className="nav-item" onClick={() => navigate('/analytics')}>
-                <img src={analyticsIcon} alt="Analytics" />
+              <div className="nav-item" onClick={() => router.push('/analytics')}>
+                <img src={analyticsIcon.src} alt="Analytics" />
                 <span>Analytics</span>
               </div>
             </div>
@@ -133,26 +139,26 @@ function ReverseImageSearch() {
         )}
 
         <img
-          src={backIcon}
+          src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => navigate('/logout')}
+          onClick={() => router.push('/logout')}
         />
       </div>
 
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { navigate('/deepfake'); setMenuOpen(false); }}>
-            <img src={deepfakeIcon} alt="Deepfake" />
+          <div className="dropdown-item" onClick={() => { router.push('/deepfake'); setMenuOpen(false); }}>
+            <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/reverse-search'); setMenuOpen(false); }}>
-            <img src={reverseSearchIcon} alt="Reverse Search" />
+          <div className="dropdown-item" onClick={() => { router.push('/reverse-search'); setMenuOpen(false); }}>
+            <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/analytics'); setMenuOpen(false); }}>
-            <img src={analyticsIcon} alt="Analytics" />
+          <div className="dropdown-item" onClick={() => { router.push('/analytics'); setMenuOpen(false); }}>
+            <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
           </div>
 
@@ -162,11 +168,11 @@ function ReverseImageSearch() {
               key={platform.value}
               className="dropdown-item"
               onClick={() => {
-                handleSelectPlatform(platform)
-                navigate('/home')
+                handleSelectPlatform(platform);
+                router.push('/home');
               }}
             >
-              <img src={platform.icon} alt={platform.name} />
+              <img src={platform.icon.src} alt={platform.name} />
               {platform.name}
             </div>
           ))}

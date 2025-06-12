@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../HomePage/HomePage.css';
-import './DeepfakeDetect.css';
+"use client";
 
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { MdOutlineFileUpload } from "react-icons/md";
+
+import "../home/HomePage.css";
+import "./DeepfakeDetect.css";
+
+// Images from local imports
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
@@ -13,38 +18,39 @@ import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
 import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
-import { MdOutlineFileUpload } from 'react-icons/md';
 
-function DeepfakeDetect() {
-  const navigate = useNavigate();
-  const [selectedPlatform, setSelectedPlatform] = useState('NONE');
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
+export default function DeepfakeDetect() {
+  const router = useRouter();
+
+  const [selectedPlatform, setSelectedPlatform] = useState("NONE");
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [radio, setRadio] = useState('fake');
+  const [radio, setRadio] = useState("fake");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [score, setScore] = useState(null);
   const [isFake, setIsFake] = useState(false);
 
   const platforms = [
-    { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
-    { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-    { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
-    { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+    { name: "Instagram", value: "INSTAGRAM", icon: instagramLogo },
+    { name: "Twitter", value: "TWITTER", icon: twitterLogo },
+    { name: "Facebook", value: "FACEBOOK", icon: facebookLogo },
+    { name: "Snapchat", value: "SNAPCHAT", icon: snapchatLogo },
   ];
+
+  const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 500);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleSelectPlatform = (platform) => {
     setSelectedPlatform(platform.value);
     setMenuOpen(false);
   };
-
-  const currentPlatform = platforms.find(p => p.value === selectedPlatform);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 500);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -65,16 +71,16 @@ function DeepfakeDetect() {
     <div className="home-page">
       <div className="top-bar">
         <img
-          src={policeLogo}
+          src={policeLogo.src}
           alt="Logo"
           className="logo"
-          onClick={() => navigate('/homepage')}
-          style={{ cursor: 'pointer' }}
+          onClick={() => router.push("/homepage")}
+          style={{ cursor: "pointer" }}
         />
 
         {isMobile ? (
           <img
-            src={menuIcon}
+            src={menuIcon.src}
             alt="Menu"
             className="hamburger-menu"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -87,7 +93,7 @@ function DeepfakeDetect() {
               <button className="dropdown-toggle" onClick={() => setMenuOpen(!menuOpen)}>
                 {currentPlatform ? (
                   <>
-                    <img src={currentPlatform.icon} alt={currentPlatform.name} />
+                    <img src={currentPlatform.icon.src} alt={currentPlatform.name} />
                     {currentPlatform.name}
                   </>
                 ) : (
@@ -102,11 +108,11 @@ function DeepfakeDetect() {
                       key={platform.value}
                       className="dropdown-item"
                       onClick={() => {
-                        handleSelectPlatform(platform)
-                        navigate('/home')
+                        handleSelectPlatform(platform);
+                        router.push("/home");
                       }}
                     >
-                      <img src={platform.icon} alt={platform.name} />
+                      <img src={platform.icon.src} alt={platform.name} />
                       {platform.name}
                     </div>
                   ))}
@@ -116,15 +122,15 @@ function DeepfakeDetect() {
 
             <div className="nav-items">
               <div className="nav-item active">
-                <img src={deepfakeIcon} alt="Deepfake" />
+                <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
-              <div className="nav-item" onClick={() => navigate('/reverse-search')}>
-                <img src={reverseSearchIcon} alt="Reverse Search" />
+              <div className="nav-item" onClick={() => router.push("/reverse-search")}>
+                <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span>Reverse Image Search</span>
               </div>
-              <div className="nav-item" onClick={() => navigate('/analytics')}>
-                <img src={analyticsIcon} alt="Analytics" />
+              <div className="nav-item" onClick={() => router.push("/analytics")}>
+                <img src={analyticsIcon.src} alt="Analytics" />
                 <span>Analytics</span>
               </div>
             </div>
@@ -132,26 +138,26 @@ function DeepfakeDetect() {
         )}
 
         <img
-          src={backIcon}
+          src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => navigate('/logout')}
+          onClick={() => router.push("/logout")}
         />
       </div>
 
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { navigate('/deepfake'); setMenuOpen(false); }}>
-            <img src={deepfakeIcon} alt="Deepfake" />
+          <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
+            <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/reverse-search'); setMenuOpen(false); }}>
-            <img src={reverseSearchIcon} alt="Reverse Search" />
+          <div className="dropdown-item" onClick={() => { router.push("/reverse-search"); setMenuOpen(false); }}>
+            <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/analytics'); setMenuOpen(false); }}>
-            <img src={analyticsIcon} alt="Analytics" />
+          <div className="dropdown-item" onClick={() => { router.push("/analytics"); setMenuOpen(false); }}>
+            <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
           </div>
 
@@ -161,11 +167,11 @@ function DeepfakeDetect() {
               key={platform.value}
               className="dropdown-item"
               onClick={() => {
-                handleSelectPlatform(platform)
-                navigate('/home')
+                handleSelectPlatform(platform);
+                router.push("/home");
               }}
             >
-              <img src={platform.icon} alt={platform.name} />
+              <img src={platform.icon.src} alt={platform.name} />
               {platform.name}
             </div>
           ))}
@@ -178,8 +184,8 @@ function DeepfakeDetect() {
             <input
               type="radio"
               value="fake"
-              checked={radio === 'fake'}
-              onChange={() => setRadio('fake')}
+              checked={radio === "fake"}
+              onChange={() => setRadio("fake")}
             />
             Fake Detect
           </label>
@@ -187,8 +193,8 @@ function DeepfakeDetect() {
             <input
               type="radio"
               value="violent"
-              checked={radio === 'violent'}
-              onChange={() => setRadio('violent')}
+              checked={radio === "violent"}
+              onChange={() => setRadio("violent")}
             />
             Violent Detect
           </label>
@@ -209,7 +215,7 @@ function DeepfakeDetect() {
           </div>
 
           <button className="upload-btn" onClick={handleUploadClick}>
-            <MdOutlineFileUpload size={16} style={{ marginRight: '4px' }} />
+            <MdOutlineFileUpload size={16} style={{ marginRight: "4px" }} />
             Upload
           </button>
         </div>
@@ -221,13 +227,13 @@ function DeepfakeDetect() {
               <img src={imagePreview} alt="Uploaded" />
             </div>
             <div className="result-box">
-              {radio === 'fake' ? (
+              {radio === "fake" ? (
                 <>
-                  Image is <strong>{isFake ? 'Fake' : 'Real'}</strong> with a score of <strong>{score}%</strong>
+                  Image is <strong>{isFake ? "Fake" : "Real"}</strong> with a score of <strong>{score}%</strong>
                 </>
               ) : (
                 <>
-                  Image is <strong>{isFake ? 'Violent' : 'Non-violent'}</strong> with a score of <strong>{score}%</strong>
+                  Image is <strong>{isFake ? "Violent" : "Non-violent"}</strong> with a score of <strong>{score}%</strong>
                 </>
               )}
             </div>
@@ -237,5 +243,3 @@ function DeepfakeDetect() {
     </div>
   );
 }
-
-export default DeepfakeDetect;

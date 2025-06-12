@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import './Analytics.css';
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import "./Analytics.css";
 
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
@@ -12,19 +16,17 @@ import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
 
-import { useNavigate } from 'react-router-dom';
-
-function Analytics() {
-  const navigate = useNavigate();
-  const [selectedPlatform, setSelectedPlatform] = useState('NONE');
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
+export default function Analytics() {
+  const router = useRouter();
+  const [selectedPlatform, setSelectedPlatform] = useState("NONE");
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const platforms = [
-    { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
-    { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-    { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
-    { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+    { name: "Instagram", value: "INSTAGRAM", icon: instagramLogo },
+    { name: "Twitter", value: "TWITTER", icon: twitterLogo },
+    { name: "Facebook", value: "FACEBOOK", icon: facebookLogo },
+    { name: "Snapchat", value: "SNAPCHAT", icon: snapchatLogo },
   ];
 
   const currentPlatform = platforms.find(p => p.value === selectedPlatform);
@@ -33,8 +35,9 @@ function Analytics() {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 500);
     };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleSelectPlatform = (platform) => {
@@ -46,16 +49,16 @@ function Analytics() {
     <div className="home-page">
       <div className="top-bar">
         <img
-          src={policeLogo}
+          src={policeLogo.src}
           alt="Logo"
           className="logo"
-          onClick={() => navigate('/homepage')}
-          style={{ cursor: 'pointer' }}
+          onClick={() => router.push("/homepage")}
+          style={{ cursor: "pointer" }}
         />
 
         {isMobile ? (
           <img
-            src={menuIcon}
+            src={menuIcon.src}
             alt="Menu"
             className="hamburger-menu"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -67,7 +70,7 @@ function Analytics() {
               <button className="dropdown-toggle" onClick={() => setMenuOpen(!menuOpen)}>
                 {currentPlatform ? (
                   <>
-                    <img src={currentPlatform.icon} alt={currentPlatform.name} />
+                    <img src={currentPlatform.icon.src} alt={currentPlatform.name} />
                     {currentPlatform.name}
                   </>
                 ) : (
@@ -82,11 +85,11 @@ function Analytics() {
                       key={platform.value}
                       className="dropdown-item"
                       onClick={() => {
-                        handleSelectPlatform(platform)
-                        navigate('/home')
+                        handleSelectPlatform(platform);
+                        router.push("/home");
                       }}
                     >
-                      <img src={platform.icon} alt={platform.name} />
+                      <img src={platform.icon.src} alt={platform.name} />
                       {platform.name}
                     </div>
                   ))}
@@ -95,16 +98,16 @@ function Analytics() {
             </div>
 
             <div className="nav-items">
-              <div className="nav-item" onClick={() => navigate('/deepfake')}>
-                <img src={deepfakeIcon} alt="Deepfake" />
+              <div className="nav-item" onClick={() => router.push("/deepfake")}>
+                <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
-              <div className="nav-item" onClick={() => navigate('/reverse-search')}>
-                <img src={reverseSearchIcon} alt="Reverse Search" />
+              <div className="nav-item" onClick={() => router.push("/reverse-search")}>
+                <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span>Reverse Image Search</span>
               </div>
               <div className="nav-item active">
-                <img src={analyticsIcon} alt="Analytics" />
+                <img src={analyticsIcon.src} alt="Analytics" />
                 <span>Analytics</span>
               </div>
             </div>
@@ -112,26 +115,26 @@ function Analytics() {
         )}
 
         <img
-          src={backIcon}
+          src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => navigate('/logout')}
+          onClick={() => router.push("/logout")}
         />
       </div>
 
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { navigate('/deepfake'); setMenuOpen(false); }}>
-            <img src={deepfakeIcon} alt="Deepfake" />
+          <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
+            <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/reverse-search'); setMenuOpen(false); }}>
-            <img src={reverseSearchIcon} alt="Reverse Search" />
+          <div className="dropdown-item" onClick={() => { router.push("/reverse-search"); setMenuOpen(false); }}>
+            <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
           </div>
-          <div className="dropdown-item" onClick={() => { navigate('/analytics'); setMenuOpen(false); }}>
-            <img src={analyticsIcon} alt="Analytics" />
+          <div className="dropdown-item" onClick={() => { router.push("/analytics"); setMenuOpen(false); }}>
+            <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
           </div>
 
@@ -141,11 +144,11 @@ function Analytics() {
               key={platform.value}
               className="dropdown-item"
               onClick={() => {
-                handleSelectPlatform(platform)
-                navigate('/home')
+                handleSelectPlatform(platform);
+                router.push("/home");
               }}
             >
-              <img src={platform.icon} alt={platform.name} />
+              <img src={platform.icon.src} alt={platform.name} />
               {platform.name}
             </div>
           ))}
@@ -164,5 +167,3 @@ function Analytics() {
     </div>
   );
 }
-
-export default Analytics;
