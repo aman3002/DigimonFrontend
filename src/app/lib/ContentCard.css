@@ -1,119 +1,282 @@
 /* ContentCard.css */
 .large-background-box {
-	width: calc(100% - 30px);
-	min-height: calc(100vh - 100px);
-	margin: 10px;
-	position: relative;
+	align-items: center;
+	width: 1434px;
+	height: 830px;
+	position: absolute;
+	top: 118px;
+	left: 16px;
+	border-radius: 9px;
+	background: #9491914D;
 }
 
 .video-section-wrapper {
+	width: 1391px;
+	height: 393px;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background: #151515;
+	border-radius: 9px;
 	display: flex;
-	flex-direction: column;
-	width: calc(100% - 50px);
-	padding: 15px;
-	margin: 10px 20px;
+	flex-direction: row;
+	padding: 20px;
+	box-sizing: border-box;
 }
 
 .media-player {
-	width: 50%;
-	max-width: 50%;
-	height: auto;
-	margin-bottom: 15px;
+	width: 672px;
+	height: 356px;
+	border-radius: 10px;
 }
 
 .village-info-box {
+	position: absolute;
+	top: 20px;
+	left: 747px;
+	width: 629px;
+	height: 58px;
+	border: 1px solid #515151;
+	border-radius: 11px;
 	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	width: 100%;
+	align-items: center;
+	gap: 12px;
+	padding: 0 16px;
+	color: white;
+	font-size: 14px;
+}
+
+.description-box {
+	position: absolute;
+	top: 95px;
+	left: 747px;
+	width: 632px;
+	height: 71px;
+	border: 1px solid #515151;
+	border-radius: 10px;
 	padding: 10px;
-	font-size: 12px;
+	color: white;
+	font-size: 14px;
+}
+
+.comments-header {
+	position: absolute;
+	top: 0px;
+	left: 00px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 632px;
+	gap: 8px;
+}
+
+.comment-title {
+		top: 177px;
+	left: 747px;
+
+	position: relative;
+	font-size: 22px;
+	font-weight: 400;
+	color: white;
+	text-align: center;
+	width: 100%;
+}
+
+.comments-box {
+	position: absolute;
+	top: 205px;
+	left: 747px;
+	width: 632px;
+	height: 178px;
+	border: 1px solid #515151;
+	padding: 10px;
+	color: white;
+	font-weight: 400;
+	font-size: 18px;
+	border-radius: 8px;
+	overflow-y: auto;
+}
+
+.comment {
+	font-size: 18px;
+	font-weight: 400;
+	color: white;
 	margin-bottom: 5px;
+}
+
+.comment-text {
+	font-size: 18px;
+	font-weight: 400;
+	color: white;
+	margin: 0;
+}
+
+.icon {
+	width: 24px;
+	height: 24px;
+}
+
+.icon.person {
+	width: 28px;
+	height: 28px;
+	position: relative;
+	top: 0px;
+	left: 5px;
+}
+
+.icon.heart {
+	position: relative;
+	top: 0px;
+	left: 5px;
+	right: 20px;
+	margin-left: 20px;
+}
+
+.icon.login {
+	position: absolute;
+	top: 20px;
+	left: 575px;
+	right: 150px;
+}
+
+.icon.clock {
+	position: relative;
+	top: 0px;
+	left: 5px;
+	margin-left: 20px;
+}
+
+.icon.comment {
+	position: absolute;
+	top: 177px;
+	left: 980px;
+	width: 24px;
+	height: 24px;
+}
+
+.username, .likes, .timestamp, .description-text, .comment {
+	font-size: 16px;
+	font-weight: 400;
+	color: white;
 }
 
 .info-group {
 	display: flex;
 	align-items: center;
-	margin: 5px;
+	gap: 8px;
 }
 
-.icon {
-	width: 20px;
-	height: 20px;
-	margin-right: 8px;
-	cursor: pointer;
-}
-
-.description-box {
-	width: 100%;
-	max-width: 90%;
-	padding: 10px;
-	font-size: 12px;
-	margin-bottom: 10px;
-}
-
-.description-text {
-	margin: 0;
-}
-
-.comments-header {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	max-width: 90%;
-	padding: 10px;
-}
-
-.comment-title {
-	font-size: 16px;
-	margin: 0;
-}
-
-.comments-box {
-	width: 100%;
-	max-width: 90%;
-	padding: 10px;
-	min-height: 120px;
-	font-size: 9px;
-}
-
-.comment {
-	margin-bottom: 8px;
-}
-
-.comment-text {
-	margin: 0;
-}
-
-/* Mobile adjustments */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 	.large-background-box {
-		width: calc(100% - 20px);
+		width: 100%;
+		height: auto;
+		position: relative;
+		top: 0;
+		left: 0;
 		margin: 10px;
 	}
 
 	.video-section-wrapper {
+		width: 100%;
+		height: auto;
+		position: relative;
+		top: 0;
+		left: 0;
+		flex-direction: column;
 		padding: 10px;
-		margin: 5px 10px;
 	}
 
 	.media-player {
-		height: 180px;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16/9;
 	}
 
 	.village-info-box {
-		font-size: 10px;
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: auto;
+		margin-top: 10px;
+	}
+
+	.description-box {
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: auto;
+		margin-top: 10px;
+	}
+
+	.comments-header {
+		position: relative;
+		top: 0;
+		left: 0;
+		margin-top: 10px;
+	}
+
+	.comment-title {
+		position: relative;
+		left: 0;
+	}
+
+	.comments-box {
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: auto;
+		max-height: 200px;
+		margin-top: 10px;
+	}
+
+	.info-group {
+		gap: 6px;
+	}
+
+	.icon {
+		width: 20px;
+		height: 20px;
+	}
+
+	.username, .likes, .timestamp {
+		font-size: 14px;
+	}
+
+	.description-text {
+		font-size: 14px;
+	}
+
+	.comment-title {
+		font-size: 16px;
+	}
+
+	.comment-text {
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 500px) {
+	.video-section-wrapper {
+		padding: 8px;
+	}
+
+	.village-info-box {
 		padding: 8px;
 	}
 
 	.description-box {
-		font-size: 10px;
 		padding: 8px;
 	}
 
 	.comments-box {
-		font-size: 8px;
 		padding: 8px;
+	}
+
+	.info-group {
+		gap: 4px;
 	}
 
 	.icon {
@@ -121,7 +284,19 @@
 		height: 18px;
 	}
 
+	.username, .likes, .timestamp {
+		font-size: 13px;
+	}
+
+	.description-text {
+		font-size: 13px;
+	}
+
 	.comment-title {
-		font-size: 14px;
+		font-size: 15px;
+	}
+
+	.comment-text {
+		font-size: 12px;
 	}
 }

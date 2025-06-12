@@ -109,7 +109,6 @@ export default function DeepfakeDetect() {
                       className="dropdown-item"
                       onClick={() => {
                         handleSelectPlatform(platform);
-                        router.push("/home");
                       }}
                     >
                       <img src={platform.icon.src} alt={platform.name} />
@@ -121,7 +120,7 @@ export default function DeepfakeDetect() {
             </div>
 
             <div className="nav-items">
-              <div className="nav-item active">
+              <div className="nav-item selected">
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
@@ -168,7 +167,6 @@ export default function DeepfakeDetect() {
               className="dropdown-item"
               onClick={() => {
                 handleSelectPlatform(platform);
-                router.push("/home");
               }}
             >
               <img src={platform.icon.src} alt={platform.name} />

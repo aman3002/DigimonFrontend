@@ -110,7 +110,6 @@ function ReverseImageSearch() {
                       className="dropdown-item"
                       onClick={() => {
                         handleSelectPlatform(platform);
-                        router.push('/home');
                       }}
                     >
                       <img src={platform.icon.src} alt={platform.name} />
@@ -126,7 +125,7 @@ function ReverseImageSearch() {
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
-              <div className="nav-item active">
+              <div className="nav-item selected">
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span>Reverse Image Search</span>
               </div>
@@ -169,7 +168,6 @@ function ReverseImageSearch() {
               className="dropdown-item"
               onClick={() => {
                 handleSelectPlatform(platform);
-                router.push('/home');
               }}
             >
               <img src={platform.icon.src} alt={platform.name} />

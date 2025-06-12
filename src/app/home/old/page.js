@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import './HomePage.css';
-import ContentCardSlider from '../lib/slider';
 
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
@@ -20,41 +19,11 @@ import viralLogo from '../Assets/viralLogo.png';
 import violentLogo from '../Assets/violentLogo.png';
 import calendarIcon from '../Assets/calendarIcon.png';
 import locationIcon from '../Assets/location.png';
-import searchIcon from '..//Assets/search-icon.png'
-
-
-const items = [
-  {
-    id: 1,
-    mediaType: 'video',
-    mediaSrc: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    username: 'village.life',
-    likes: 21,
-    timestamp: '31/5/25, 6:30 PM',
-    description: 'Witness the legendary origin of Wonder Woman as she fights for good with her sword and magic lasso.',
-    comments: [
-      { user: 'Shyam', text: 'looks nice' },
-      { user: 'dhole.12', text: 'she fights for good with her sword and magic lasso' },
-    ],
-    onLoginClick: () => console.log('Login clicked on item 1'),
-  },
-  {
-    id: 3,
-    mediaType: 'iframe',
-    mediaSrc: 'https://www.youtube.com/embed/tgbNymZ7vqY',
-    username: 'tech.talks',
-    likes: 75,
-    timestamp: '2/6/25, 11:00 AM',
-    description: 'Latest gadget review: does it really fly or is it just hype?',
-    comments: [
-      { user: 'gadgetGeek', text: 'Great review!' },
-      { user: 'techie_boy', text: 'Need one of these 👀' },
-    ],
-  },
-];
-
-
-
+import commentsIcon from '../Assets/bookIcon.png';
+import personIcon from '../Assets/profile.png';
+import heartIcon from '../Assets/heart.png';
+import loginIcon from '../Assets/login.png';
+import clockIcon from '../Assets/clock.png';
 
 function HomePage() {
   const [selectedPlatform, setSelectedPlatform] = useState('NONE');
@@ -275,7 +244,6 @@ function HomePage() {
     borderRadius: '0 0 8px 8px'
   };
 
-  
   const haryanaCities = [
     "Ambala",
     "Bhiwani",
@@ -301,11 +269,10 @@ function HomePage() {
     "Yamunanagar"
   ];
 
-    const handleSelectLocation = (city) => {
+  const handleSelectLocation = (city) => {
     setUserLocation(city);
     setLocationMenuOpen(false);
   };
-
 
   return (
     <div className="home-page">
@@ -530,16 +497,16 @@ function HomePage() {
             </div>
           )}
         </div>
-<div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
-  <input
-    type="text"
-    placeholder="Search in list"
-    value={userSearch}
-    onChange={(e) => setUserSearch(e.target.value)}
-    className="search-value-input"
-  />
-</div>
 
+        <div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
+          <input
+            type="text"
+            placeholder="Search in list"
+            value={userSearch}
+            onChange={(e) => setUserSearch(e.target.value)}
+            className="search-value-input"
+          />
+        </div>
 
         <div className="list-value-wrapper" style={mobileListWrapperStyle}>
           {hashtags
@@ -550,10 +517,101 @@ function HomePage() {
           }
         </div>
       </div>
-      <div style={{ height: '100vh', overflow: 'hidden' }}>
-        <ContentCardSlider items={items} />
-      </div>
 
+      <div className="large-background-box">
+        {/* First video section */}
+        <div className="video-section-wrapper">
+          <video className="video-player" controls>
+            <source src="your-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+          <div className="village-info-box" style={mobileVillageInfoStyle}>
+            <div className="info-group" style={mobileInfoGroupStyle}>
+              <img src={personIcon.src} className="icon person" alt="person" />
+              <p className="username">Village.life</p>
+            </div>
+            <div className="info-group" style={mobileInfoGroupStyle}>
+              <img src={heartIcon.src} className="icon heart" alt="heart" />
+              <p className="likes">21</p>
+            </div>
+            <div className="info-group" style={mobileInfoGroupStyle}>
+              <img src={clockIcon.src} className="icon clock" alt="clock" />
+              <p className="timestamp">31/5/25 , 6:30 pm</p>
+            </div>
+            <div className="info-group" style={mobileInfoGroupStyle}>
+              <img src={loginIcon.src} className="icon login" alt="login" />
+            </div>
+          </div>
+
+          <div className="description-box">
+            <p className="description-text">
+              Witness the legendary origin of renowned Justice League member Wonder Woman as she fights for good with her sword and magic lasso. read more....
+            </p>
+          </div>
+
+          {/* Updated comments header to match second video section */}
+          <div className="comments-header" style={mobileCommentsHeaderStyle}>
+            <img src={commentsIcon.src} className="icon comment" alt="comment" style={mobileCommentsIconStyle} />
+            <p className="comment-title" style={mobileCommentsTitleStyle}>Comments</p>
+          </div>
+
+          <div className="comments-box">
+            <div className="comment">
+              <p className='comment'>Shyam: looks nice</p>
+            </div>
+            <div className="comment">
+              <p className='comment'>dhole.12: she fights for good with her sword and magic lasso</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Second video section */}
+        <div className="video-section-wrapper-second">
+          <video className="video-player-second" controls>
+            <source src="your-second-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+
+          <div className="village-info-box-second" style={mobileVillageInfoStyle}>
+            <div className="info-group-second" style={mobileInfoGroupStyle}>
+              <img src={personIcon.src} className="icon person" alt="person" />
+              <p className="username-second">Village.nature</p>
+            </div>
+            <div className="info-group-second" style={mobileInfoGroupStyle}>
+              <img src={heartIcon.src} className="icon-second" alt="heart" />
+              <p className="likes-second">34</p>
+            </div>
+            <div className="info-group-second" style={mobileInfoGroupStyle}>
+              <img src={clockIcon.src} className="icon-second" alt="clock" />
+              <p className="timestamp-second">02/06/25, 11:15 am</p>
+            </div>
+            <div className="info-group-second" style={mobileInfoGroupStyle}>
+              <img src={loginIcon.src} className="icon-second login" alt="login" />
+            </div>
+          </div>
+
+          <div className="description-box-second">
+            <p className="description-text">
+              Witness the legendary origin of renowned Justice League member Wonder Woman as she fights for good with her sword and magic lasso. read more....
+            </p>
+          </div>
+
+          <div className="comments-header-second">
+            <img src={commentsIcon.src} className="icon-second comment" alt="comment" />
+            <p className="comment-title-second">Comments</p>
+          </div>
+
+          <div className="comments-box-second">
+            <div className="comment">
+              <p className='comment'>Shyam: looks nice</p>
+            </div>
+            <div className="comment">
+              <p className='comment'>dhole.12: she fights for good with her sword and magic lasso</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

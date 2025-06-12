@@ -37,6 +37,13 @@
   padding-left: 15px;
   color: white;
   font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.file-input-container-rev:hover {
+  background-color: #2a2a2a;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
 /* Hidden File Input */
@@ -56,6 +63,12 @@
   cursor: pointer;
   z-index: 1;
   pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.file-input-container-rev:hover .file-input-label-rev {
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 /* Upload Button */

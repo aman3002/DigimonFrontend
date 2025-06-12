@@ -22,3 +22,40 @@
 	box-sizing: border-box;
 	padding: 10px;
 }
+
+.native-vertical-slider {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+	overflow-y: auto;
+	height: calc(100vh - 101px); /* Account for top bar height */
+}
+
+.native-slide-item {
+	width: 100%;
+	background: rgba(0, 0, 0, 0.35);
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+	.native-vertical-slider {
+		padding: 10px;
+		max-width: 100%;
+	}
+	
+	.native-slide-item {
+		border-radius: 8px;
+	}
+}
+
+@media (max-width: 500px) {
+	.native-vertical-slider {
+		padding: 5px;
+	}
+}
