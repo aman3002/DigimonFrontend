@@ -58,54 +58,56 @@ export default function ContentCard({
                     />
                 )}
 
-                <div className="village-info-box">
-                    <div className="info-group">
-                        <Image src={personIcon} alt="person" className="icon person" />
-                        <p className="username">{username}</p>
-                    </div>
-                    <div className="info-group">
-                        <Image src={heartIcon} alt="heart" className="icon heart" />
-                        <p className="likes">{likes}</p>
-                    </div>
-                    <div className="info-group">
-                        <Image src={clockIcon} alt="clock" className="icon clock" />
-                        <p className="timestamp">{timestamp}</p>
-                    </div>
-                    <div className="info-group">
-                        <Image src={locationn} alt="clock" className="icon clock" />
-                        <p className="timestamp">{location}</p>
-                    </div>
-                    <div className="info-group">
-                        <Image
-                            src={loginIcon}
-                            alt="login"
-                            className="icon login"
-                            onClick={onLoginClick}
-                        />
-                    </div>
-                </div>
-
-                <div className="description-box">
-                    <p className="description-text">{description}</p>
-                </div>
-
-                <div className="comments-header">
-                    <Image
-                        src={commentsIcon}
-                        alt="comment"
-                        className="icon comment"
-                    />
-                    <p className="comment-title">Comments</p>
-                </div>
-
-                <div className="comments-box">
-                    {comments.map((c, idx) => (
-                        <div key={idx} className="comment">
-                            <p className="comment-text">
-                                {c.user}: {c.text}
-                            </p>
+                <div className="right-section">
+                    <div className="village-info-box">
+                        <div className="info-group">
+                            <Image src={personIcon} alt="person" className="icon person" />
+                            <p className="username">{username}</p>
                         </div>
-                    ))}
+                        <div className="info-group">
+                            <Image src={heartIcon} alt="heart" className="icon heart" />
+                            <p className="likes">{likes}</p>
+                        </div>
+                        <div className="info-group">
+                            <Image src={clockIcon} alt="clock" className="icon clock" />
+                            <p className="timestamp">{timestamp}</p>
+                        </div>
+                        <div className="info-group">
+                            <Image src={locationn} alt="clock" className="icon clock" />
+                            <p className="timestamp">{location}</p>
+                        </div>
+                        <div className="info-group">
+                            <Image
+                                src={loginIcon}
+                                alt="login"
+                                className="icon login"
+                                onClick={onLoginClick}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="description-box">
+                        <p className="description-text">{description}</p>
+                    </div>
+
+                    <div className="comments-header">
+                        <Image
+                            src={commentsIcon}
+                            alt="comment"
+                            className="icon comment"
+                        />
+                        <p className="comment-title">Comments</p>
+                    </div>
+
+                    <div className="comments-box">
+                        {comments.map((c, idx) => (
+                            <div key={idx} className="comment">
+                                <p className="comment-text">
+                                    {c.user}: {c.text}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
