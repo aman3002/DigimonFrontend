@@ -1,22 +1,17 @@
 /* ContentCard.css */
 .large-background-box {
-	margin-top: 10px;
-	align-self: center;
 	width: 1434px;
-	height: 830px;
-	position: absolute;
-	top: 118px;
-	left: 16px;
+	height: auto;
+	position: relative;
 	border-radius: 9px;
-	background: #9491914d;
+	background-color: transparent;
 }
 
 .video-section-wrapper {
-	margin-top: 30px;
-	margin-left: 20px;
 	width: 1391px;
 	height: 393px;
 	background: #151515;
+	margin-left: 10px;
 	border-radius: 9px;
 	display: flex;
 	flex-direction: row;
