@@ -28,7 +28,7 @@ export default function ContentCard({
     location,
     description,
     comments = [],
-    onLoginClick,
+    postlink,
 }) {
     return (
         <div className="large-background-box">
@@ -77,12 +77,14 @@ export default function ContentCard({
                             <p className="timestamp">{location}</p>
                         </div>
                         <div className="info-group">
-                            <Image
-                                src={loginIcon}
-                                alt="login"
-                                className="icon login"
-                                onClick={onLoginClick}
-                            />
+                            <a href={postlink} target="_blank" rel="noopener noreferrer">
+                                <Image
+                                    src={loginIcon}
+                                    alt="login"
+                                    className="icon login"
+                                    style={{ marginTop: '5px', marginLeft: '10px' }}
+                                />
+                            </a>
                         </div>
                     </div>
 

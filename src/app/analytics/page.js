@@ -59,8 +59,7 @@ export default function Analytics() {
   }, []);
 
   const handleSelectPlatform = (platform) => {
-    setSelectedPlatform(platform.value);
-    setMenuOpen(false);
+    router.push('/home');
   };
 
   return (

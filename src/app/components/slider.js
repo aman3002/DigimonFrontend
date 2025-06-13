@@ -16,7 +16,7 @@ export default function ContentCardSlider({ items }) {
                         location={item.location}
                         description={item.description}
                         comments={item.comments}
-                        onLoginClick={item.onLoginClick}
+                        postlink={item.postlink}
                     />
                     {console.log(item)}
                 </div>

@@ -21,9 +21,25 @@ import violentLogo from '../Assets/violentLogo.png';
 import calendarIcon from '../Assets/calendarIcon.png';
 import locationIcon from '../Assets/location.png';
 import searchIcon from '..//Assets/search-icon.png'
+import Cookie from '../lib/cookie';
 
 
 const items = [
+  {
+    id: 2,
+    mediaType: 'iframe',
+    mediaSrc: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+    username: 'tech.talks',
+    likes: 75,
+    timestamp: '2/6/25, 11:00 AM',
+    location: 'shimla',
+    description: 'Latest gadget review: does it really fly or is it just hype?',
+    comments: [
+      { user: 'gadgetGeek', text: 'Great review!' },
+      { user: 'techie_boy', text: 'Need one of these 👀' },
+    ],
+    postlink: 'https://github.com/',
+  },
   {
     id: 3,
     mediaType: 'iframe',
@@ -37,6 +53,7 @@ const items = [
       { user: 'gadgetGeek', text: 'Great review!' },
       { user: 'techie_boy', text: 'Need one of these 👀' },
     ],
+    postlink: 'https://github.com/',
   },
   {
     id: 1,
@@ -51,7 +68,7 @@ const items = [
       { user: 'Shyam', text: 'looks nice' },
       { user: 'dhole.12', text: 'she fights fsdfsdfsdfssdf sdf sdf sdf sf s fsdf sd fw rw eg dfg dh d erf sd fs df sd gsd refsd fsdor good with her sword and magic lasso' },
     ],
-    onLoginClick: () => console.log('Login clicked on item 1'),
+    postlink: 'https://github.com/',
   },
 
 ];
@@ -60,11 +77,24 @@ const items = [
 
 
 function HomePage() {
+
+  // user login check
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
+
+  if (!user?.loggedIn) return null;
+
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
 
   // user filter states
   const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
@@ -443,7 +473,10 @@ function HomePage() {
           src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => router.push('/logout')}
+          onClick={() => {
+            cookies.clearUserCookie();
+            router.push("/login");
+          }}
         />
       </div>
 

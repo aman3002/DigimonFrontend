@@ -59,8 +59,7 @@ export default function ReverseImageSearch() {
   ];
 
   const handleSelectPlatform = (platform) => {
-    setSelectedPlatform(platform.value);
-    setMenuOpen(false);
+    router.push('/home');
   };
   const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
 
