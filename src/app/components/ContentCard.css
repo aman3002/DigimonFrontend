@@ -84,7 +84,7 @@
 .comments-box {
 	position: relative;
 	width: 609px;
-	height: 178px;
+	height: fit-content;
 	border: 1px solid #515151;
 	padding: 10px;
 	color: white;
