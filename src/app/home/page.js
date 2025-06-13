@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import './HomePage.css';
-import ContentCardSlider from '../lib/slider';
+import ContentCardSlider from '../components/slider';
 
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';

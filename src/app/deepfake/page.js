@@ -1,13 +1,19 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { CircularProgress } from '@mui/material';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+
+import axios from '../lib/axios';
+import axiosWsp from '../lib/axioswsp';
 
 import "../home/HomePage.css";
 import "./DeepfakeDetect.css";
 
-// Images from local imports
 import policeLogo from '../Assets/policeLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
@@ -18,9 +24,24 @@ import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
 import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import Cookie from "../lib/cookie";
 
 export default function DeepfakeDetect() {
+
+  // user login check
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
   const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
+
+  if (!user?.loggedIn) return null;
+
+
 
   const [selectedPlatform, setSelectedPlatform] = useState("NONE");
   const [isMobile, setIsMobile] = useState(false);
@@ -28,8 +49,9 @@ export default function DeepfakeDetect() {
   const [radio, setRadio] = useState("fake");
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [score, setScore] = useState(null);
-  const [isFake, setIsFake] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [feedback, setFeedback] = useState(null);
 
   const platforms = [
     { name: "Instagram", value: "INSTAGRAM", icon: instagramLogo },
@@ -54,17 +76,42 @@ export default function DeepfakeDetect() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file) setSelectedFile(file);
+    if (file) {
+      setSelectedFile(file);
+      setImagePreview(URL.createObjectURL(file));
+      setResult(null);
+      setFeedback(null);
+    }
+  };
+
+  const activeLearning = (media_link, is_correct) => {
+    axios.post('/mediaAl', { media_link, is_correct })
+      .then(() => { })
+      .catch(() => { });
   };
 
   const handleUploadClick = () => {
-    if (selectedFile) {
-      const previewURL = URL.createObjectURL(selectedFile);
-      setImagePreview(previewURL);
-      const randomScore = (Math.random() * 100).toFixed(2);
-      setScore(randomScore);
-      setIsFake(randomScore > 50);
-    }
+    if (!selectedFile) return;
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('file_type', 'img');
+    formData.append('input_type', radio === 'fake' ? '0' : '1');
+
+    setLoading(true);
+    setResult(null);
+    setFeedback(null);
+
+    const endpoint = radio === 'fake' ? '/predictFromMedia' : '/imageViolentNonviolent';
+    axiosWsp.post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then((response) => {
+        setResult(response.data);
+      })
+      .catch(() => {
+        alert('Error processing file');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -140,7 +187,10 @@ export default function DeepfakeDetect() {
           src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => router.push("/logout")}
+          onClick={() => {
+            cookies.clearUserCookie();
+            router.push("/login");
+          }}
         />
       </div>
 
@@ -177,32 +227,22 @@ export default function DeepfakeDetect() {
       )}
 
       <div className="deepfake-detect-container">
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              value="fake"
-              checked={radio === "fake"}
-              onChange={() => setRadio("fake")}
-            />
-            Fake Detect
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="violent"
-              checked={radio === "violent"}
-              onChange={() => setRadio("violent")}
-            />
-            Violent Detect
-          </label>
-        </div>
+
+
+        <RadioGroup
+          row
+          value={radio}
+          onChange={(e) => setRadio(e.target.value)}
+        >
+          <FormControlLabel value="fake" control={<Radio />} label="Fake Detect" />
+          <FormControlLabel value="violent" control={<Radio />} label="Violent Detect" />
+        </RadioGroup>
 
         <div className="upload-section">
           <div className="file-input-container">
             <input
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg"
               onChange={handleFileChange}
               className="hidden-file-input"
               id="file-input"
@@ -212,11 +252,18 @@ export default function DeepfakeDetect() {
             </label>
           </div>
 
-          <button className="upload-btn" onClick={handleUploadClick}>
+          <button className="upload-btn" onClick={handleUploadClick} disabled={loading || !selectedFile}>
             <MdOutlineFileUpload size={16} style={{ marginRight: "4px" }} />
             Upload
           </button>
         </div>
+
+        {loading && (
+          <div className="loader-container">
+            <CircularProgress />
+            <span>Please wait...</span>
+          </div>
+        )}
 
         {imagePreview && (
           <div className="result-container">
@@ -224,17 +271,25 @@ export default function DeepfakeDetect() {
               <span className="image-tag">ORIGINAL</span>
               <img src={imagePreview} alt="Uploaded" />
             </div>
-            <div className="result-box">
-              {radio === "fake" ? (
-                <>
-                  Image is <strong>{isFake ? "Fake" : "Real"}</strong> with a score of <strong>{score}%</strong>
-                </>
-              ) : (
-                <>
-                  Image is <strong>{isFake ? "Violent" : "Non-violent"}</strong> with a score of <strong>{score}%</strong>
-                </>
-              )}
-            </div>
+            {result &&
+              <div className="result-box">
+                {radio === "fake" ? (
+                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score) * 100).toFixed(2)}%</strong></>
+                ) : (
+                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score)).toFixed(2)}%</strong></>
+                )}
+                <div className="feedback-buttons">
+                  <ThumbUpOffAltIcon
+                    style={{ cursor: 'pointer', color: feedback === 1 ? 'green' : undefined }}
+                    onClick={() => { activeLearning(result.s3link, 1); setFeedback(1); }}
+                  />
+                  <ThumbDownOffAltIcon
+                    style={{ cursor: 'pointer', color: feedback === 0 ? 'red' : undefined }}
+                    onClick={() => { activeLearning(result.s3link, 0); setFeedback(0); }}
+                  />
+                </div>
+              </div>
+            }
           </div>
         )}
       </div>

@@ -15,9 +15,27 @@ import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
 import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
+import InstagramAnalytics from "../components/insta_analytics";
+import Cookie from "../lib/cookie";
+
 
 export default function Analytics() {
+
+  // user login check
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
   const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
+
+  if (!user?.loggedIn) return null;
+
+
+
+
   const [selectedPlatform, setSelectedPlatform] = useState("NONE");
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,7 +64,7 @@ export default function Analytics() {
   };
 
   return (
-    <div className="home-page">
+    <div >
       <div className="top-bar">
         <img
           src={policeLogo.src}
@@ -118,7 +136,10 @@ export default function Analytics() {
           src={backIcon.src}
           alt="Logout"
           className="logout-icon"
-          onClick={() => router.push("/logout")}
+          onClick={() => {
+            cookies.clearUserCookie();
+            router.push("/login");
+          }}
         />
       </div>
 
@@ -155,15 +176,13 @@ export default function Analytics() {
         </div>
       )}
 
-      {/* Chart Grid */}
-      <div className="chart-grid">
-        <div className="chart-box">📊 Post Type Distribution</div>
-        <div className="chart-box">📈 Engagement by Post Type</div>
-        <div className="chart-box">🏷️ Top Hashtags in Caption</div>
-        <div className="chart-box">📍 Top Location Searches</div>
-        <div className="chart-box">⚠️ Violent Searches</div>
-        <div className="chart-box">🕒 Engagement Over Time</div>
-      </div>
+
+
+
+
+      {/* intagram analytics start here  */}
+
+      <InstagramAnalytics />
     </div>
   );
 }
