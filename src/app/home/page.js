@@ -95,29 +95,34 @@ function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // user filter states
-  const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
-  const [userLocation, setUserLocation] = useState("NONE");
-  const [userSearch, setUserSearch] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState(['viral']);
   const [locationMenuOpen, setLocationMenuOpen] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
 
-  const handleCheckboxToggle = (filter) => {
-    if (selectedFilters.includes(filter)) {
-      setSelectedFilters(selectedFilters.filter((f) => f !== filter));
-    } else {
-      setSelectedFilters([...selectedFilters, filter]);
-    }
-  };
+  // user filter states
+  const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
+  const [userLocation, setUserLocation] = useState("--tehsil--");
+  const [userSearch, setUserSearch] = useState(''); // search keyword or any keyword in hashtags
+  const [isViolent, setIsViolent] = useState(0);
+  const [isViralSelected, setIsViralSelected] = useState(0);
+  const [isAll, setIsAll] = useState(0);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [pageNo, setPageNo] = useState(1);
+
+
+
   // user filter state end 
 
 
-
+  const Cities = [
+    '--tehsil--',
+    'shimla',
+    'chaupal',
+    'theog',
+    'rohru',
+    'dodra kwar'
+  ];
 
 
   const platforms = [
@@ -316,14 +321,7 @@ function HomePage() {
   };
 
 
-  const Cities = [
-    '--tehsil--',
-    'shimla',
-    'chaupal',
-    'theog',
-    'rohru',
-    'dodra kwar'
-  ];
+
 
   const handleSelectLocation = (city) => {
     setUserLocation(city);
@@ -494,24 +492,26 @@ function HomePage() {
             <label className="filter-btn all">
               <input
                 type="checkbox"
-                checked={selectedFilters.includes('all')}
-                onChange={() => handleCheckboxToggle('all')}
+                checked={isAll === 1}
+                onChange={() => setIsAll(prev => prev === 1 ? 0 : 1)}
               />
               All
             </label>
+
             <label className="filter-btn viral">
               <input
                 type="checkbox"
-                checked={selectedFilters.includes('viral')}
-                onChange={() => handleCheckboxToggle('viral')}
+                checked={isViralSelected === 1}
+                onChange={() => setIsViralSelected(prev => prev === 1 ? 0 : 1)}
               />
               Viral
             </label>
+
             <label className="filter-btn violent">
               <input
                 type="checkbox"
-                checked={selectedFilters.includes('violent')}
-                onChange={() => handleCheckboxToggle('violent')}
+                checked={isViolent === 1}
+                onChange={() => setIsViolent(prev => prev === 1 ? 0 : 1)}
               />
               Violent
             </label>
