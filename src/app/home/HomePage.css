@@ -812,133 +812,57 @@ body {
 }
 
 .video-section-wrapper {
-	width: 1391px;
-	height: 393px;
-	position: absolute;
-	top: 20px;
-	left: 20px;
-	background: #151515;
-	border-radius: 9px;
 	display: flex;
-	flex-direction: row;
+	gap: 20px;
 	padding: 20px;
-	box-sizing: border-box;
+	height: calc(100vh - 101px); /* Subtract top bar height */
+	overflow: hidden; /* Hide overflow on the wrapper */
 }
 
 .video-player {
-	width: 672px;
-	height: 356px;
+	flex: 1;
+	min-width: 50%;
+	height: 100%;
+	background: #000;
 	border-radius: 10px;
+	overflow: hidden;
 }
 
-.village-info-box {
-	position: absolute;
-	top: 20px;
-	left: 747px;
-	width: 629px;
-	height: 58px;
-	border: 1px solid #515151;
-	border-radius: 11px;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 0 16px;
-	color: white;
-	font-size: 14px;
+.right-section {
+	flex: 1;
+	min-width: 40%;
+	height: 100%;
+	overflow-y: auto; /* Add vertical scrollbar */
+	padding-right: 10px; /* Add some padding for the scrollbar */
 }
 
-.description-box {
-	position: absolute;
-	top: 95px;
-	left: 747px;
-	width: 632px;
-	height: 71px;
-	border: 1px solid #515151;
-	border-radius: 10px;
-	padding: 10px;
-	color: white;
-	font-size: 14px;
-}
-
+.village-info-box,
+.description-box,
 .comments-box {
-	position: absolute;
-	top: 205px;
-	left: 747px;
-	width: 632px;
-	height: 178px;
-	border: 1px solid #515151;
-	padding: 10px;
-	color: white;
-	font-weight: 400px;
-	font-size: 10px;
-	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 10px;
+	padding: 15px;
+	margin-bottom: 20px;
+	width: 100%;
 }
 
-.icon {
-	width: 24px;
-	height: 24px;
+/* Customize scrollbar for the right section */
+.right-section::-webkit-scrollbar {
+	width: 8px;
 }
 
-.icon.person {
-	width: 28px;
-	height: 28px;
-	position: relative;
-	top: 0px;
-	left: 5px;
+.right-section::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
 }
 
-.icon.heart {
-	position: relative;
-	top: 0px;
-	left: 5px;
-	right: 20px;
-	margin-left: 20px;
+.right-section::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 4px;
 }
 
-.icon.login {
-	position: absolute;
-	top: 20px;
-	left: 575px;
-	right: 150px;
-}
-
-.icon.clock {
-	position: relative;
-	top: 0px;
-	left: 5px;
-	margin-left: 20px;
-}
-
-.icon.comment {
-	position: absolute;
-	top: 177px;
-	left: 980px;
-	width: 24px;
-	height: 24px;
-}
-
-.username,
-.likes,
-.timestamp,
-.description-text,
-.comment {
-	font-size: 16px;
-	font-weight: 400px;
-}
-
-.comment-title {
-	position: relative;
-	font-size: 20px;
-	font-weight: 400px;
-	left: 324px;
-	top: 155px;
-	align-self: center;
-}
-
-.info-group {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+.right-section::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.4);
 }
 
 .video-section-wrapper-second {

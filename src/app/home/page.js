@@ -548,7 +548,7 @@ function HomePage() {
             ))}
         </div>
       </div>
-      <div style={{ height: '100vh', overflow: 'hidden', marginTop: '12px' }}>
+      <div style={{ height: '100vh', overflow: 'hidden' }}>
         <ContentCardSlider items={items} />
       </div>
 

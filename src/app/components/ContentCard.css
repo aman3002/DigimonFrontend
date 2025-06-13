@@ -1,16 +1,17 @@
 /* ContentCard.css */
 .large-background-box {
-	align-items: center;
 	width: 1434px;
-	height: 830px;
+	height: auto;
+	position: relative;
 	border-radius: 9px;
-	background: #9491914d;
+	background-color: transparent;
 }
 
 .video-section-wrapper {
 	width: 1391px;
 	height: 393px;
 	background: #151515;
+	margin-left: 10px;
 	border-radius: 9px;
 	display: flex;
 	flex-direction: row;
@@ -24,11 +25,18 @@
 	border-radius: 10px;
 }
 
-.village-info-box {
-	position: absolute;
-	top: 20px;
-	left: 747px;
+.right-section {
 	width: 629px;
+	height: 356px;
+	overflow-y: auto;
+	padding: 10px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 10px;
+}
+
+.village-info-box {
+	position: relative;
+	width: 609px;
 	height: 58px;
 	border: 1px solid #515151;
 	border-radius: 11px;
@@ -38,49 +46,43 @@
 	padding: 0 16px;
 	color: white;
 	font-size: 14px;
+	margin-bottom: 17px;
 }
 
 .description-box {
-	position: absolute;
-	top: 95px;
-	left: 747px;
-	width: 632px;
+	position: relative;
+	width: 609px;
 	height: 71px;
 	border: 1px solid #515151;
 	border-radius: 10px;
 	padding: 10px;
 	color: white;
 	font-size: 14px;
+	margin-bottom: 34px;
 }
 
 .comments-header {
-	position: absolute;
-	top: 0px;
-	left: 00px;
+	position: relative;
 	display: flex;
 	align-items: center;
+	gap: 5px;
+	margin-bottom: 10px;
 	justify-content: center;
-	width: 632px;
-	gap: 8px;
+	width: 100%;
 }
 
 .comment-title {
-	top: 177px;
-	left: 747px;
-
 	position: relative;
 	font-size: 22px;
 	font-weight: 400;
 	color: white;
-	text-align: center;
-	width: 100%;
+	text-align: left;
+	width: auto;
 }
 
 .comments-box {
-	position: absolute;
-	top: 205px;
-	left: 747px;
-	width: 632px;
+	position: relative;
+	width: 609px;
 	height: 178px;
 	border: 1px solid #515151;
 	padding: 10px;
@@ -88,21 +90,32 @@
 	font-weight: 400;
 	font-size: 18px;
 	border-radius: 8px;
-	overflow-y: auto;
+	margin-top: 10px;
 }
 
-.comment {
-	font-size: 18px;
-	font-weight: 400;
-	color: white;
-	margin-bottom: 5px;
+/* Customize scrollbar for the right section */
+.right-section::-webkit-scrollbar {
+	width: 8px;
 }
 
-.comment-text {
-	font-size: 18px;
-	font-weight: 400;
-	color: white;
-	margin: 0;
+.right-section::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+}
+
+.right-section::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.3);
+	border-radius: 4px;
+}
+
+.right-section::-webkit-scrollbar-thumb:hover {
+	background: rgba(255, 255, 255, 0.4);
+}
+
+.info-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .icon {
@@ -127,9 +140,9 @@
 }
 
 .icon.login {
-	position: absolute;
-	top: 20px;
-	left: 575px;
+	position: relative;
+	top: 0px;
+	left: 5px;
 	right: 150px;
 }
 
@@ -141,29 +154,26 @@
 }
 
 .icon.comment {
-	position: absolute;
-	top: 177px;
-	left: 980px;
+	position: relative;
+	top: 0;
+	left: 0;
 	width: 24px;
 	height: 24px;
+	margin-right: 5px;
 }
 
 .username,
 .likes,
 .timestamp,
 .description-text,
-.comment {
+.comment-text {
 	font-size: 16px;
 	font-weight: 400;
 	color: white;
+	margin: 0;
 }
 
-.info-group {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-}
-
+/* Mobile styles */
 @media (max-width: 768px) {
 	.large-background-box {
 		width: 100%;
@@ -188,6 +198,12 @@
 		width: 100%;
 		height: auto;
 		aspect-ratio: 16/9;
+	}
+
+	.right-section {
+		width: 100%;
+		height: auto;
+		max-height: 400px;
 	}
 
 	.village-info-box {
