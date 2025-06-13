@@ -25,44 +25,49 @@ import searchIcon from '..//Assets/search-icon.png'
 
 const items = [
   {
-    id: 1,
-    mediaType: 'video',
-    mediaSrc: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    username: 'village.life',
-    likes: 21,
-    timestamp: '31/5/25, 6:30 PM',
-    description: 'Witness the legendary origin of Wonder Woman as she fights for good with her sword and magic lasso.',
-    comments: [
-      { user: 'Shyam', text: 'looks nice' },
-      { user: 'dhole.12', text: 'she fights for good with her sword and magic lasso' },
-    ],
-    onLoginClick: () => console.log('Login clicked on item 1'),
-  },
-  {
     id: 3,
     mediaType: 'iframe',
     mediaSrc: 'https://www.youtube.com/embed/tgbNymZ7vqY',
     username: 'tech.talks',
     likes: 75,
     timestamp: '2/6/25, 11:00 AM',
+    location: 'shimla',
     description: 'Latest gadget review: does it really fly or is it just hype?',
     comments: [
       { user: 'gadgetGeek', text: 'Great review!' },
       { user: 'techie_boy', text: 'Need one of these 👀' },
     ],
   },
+  {
+    id: 1,
+    mediaType: 'video',
+    mediaSrc: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    username: 'village.life',
+    likes: 21,
+    timestamp: '31/5/25, 6:30 PM',
+    location: 'khet',
+    description: 'Witness the legendary origin of Wonder Woman as she fights for good with her sword and magic lasso.',
+    comments: [
+      { user: 'Shyam', text: 'looks nice' },
+      { user: 'dhole.12', text: 'she fights fsdfsdfsdfssdf sdf sdf sdf sf s fsdf sd fw rw eg dfg dh d erf sd fs df sd gsd refsd fsdor good with her sword and magic lasso' },
+    ],
+    onLoginClick: () => console.log('Login clicked on item 1'),
+  },
+
 ];
 
 
 
 
 function HomePage() {
-  const [selectedPlatform, setSelectedPlatform] = useState('NONE');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
   const [menuOpen, setMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+
+  // user filter states
+  const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
   const [userLocation, setUserLocation] = useState("NONE");
   const [userSearch, setUserSearch] = useState('');
   const [selectedFilters, setSelectedFilters] = useState(['viral']);
@@ -79,6 +84,11 @@ function HomePage() {
       setSelectedFilters([...selectedFilters, filter]);
     }
   };
+  // user filter state end 
+
+
+
+
 
   const platforms = [
     { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
@@ -275,33 +285,17 @@ function HomePage() {
     borderRadius: '0 0 8px 8px'
   };
 
-  
-  const haryanaCities = [
-    "Ambala",
-    "Bhiwani",
-    "Charkhi Dadri",
-    "Faridabad",
-    "Fatehabad",
-    "Gurugram",
-    "Hisar",
-    "Jhajjar",
-    "Jind",
-    "Kaithal",
-    "Karnal",
-    "Kurukshetra",
-    "Mahendragarh",
-    "Nuh",
-    "Palwal",
-    "Panchkula",
-    "Panipat",
-    "Rewari",
-    "Rohtak",
-    "Sirsa",
-    "Sonipat",
-    "Yamunanagar"
+
+  const Cities = [
+    '--tehsil--',
+    'shimla',
+    'chaupal',
+    'theog',
+    'rohru',
+    'dodra kwar'
   ];
 
-    const handleSelectLocation = (city) => {
+  const handleSelectLocation = (city) => {
     setUserLocation(city);
     setLocationMenuOpen(false);
   };
@@ -492,17 +486,17 @@ function HomePage() {
 
           <div className="date-inputs" style={mobileDateInputsStyle}>
             <div className="date-box">
-              <div className="date-wrapper" onClick={() => startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker()} style={{cursor: 'pointer'}}>
+              <div className="date-wrapper" onClick={() => startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker()} style={{ cursor: 'pointer' }}>
                 <label>Start</label>
                 <input type="date" className="date-field" value={startDate} onChange={e => setStartDate(e.target.value)} ref={startDateRef} />
-                <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker(); }} style={{cursor: 'pointer'}} />
+                <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker(); }} style={{ cursor: 'pointer' }} />
               </div>
             </div>
             <div className="date-box">
-              <div className="date-wrapper" onClick={() => endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker()} style={{cursor: 'pointer'}}>
+              <div className="date-wrapper" onClick={() => endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker()} style={{ cursor: 'pointer' }}>
                 <label>End</label>
                 <input type="date" className="date-field" value={endDate} onChange={e => setEndDate(e.target.value)} ref={endDateRef} />
-                <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker(); }} style={{cursor: 'pointer'}} />
+                <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker(); }} style={{ cursor: 'pointer' }} />
               </div>
             </div>
           </div>
@@ -518,7 +512,7 @@ function HomePage() {
           <div className="selected-location">{userLocation}</div>
           {locationMenuOpen && (
             <div className="location-dropdown">
-              {haryanaCities.map((city) => (
+              {Cities.map((city) => (
                 <div
                   key={city}
                   className="location-dropdown-item"
@@ -530,27 +524,31 @@ function HomePage() {
             </div>
           )}
         </div>
-<div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
-  <input
-    type="text"
-    placeholder="Search in list"
-    value={userSearch}
-    onChange={(e) => setUserSearch(e.target.value)}
-    className="search-value-input"
-  />
-</div>
-
+        <div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
+          <input
+            type="text"
+            placeholder="Search in list"
+            value={userSearch}
+            onChange={(e) => setUserSearch(e.target.value)}
+            className="search-value-input"
+          />
+        </div>
 
         <div className="list-value-wrapper" style={mobileListWrapperStyle}>
           {hashtags
             .filter(tag => !userSearch || tag.toLowerCase().includes(userSearch.toLowerCase()))
             .map((tag, index) => (
-              <div key={index}>{tag}</div>
-            ))
-          }
+              <div
+                key={index}
+                onClick={() => setUserSearch(tag)}
+                style={{ cursor: 'pointer', padding: '6px 10px' }}
+              >
+                {tag}
+              </div>
+            ))}
         </div>
       </div>
-      <div style={{ height: '100vh', overflow: 'hidden' }}>
+      <div style={{ height: '100vh', overflow: 'hidden', marginTop: '12px' }}>
         <ContentCardSlider items={items} />
       </div>
 

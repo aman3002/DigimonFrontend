@@ -3,19 +3,13 @@
 	align-items: center;
 	width: 1434px;
 	height: 830px;
-	position: absolute;
-	top: 118px;
-	left: 16px;
 	border-radius: 9px;
-	background: #9491914D;
+	background: #9491914d;
 }
 
 .video-section-wrapper {
 	width: 1391px;
 	height: 393px;
-	position: absolute;
-	top: 20px;
-	left: 20px;
 	background: #151515;
 	border-radius: 9px;
 	display: flex;
@@ -71,7 +65,7 @@
 }
 
 .comment-title {
-		top: 177px;
+	top: 177px;
 	left: 747px;
 
 	position: relative;
@@ -154,7 +148,11 @@
 	height: 24px;
 }
 
-.username, .likes, .timestamp, .description-text, .comment {
+.username,
+.likes,
+.timestamp,
+.description-text,
+.comment {
 	font-size: 16px;
 	font-weight: 400;
 	color: white;
@@ -241,7 +239,9 @@
 		height: 20px;
 	}
 
-	.username, .likes, .timestamp {
+	.username,
+	.likes,
+	.timestamp {
 		font-size: 14px;
 	}
 
@@ -284,7 +284,9 @@
 		height: 18px;
 	}
 
-	.username, .likes, .timestamp {
+	.username,
+	.likes,
+	.timestamp {
 		font-size: 13px;
 	}
 

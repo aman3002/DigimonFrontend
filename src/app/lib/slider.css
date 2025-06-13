@@ -1,61 +1,22 @@
-.content-slider-wrapper {
-	width: 75%;
-	height: 89vh; /* Restrict height to part of viewport */
-	max-height: 89vh;
-	overflow-y: auto; /* Enable internal scroll */
-	scroll-snap-type: y mandatory;
-	-webkit-overflow-scrolling: touch;
+/* slider.css */
+
+.content-slider {
 	display: flex;
-	flex-direction: column;
-	scroll-behavior: smooth;
-	padding-right: 5px;
-	box-sizing: border-box;
-	position: relative; /* Important to isolate from full page scroll */
+	flex-direction: column; /* Stack vertically */
+	align-items: center; /* Center each item horizontally */
+	justify-content: center;
+	gap: 1rem; /* Space between cards */
+	width: 100%;
+	overflow-y: auto;
+	padding: 1rem 0;
 }
 
 .slide-item {
-	min-height: 89vh; /* So each card takes full height inside the container */
-	scroll-snap-align: start;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-	padding: 10px;
-}
-
-.native-vertical-slider {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	width: 100%;
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 20px;
-	overflow-y: auto;
-	height: calc(100vh - 101px); /* Account for top bar height */
-}
-
-.native-slide-item {
-	width: 100%;
-	background: rgba(0, 0, 0, 0.35);
-	border-radius: 10px;
-	overflow: hidden;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	width: 74%;
 }
 
 @media (max-width: 768px) {
-	.native-vertical-slider {
-		padding: 10px;
-		max-width: 100%;
-	}
-	
-	.native-slide-item {
-		border-radius: 8px;
-	}
-}
-
-@media (max-width: 500px) {
-	.native-vertical-slider {
-		padding: 5px;
+	.slide-item {
+		width: 100%;
 	}
 }

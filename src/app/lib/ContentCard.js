@@ -4,6 +4,7 @@ import personIcon from '../Assets/profile.png';
 import heartIcon from '../Assets/heart.png';
 import clockIcon from '../Assets/clock.png';
 import loginIcon from '../Assets/login.png';
+import locationn from '../Assets/location2.png';
 import commentsIcon from '../Assets/bookIcon.png';
 import './ContentCard.css';
 
@@ -24,6 +25,7 @@ export default function ContentCard({
     username,
     likes,
     timestamp,
+    location,
     description,
     comments = [],
     onLoginClick,
@@ -68,6 +70,10 @@ export default function ContentCard({
                     <div className="info-group">
                         <Image src={clockIcon} alt="clock" className="icon clock" />
                         <p className="timestamp">{timestamp}</p>
+                    </div>
+                    <div className="info-group">
+                        <Image src={locationn} alt="clock" className="icon clock" />
+                        <p className="timestamp">{location}</p>
                     </div>
                     <div className="info-group">
                         <Image
