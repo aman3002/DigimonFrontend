@@ -108,7 +108,14 @@ function HomePage() {
   const [isAll, setIsAll] = useState(0);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [pageNo, setPageNo] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
 
 
@@ -581,6 +588,60 @@ function HomePage() {
             ))}
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+      <div className="pagination-container">
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
+        >
+          ⏮
+        </button>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &#8592;
+        </button>
+
+        <span className="pagination-page">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          &#8594;
+        </button>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          ⏭
+        </button>
+      </div>
+
+
+
+
+
+
+
+
       <div>
         <ContentCardSlider items={items} />
       </div>
