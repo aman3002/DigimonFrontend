@@ -176,10 +176,14 @@ function adjustTimestamp(timestamp, platform) {
   return date.toLocaleString(); // or .toISOString()
 }
 
-useEffect(()=>{getSelectedKeywordData()},[selectedHashtag])
 
 useEffect(()=>{getKeyword()},[selectedPlatform])
-useEffect(()=>{getData()},[isViolent,IsPredictedToBeViral,userLocation,pageNo,startDate,endDate,isViralSelected,selectedPlatform])
+useEffect(()=>{
+  if(selectedHashtag){
+    getSelectedKeywordData()
+  }
+  else{
+  getData()}},[selectedHashtag,isViolent,IsPredictedToBeViral,userLocation,pageNo,startDate,endDate,isViralSelected,selectedPlatform])
   const Cities = [
     '--tehsil--',
     'Panchkula',
