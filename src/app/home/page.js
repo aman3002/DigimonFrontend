@@ -687,6 +687,60 @@ const getSelectedKeywordData=async()=>{
             ))}
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+      <div className="pagination-container">
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(1)}
+          disabled={currentPage === 1}
+        >
+          ⏮
+        </button>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &#8592;
+        </button>
+
+        <span className="pagination-page">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          &#8594;
+        </button>
+
+        <button
+          className="pagination-button"
+          onClick={() => handlePageChange(totalPages)}
+          disabled={currentPage === totalPages}
+        >
+          ⏭
+        </button>
+      </div>
+
+
+
+
+
+
+
+
       <div>
         
 
