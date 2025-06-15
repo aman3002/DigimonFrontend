@@ -33,11 +33,20 @@ export default function ContentCard({
     return (
         <div className="large-background-box">
             <div className="video-section-wrapper">
-                {mediaType === 'video' && (
-                    <video className="media-player" controls>
-                        <source src={mediaSrc} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                {mediaType === 'vid' && (
+                    <video
+                className="media-player"
+                src={mediaSrc}
+                autoPlay
+                muted
+                loop
+                controls
+                style={{ maxWidth: '100%', borderRadius: '12px' }}
+                >
+                <source src={mediaSrc} type="video/mp4" />
+                Your browser does not support the video tag.
+                </video>
+
                 )}
                 {mediaType === 'iframe' && (
                     <iframe
@@ -47,16 +56,15 @@ export default function ContentCard({
                         allowFullScreen
                     />
                 )}
-                {mediaType === 'image' && (
-                    <Image
-                        className="media-player"
-                        src={mediaSrc}
-                        alt="media"
-                        layout="responsive"
-                        width={16}
-                        height={9}
-                    />
-                )}
+               {mediaType === 'img' && (
+  <img
+    className="media-player"
+    src={mediaSrc}
+    alt="media"
+  />
+)}
+
+
 
                 <div className="right-section">
                     <div className="village-info-box">
@@ -70,12 +78,24 @@ export default function ContentCard({
                         </div>
                         <div className="info-group">
                             <Image src={clockIcon} alt="clock" className="icon clock" />
-                            <p className="timestamp">{timestamp}</p>
+                            <p className="timestamp">
+                            {new Date(timestamp).toLocaleString('en-IN', {
+                                day: 'numeric',
+                                month: 'numeric',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true,
+                                timeZone: 'Asia/Kolkata'
+                            })}
+                            </p>
                         </div>
                         <div className="info-group">
                             <Image src={locationn} alt="clock" className="icon clock" />
                             <p className="timestamp">{location}</p>
                         </div>
+                        {postlink.includes("https://")&&
                         <div className="info-group">
                             <a href={postlink} target="_blank" rel="noopener noreferrer">
                                 <Image
@@ -85,7 +105,7 @@ export default function ContentCard({
                                     style={{ marginTop: '5px', marginLeft: '10px' }}
                                 />
                             </a>
-                        </div>
+                        </div>}
                     </div>
 
                     <div className="description-box">
@@ -105,9 +125,15 @@ export default function ContentCard({
                         {comments.map((c, idx) => (
                             <div key={idx} className="comment">
                                 <p className="comment-text">
-                                    {c.user}: {c.text}
-                                </p>
-                            </div>
+                                <a
+                                    href={c.profile_link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: 'white', textDecoration: 'underline', fontWeight: 500,fontSize:20 }}
+                                >
+                                    {c.user}
+                                </a>: {c.comment_text}
+                                </p></div>
                         ))}
                     </div>
                 </div>

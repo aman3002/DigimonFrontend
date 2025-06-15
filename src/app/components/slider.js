@@ -5,7 +5,7 @@ import './slider.css';
 export default function ContentCardSlider({ items }) {
     return (
         <div className="content-slider">
-            {items.map((item) => (
+            {items?.map((item) => (
                 <div key={item.id} className="slide-item">
                     <ContentCard
                         mediaType={item.mediaType}
