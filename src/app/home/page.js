@@ -101,7 +101,7 @@ function HomePage() {
   const endDateRef = useRef(null);
 
   // user filter states
-  const [items,setItems]=useState([])
+  const [items, setItems] = useState([])
   const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
   const [userLocation, setUserLocation] = useState("--tehsil--");
   const [userSearch, setUserSearch] = useState(''); // search keyword or any keyword in hashtags
@@ -111,79 +111,81 @@ function HomePage() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [pageNo, setPageNo] = useState(1);
-  const [hashtags,setKeywords]=useState([])
-  const [selectedHashtag,setSelectedHashtag]=useState(null)
+  const [hashtags, setKeywords] = useState([])
+  const [selectedHashtag, setSelectedHashtag] = useState(null)
 
   const handlePageChange = (newPage) => {
-    if (newPage >= 1 ) {
+    if (newPage >= 1) {
       setPageNo(newPage);
     }
   };
 
 
   // user filter state end 
-const getKeyword=async()=>{
-  let word=""
-  if(selectedPlatform=="INSTAGRAM"){
-    word="instagram"
+  const getKeyword = async () => {
+    let word = ""
+    if (selectedPlatform == "INSTAGRAM") {
+      word = "instagram"
+    }
+    else if (selectedPlatform == "TWITTER") {
+      word = "twitter"
+    }
+    else if (selectedPlatform == "SNAPCHAT") {
+      word = "snapchat"
+    }
+    else if (selectedPlatform == "FACEBOOK") {
+      word = "fb"
+    }
+    try {
+      const response = await axios.get(`/${word}ViralKeywords`)
+      if (response.status == 200) {
+        console.log(response)
+        setKeywords(response.data.data)
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
-  else if(selectedPlatform=="TWITTER"){
-    word="twitter"
-  }
-  else if(selectedPlatform=="SNAPCHAT"){
-    word="snapchat"
-  }
-  else if(selectedPlatform=="FACEBOOK"){
-    word="fb"
-  }
-  try{
-    const response=await axios.get(`/${word}ViralKeywords`)
-    if(response.status==200){
+  const getData = async () => {
+    try {
+      const response = await axios.post("/instagram/filter", {
+        pageNo: pageNo,
+        startDate: startDate,
+        endDate: endDate,
+        isViralSelected: isViralSelected,
+        isViolent: isViolent,
+        IsPredictedToBeViral: IsPredictedToBeViral,
+        selectedPlatform: selectedPlatform,
+        userLocation: userLocation
+      })
       console.log(response)
-      setKeywords(response.data.data)
+      if (response.status == 200) {
+        setItems(response.data.data)
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   }
-  catch(e){
-    console.log(e)
-  }
-}
-const getData=async()=>{
-  try{
-    const response=await axios.post("/instagram/filter",{
-      pageNo:pageNo,
-      startDate:startDate,
-      endDate:endDate,
-      isViralSelected:isViralSelected,
-      isViolent:isViolent,
-      IsPredictedToBeViral:IsPredictedToBeViral,
-      selectedPlatform:selectedPlatform,
-      userLocation:userLocation
-    })
-    console.log(response)
-    if(response.status==200){
-      setItems(response.data.data)
+  function adjustTimestamp(timestamp, platform) {
+    const date = new Date(timestamp);
+    if (platform.toLowerCase() === "facebook") {
+      date.setMinutes(date.getMinutes() - 330);
     }
+    return date.toLocaleString(); // or .toISOString()
   }
-  catch (e){
-    console.log(e)
-  }
-}
-function adjustTimestamp(timestamp, platform) {
-  const date = new Date(timestamp);
-  if (platform.toLowerCase() === "facebook") {
-    date.setMinutes(date.getMinutes() - 330);
-  }
-  return date.toLocaleString(); // or .toISOString()
-}
 
 
-useEffect(()=>{getKeyword()},[selectedPlatform])
-useEffect(()=>{
-  if(selectedHashtag){
-    getSelectedKeywordData()
-  }
-  else{
-  getData()}},[selectedHashtag,isViolent,IsPredictedToBeViral,userLocation,pageNo,startDate,endDate,isViralSelected,selectedPlatform])
+  useEffect(() => { getKeyword() }, [selectedPlatform])
+  useEffect(() => {
+    if (selectedHashtag) {
+      getSelectedKeywordData()
+    }
+    else {
+      getData()
+    }
+  }, [selectedHashtag, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate, isViralSelected, selectedPlatform])
   const Cities = [
     '--tehsil--',
     'Panchkula',
@@ -223,45 +225,45 @@ useEffect(()=>{
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
-const getSelectedKeywordData=async()=>{
-  let word=""
+  const getSelectedKeywordData = async () => {
+    let word = ""
 
-  if(selectedPlatform=="INSTAGRAM"){
-    word="instagram"
-  }
-  else if(selectedPlatform=="TWITTER"){
-    word="twitter"
-  }
-  else if(selectedPlatform=="SNAPCHAT"){
-    word="snapchat"
-  }
-  else if(selectedPlatform=="FACEBOOK"){
-    word="fb"
-  }
-  try{
-    const response=await axios.post("/dataContainsKeywordInDb",{
-      page:pageNo,
-      pageNo:pageNo,
-      startDate:startDate,
-      endDate:endDate,
-      isViralSelected:isViralSelected,
-      isViolent:isViolent,
-      IsPredictedToBeViral:IsPredictedToBeViral,
-      selectedPlatform:selectedPlatform,
-      userLocation:userLocation,
-      keyword:selectedHashtag,
-      collection2:`${word}_selenium`,
-      collection1:`${word}_viral_keywords`
-    })
-    if(response.status==200){
-      console.log(response)
-      setItems(response.data.data)
+    if (selectedPlatform == "INSTAGRAM") {
+      word = "instagram"
+    }
+    else if (selectedPlatform == "TWITTER") {
+      word = "twitter"
+    }
+    else if (selectedPlatform == "SNAPCHAT") {
+      word = "snapchat"
+    }
+    else if (selectedPlatform == "FACEBOOK") {
+      word = "fb"
+    }
+    try {
+      const response = await axios.post("/dataContainsKeywordInDb", {
+        page: pageNo,
+        pageNo: pageNo,
+        startDate: startDate,
+        endDate: endDate,
+        isViralSelected: isViralSelected,
+        isViolent: isViolent,
+        IsPredictedToBeViral: IsPredictedToBeViral,
+        selectedPlatform: selectedPlatform,
+        userLocation: userLocation,
+        keyword: selectedHashtag,
+        collection2: `${word}_selenium`,
+        collection1: `${word}_viral_keywords`
+      })
+      if (response.status == 200) {
+        console.log(response)
+        setItems(response.data.data)
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   }
-  catch(e){
-    console.log(e)
-  }
-}
 
   useEffect(() => {
     const handleResize = () => {
@@ -522,7 +524,7 @@ const getSelectedKeywordData=async()=>{
           <div style={{ width: '40px', height: '40px' }}></div>
         )}
 
-        <img src={policeLogo.src} alt="Logo" className="logo" />
+        <img src={policeLogo.src} style={{ marginRight: '30px' }} alt="Logo" className="logo" />
 
         {!isMobile && (
           <>
@@ -608,7 +610,7 @@ const getSelectedKeywordData=async()=>{
               <input
                 type="checkbox"
                 checked={isViralSelected}
-                onChange={() => setIsViralSelected(prev =>!prev)}
+                onChange={() => setIsViralSelected(prev => !prev)}
               />
               Viral
             </label>
@@ -617,7 +619,7 @@ const getSelectedKeywordData=async()=>{
               <input
                 type="checkbox"
                 checked={isViolent}
-                onChange={() => setIsViolent(prev =>!prev)}
+                onChange={() => setIsViolent(prev => !prev)}
               />
               Violent
             </label>
@@ -696,43 +698,7 @@ const getSelectedKeywordData=async()=>{
 
 
 
-      <div className="pagination-container">
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-        >
-          ⏮
-        </button>
 
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          &#8592;
-        </button>
-
-        <span className="pagination-page">
-          Page {currentPage} of {totalPages}
-        </span>
-
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          &#8594;
-        </button>
-
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          ⏭
-        </button>
-      </div>
 
 
 
@@ -742,49 +708,70 @@ const getSelectedKeywordData=async()=>{
 
 
       <div>
-        
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
 
-      <div className="pagination-container">
-        {/* <button
-          className="pagination-button"
-          onClick={() => handlePageChange(1)}
-          disabled={pageNo === 1}
-        >
-          ⏮
-        </button> */}
+          <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '40px', gap: '10px' }}>
+            <span>{selectedHashtag}</span>
+            {selectedHashtag && (
+              <button
+                onClick={() => setSelectedHashtag(null)}
+                style={{
+                  background: '#ff4d4f',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem'
+                }}
+              >
+                Clear
+              </button>
+            )}
+          </div>
 
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(pageNo - 1)}
-          disabled={pageNo === 1}
-        >
-          &#8592;
-        </button>
-        <h4>{pageNo}</h4>
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(pageNo + 1)}
-          // disabled={currentPage}
-        >
-          &#8594;
-        </button>
+          <div className="pagination-container">
+            <button
+              className="pagination-button"
+              onClick={() => handlePageChange(1)}
+              disabled={pageNo === 1}
+            >
+              ⏮
+            </button>
 
-        {/* <button
+            <button
+              className="pagination-button"
+              onClick={() => handlePageChange(pageNo - 1)}
+              disabled={pageNo === 1}
+            >
+              &#8592;
+            </button>
+            <h4>{pageNo}</h4>
+            <button
+              className="pagination-button"
+              onClick={() => handlePageChange(pageNo + 1)}
+            // disabled={currentPage}
+            >
+              &#8594;
+            </button>
+
+            {/* <button
           className="pagination-button"
           onClick={() => handlePageChange(totalPages)}
           // disabled={currentPage === totalPages}
         > */}
-          {/* ⏭ */}
-        {/* </button> */}
-      </div>
-<ContentCardSlider
-  items={items.map(item => ({
-    ...item,
-    timestamp: adjustTimestamp(item.timestamp, selectedPlatform)
-  }))}
- />
+            {/* ⏭ */}
+            {/* </button> */}
+          </div>
+        </div>
+        <ContentCardSlider
+          items={items.map(item => ({
+            ...item,
+            timestamp: adjustTimestamp(item.timestamp, selectedPlatform)
+          }))}
+        />
 
- </div>
+      </div>
 
     </div>
   );

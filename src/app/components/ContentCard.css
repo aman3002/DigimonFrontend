@@ -24,6 +24,16 @@
 	width: 672px;
 	height: 356px;
 	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+}
+.photos {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain; /* Keeps aspect ratio, fits within container */
+	border-radius: 10px;
 }
 
 .right-section {
@@ -53,7 +63,7 @@
 .description-box {
 	position: relative;
 	width: 609px;
-	height: 71px;
+	height: fit-content;
 	border: 1px solid #515151;
 	border-radius: 10px;
 	padding: 10px;

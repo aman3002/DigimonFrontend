@@ -24,7 +24,7 @@ body {
 	background-image: url("./background.jpg");
 	background-size: cover;
 	background-position: center;
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 }
 
 @media screen and (max-width: 768px) {

@@ -463,10 +463,10 @@ body {
 
 .white-rectangle {
 	width: 469px;
-	height: 830px;
+	height: 855px;
 	position: absolute;
 	top: 114px;
-	left: 1530px;
+	left: 1545px;
 	background-color: #373636;
 	border-radius: 8px;
 	padding: 16px;
@@ -792,7 +792,7 @@ body {
 	color: white;
 	font-weight: bold;
 	width: 430px;
-	height: 522px;
+	height: 700px;
 	overflow-y: auto;
 	white-space: normal;
 	display: flex;
@@ -1309,7 +1309,7 @@ body {
 
 .pagination-container {
 	display: flex;
-	margin-left: 35vw;
+	margin-left: 40vw;
 	align-items: center;
 	gap: 1rem;
 	padding: 8px;

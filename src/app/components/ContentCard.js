@@ -19,6 +19,10 @@ import './ContentCard.css';
  * - comments: Array<{ user: string; text: string }>;
  * - onLoginClick?: () => void
  */
+
+
+
+
 export default function ContentCard({
     mediaType,
     mediaSrc,
@@ -30,22 +34,23 @@ export default function ContentCard({
     comments = [],
     postlink,
 }) {
+    console.log(comments);
     return (
         <div className="large-background-box">
             <div className="video-section-wrapper">
                 {mediaType === 'vid' && (
                     <video
-                className="media-player"
-                src={mediaSrc}
-                autoPlay
-                muted
-                loop
-                controls
-                style={{ maxWidth: '100%', borderRadius: '12px' }}
-                >
-                <source src={mediaSrc} type="video/mp4" />
-                Your browser does not support the video tag.
-                </video>
+                        className="media-player"
+                        src={mediaSrc}
+                        autoPlay
+                        muted
+                        loop
+                        controls
+                        style={{ maxWidth: '100%', borderRadius: '12px' }}
+                    >
+                        <source src={mediaSrc} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
 
                 )}
                 {mediaType === 'iframe' && (
@@ -56,13 +61,21 @@ export default function ContentCard({
                         allowFullScreen
                     />
                 )}
-               {mediaType === 'img' && (
-  <img
-    className="media-player"
-    src={mediaSrc}
-    alt="media"
-  />
-)}
+                {mediaType === 'img' && (
+                    <div className='media-player'>
+                        <img
+                            className="photos"
+                            src={mediaSrc}
+                            alt="media"
+                        />
+                    </div>
+
+                )}
+                {(!mediaType || !['vid', 'iframe', 'img'].includes(mediaType)) && (
+                    <div className="media-player" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa', border: '1px dashed #555', borderRadius: '12px', padding: '1rem', height: '200px' }}>
+                        No image/video
+                    </div>
+                )}
 
 
 
@@ -78,34 +91,26 @@ export default function ContentCard({
                         </div>
                         <div className="info-group">
                             <Image src={clockIcon} alt="clock" className="icon clock" />
-                            <p className="timestamp">
-                            {new Date(timestamp).toLocaleString('en-IN', {
-                                day: 'numeric',
-                                month: 'numeric',
-                                year: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit',
-                                hour12: true,
-                                timeZone: 'Asia/Kolkata'
-                            })}
+                            <p className="timestamp" style={{ marginLeft: '10px', }}>
+                                {timestamp}
                             </p>
                         </div>
+
                         <div className="info-group">
                             <Image src={locationn} alt="clock" className="icon clock" />
                             <p className="timestamp">{location}</p>
                         </div>
-                        {postlink.includes("https://")&&
-                        <div className="info-group">
-                            <a href={postlink} target="_blank" rel="noopener noreferrer">
-                                <Image
-                                    src={loginIcon}
-                                    alt="login"
-                                    className="icon login"
-                                    style={{ marginTop: '5px', marginLeft: '10px' }}
-                                />
-                            </a>
-                        </div>}
+                        {postlink.includes("https://") &&
+                            <div className="info-group">
+                                <a href={postlink} target="_blank" rel="noopener noreferrer">
+                                    <Image
+                                        src={loginIcon}
+                                        alt="login"
+                                        className="icon login"
+                                        style={{ marginTop: '5px', marginLeft: '10px' }}
+                                    />
+                                </a>
+                            </div>}
                     </div>
 
                     <div className="description-box">
@@ -125,14 +130,14 @@ export default function ContentCard({
                         {comments.map((c, idx) => (
                             <div key={idx} className="comment">
                                 <p className="comment-text">
-                                <a
-                                    href={c.profile_link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{ color: 'white', textDecoration: 'underline', fontWeight: 500,fontSize:20 }}
-                                >
-                                    {c.user}
-                                </a>: {c.comment_text}
+                                    <a
+                                        href={c.profile_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{ color: 'white', textDecoration: 'underline', fontWeight: 500, fontSize: 20 }}
+                                    >
+                                        {c.user}
+                                    </a>: {c.comment_text}
                                 </p></div>
                         ))}
                     </div>
