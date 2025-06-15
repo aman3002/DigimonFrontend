@@ -19,7 +19,7 @@ function ReverseImageSearchList({ list, setOrigins }) {
             <ul style={{ width: "90%" }}>
                 {
                     list.map((item, index) => {
-                        return <li style={{ width: "100%", display: 'flex', justifyContent: 'start', gap: '50px', justifyItems: 'start', background: '#F5F5F5', padding: '10px', paddingLeft: '30px', paddingRight: "30px", margin: '10px auto' }}>
+                        return <li style={{ width: "100%", display: 'flex', justifyContent: 'start', gap: '50px', justifyItems: 'start', background: 'black', padding: '10px', paddingLeft: '30px', paddingRight: "30px", margin: '10px auto' }}>
                             <div>
                                 <a href={item.link} target="_blank" rel="noopener noreferrer"><img src={item.thumbnail} style={{ height: '100px', borderRadius: '6px' }} /></a>
                             </div>
