@@ -29,17 +29,17 @@ import Cookie from "../lib/cookie";
 
 export default function DeepfakeDetect() {
 
-  // // user login check
-  const cookies = Cookie();
-  const user = cookies.getpublicUserCookie();
-  const router = useRouter();
-  useEffect(() => {
-    if (!user?.loggedIn) {
-      router.push("/login");
-    }
-  }, []);
+  // // // user login check
+  // const cookies = Cookie();
+  // const user = cookies.getpublicUserCookie();
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (!user?.loggedIn) {
+  //     router.push("/login");
+  //   }
+  // }, []);
 
-  if (!user?.loggedIn) return null;
+  // if (!user?.loggedIn) return null;
 
 
 
@@ -70,7 +70,8 @@ export default function DeepfakeDetect() {
   }, []);
 
   const handleSelectPlatform = (platform) => {
-    router.push('/home');
+    setSelectedPlatform(platform.value);
+    setMenuOpen(false);
   };
 
   const handleFileChange = (e) => {
