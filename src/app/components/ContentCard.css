@@ -54,6 +54,7 @@
 	border-radius: 0.57vw; /* 11 / 1946 */
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: 0.62vw; /* 12 / 1946 */
 	padding: 0 0.82vw; /* 16 / 1946 */
 	color: white;
@@ -175,7 +176,7 @@
 .timestamp,
 .description-text,
 .comment-text {
-	font-size: 0.82vw; /* 16 / 1946 */
+	font-size: 20px; /* 16 / 1946 */
 	font-weight: 400;
 	color: white;
 	margin: 0;

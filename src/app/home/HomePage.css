@@ -563,7 +563,7 @@ body {
 .filter-btn input[type="checkbox"]:checked::before {
 	content: "✔";
 	position: absolute;
-	top: -0.10vh; /* -1 / 960 */
+	top: -0.1vh; /* -1 / 960 */
 	left: 0.15vw; /* 3 / 1946 */
 	font-size: 0.72vw; /* 14 / 1946 */
 	color: black;
@@ -609,8 +609,10 @@ body {
 	border: none;
 	color: white;
 	outline: none;
-	font-size: 0.67vw; /* 13 / 1946 */
-	width: 4.62vw; /* 90 / 1946 */
+	font-size: 0.8vw; /* 13 / 1946 */
+	width: 5.5vw; /* 90 / 1946 */
+	margin-right: -18px;
+	padding: 0px;
 }
 
 .calendar-icon {
@@ -918,7 +920,7 @@ body {
 	font-size: 2.08vh; /* 20 / 960 */
 	font-weight: 400; /* removed 'px', it should be a number */
 	left: 11.82vw; /* 230 / 1946 */
-	top: 0.10vh; /* 1 / 960 */
+	top: 0.1vh; /* 1 / 960 */
 	align-self: center;
 }
 
@@ -1307,7 +1309,7 @@ body {
 
 .pagination-button {
 	background: none;
-	border: 0.10vw solid white; /* 2px */
+	border: 0.1vw solid white; /* 2px */
 	color: white;
 	font-size: 1.25rem; /* 20px (left as is for consistent text size across breakpoints) */
 	padding: 0.625vh 0.62vw; /* 6px 12px */

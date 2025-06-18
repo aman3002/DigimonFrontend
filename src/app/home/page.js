@@ -80,16 +80,16 @@ const items = [
 function HomePage() {
 
   // // user login check
-  // const cookies = Cookie();
-  // const user = cookies.getpublicUserCookie();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!user?.loggedIn) {
-  //     router.push("/login");
-  //   }
-  // }, []);
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
 
-  // if (!user?.loggedIn) return null;
+  if (!user?.loggedIn) return null;
 
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);
@@ -628,14 +628,14 @@ function HomePage() {
           <div className="date-inputs" style={mobileDateInputsStyle}>
             <div className="date-box">
               <div className="date-wrapper" onClick={() => startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker()} style={{ cursor: 'pointer' }}>
-                <label>Start</label>
+                <label style={{ fontSize: '21px' }}>Start</label>
                 <input type="date" className="date-field" value={startDate} onChange={e => setStartDate(e.target.value)} ref={startDateRef} />
                 <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker(); }} style={{ cursor: 'pointer' }} />
               </div>
             </div>
             <div className="date-box">
               <div className="date-wrapper" onClick={() => endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker()} style={{ cursor: 'pointer' }}>
-                <label>End</label>
+                <label style={{ fontSize: '21px' }}>End</label>
                 <input type="date" className="date-field" value={endDate} onChange={e => setEndDate(e.target.value)} ref={endDateRef} />
                 <img src={calendarIcon.src} alt="Calendar" className="calendar-icon" onClick={e => { e.stopPropagation(); endDateRef.current && endDateRef.current.showPicker && endDateRef.current.showPicker(); }} style={{ cursor: 'pointer' }} />
               </div>
