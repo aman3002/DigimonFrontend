@@ -75,7 +75,7 @@ export default function LoginPage() {
       <div className="logo-container">
         <Image src={policeLogo} alt="Police Logo" className="police-logo" style={{ borderRadius: '100px' }} />
       </div>
-      <Image src={deepgaze} className="police-logo" style={{ position: 'absolute', top: '50px', right: '50px' }} />
+      <Image src={deepgaze} className="police-logo" style={{ position: 'absolute', top: '50px', right: '50px', width: '185px' }} />
 
       <div className="title-banner">DigiMonitor</div>
 

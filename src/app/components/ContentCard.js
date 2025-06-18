@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import personIcon from '../Assets/profile.png';
+import personIcon from '../Assets/profile.svg';
 import heartIcon from '../Assets/heart.png';
 import clockIcon from '../Assets/clock.png';
 import loginIcon from '../Assets/login.png';

@@ -103,7 +103,7 @@ export default function Analytics() {
                       className="dropdown-item"
                       onClick={() => {
                         handleSelectPlatform(platform);
-                        router.push("/home");
+                        window.location.href = '/home';
                       }}
                     >
                       <img src={platform.icon.src} alt={platform.name} />

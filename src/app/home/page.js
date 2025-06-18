@@ -559,7 +559,7 @@ function HomePage() {
             </div>
 
             <div className="nav-items">
-              <div className="nav-item" onClick={() => router.push('/deepfake')}>
+              <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>

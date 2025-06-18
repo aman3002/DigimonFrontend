@@ -70,7 +70,7 @@ export default function DeepfakeDetect() {
   }, []);
 
   const handleSelectPlatform = (platform) => {
-    router.push('/home');
+    window.location.href = '/home';
   };
 
   const handleFileChange = (e) => {
