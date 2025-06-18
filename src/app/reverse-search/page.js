@@ -11,7 +11,7 @@ import axios from '../lib/axios';
 import '../home/HomePage.css';
 import './ReverseImageSearch.css';
 
-import policeLogo from '../Assets/policeLogo.png';
+import policeLogo from '../Assets/PoliceLogo.jpeg';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -104,7 +104,7 @@ export default function ReverseImageSearch() {
     <div className="home-page">
       {/* Top Bar */}
       <div className="top-bar">
-        <img src={policeLogo.src} alt="Logo" className="logo" onClick={() => router.push('/homepage')} style={{ cursor: 'pointer', marginRight: '30px' }} />
+        <img src={policeLogo.src} alt="Logo" className="logo" onClick={() => router.push('/homepage')} style={{ cursor: 'pointer', marginRight: '30px', borderRadius: '40px' }} />
         {isMobile ? (
           <img src={menuIcon.src} alt="Menu" className="hamburger-menu" onClick={() => setMenuOpen(!menuOpen)} />
         ) : (

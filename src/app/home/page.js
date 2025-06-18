@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import './HomePage.css';
 import ContentCardSlider from '../components/slider';
 
-import policeLogo from '../Assets/policeLogo.png';
+import policeLogo from '../Assets/PoliceLogo.jpeg';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -524,7 +524,7 @@ function HomePage() {
           <div style={{ width: '40px', height: '40px' }}></div>
         )}
 
-        <img src={policeLogo.src} style={{ marginRight: '30px' }} alt="Logo" className="logo" />
+        <img src={policeLogo.src} style={{ marginRight: '30px', borderRadius: '40px' }} alt="Logo" className="logo" />
 
         {!isMobile && (
           <>

@@ -14,7 +14,7 @@ import axiosWsp from '../lib/axioswsp';
 import "../home/HomePage.css";
 import "./DeepfakeDetect.css";
 
-import policeLogo from '../Assets/policeLogo.png';
+import policeLogo from '../Assets/PoliceLogo.jpeg';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -121,7 +121,7 @@ export default function DeepfakeDetect() {
           alt="Logo"
           className="logo"
           onClick={() => router.push("/homepage")}
-          style={{ cursor: "pointer", marginRight: '30px' }}
+          style={{ cursor: "pointer", marginRight: '30px', borderRadius: '40px' }}
         />
 
         {isMobile ? (
