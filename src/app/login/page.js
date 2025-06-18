@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import "./LoginPage.css";
-import policeLogo from "../../../public/policeLogo.png";
+import policeLogo from "../../../public/PoliceLogo.jpeg";
+import deepgaze from "../../../public/deegaze.jpg";
 import axios from "../lib/axios";
 import CryptoJS from "crypto-js";
 import Cookie from "../lib/cookie";
@@ -72,8 +73,9 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="logo-container">
-        <Image src={policeLogo} alt="Police Logo" className="police-logo" />
+        <Image src={policeLogo} alt="Police Logo" className="police-logo" style={{ borderRadius: '100px' }} />
       </div>
+      <Image src={deepgaze} className="police-logo" style={{ position: 'absolute', top: '50px', right: '50px' }} />
 
       <div className="title-banner">DigiMonitor</div>
 
