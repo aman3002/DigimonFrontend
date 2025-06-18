@@ -528,7 +528,7 @@ function HomePage() {
 
         {!isMobile && (
           <>
-            <span className="platform-label">Platform:</span>
+            <span className="platform-label">Platform :</span>
 
             <div className="custom-dropdown">
               <button className="dropdown-toggle" onClick={() => setMenuOpen(!menuOpen)}>

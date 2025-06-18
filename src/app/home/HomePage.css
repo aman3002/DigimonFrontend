@@ -427,7 +427,7 @@ body {
 	border-radius: 0.41vw; /* 8 / 1946 */
 	overflow: hidden;
 	box-shadow: 0 0.21vh 0.625vh rgba(0, 0, 0, 0.4); /* 2 / 960, 6 / 960 */
-	width: 12vw; /* 180 / 1946 */
+	width: 14vw; /* 180 / 1946 */
 	z-index: 1000;
 }
 
