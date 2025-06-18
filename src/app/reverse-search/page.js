@@ -27,17 +27,17 @@ import Cookie from '../lib/cookie';
 
 export default function ReverseImageSearch() {
 
-  // // user login check
-  const cookies = Cookie();
-  const user = cookies.getpublicUserCookie();
-  const router = useRouter();
-  useEffect(() => {
-    if (!user?.loggedIn) {
-      router.push("/login");
-    }
-  }, []);
+  // // // user login check
+  // const cookies = Cookie();
+  // const user = cookies.getpublicUserCookie();
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (!user?.loggedIn) {
+  //     router.push("/login");
+  //   }
+  // }, []);
 
-  if (!user?.loggedIn) return null;
+  // if (!user?.loggedIn) return null;
 
 
 
@@ -59,7 +59,10 @@ export default function ReverseImageSearch() {
   ];
 
   const handleSelectPlatform = (platform) => {
+
     window.location.href = '/home';
+    setSelectedPlatform(platform.value);
+    setMenuOpen(false);
   };
   const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
 
@@ -111,7 +114,7 @@ export default function ReverseImageSearch() {
           <>
             <span className="platform-label">Platform:</span>
             <div className="custom-dropdown">
-              <button className="dropdown-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+              <button className="dropdown-toggle-rev" onClick={() => setMenuOpen(!menuOpen)}>
                 {currentPlatform ? (
                   <>
                     <img src={currentPlatform.icon.src} alt={currentPlatform.name} />
@@ -122,9 +125,9 @@ export default function ReverseImageSearch() {
                 )}
               </button>
               {menuOpen && (
-                <div className="dropdown-menu">
+                <div className="dropdown-menu-rev">
                   {platforms.map((platform) => (
-                    <div key={platform.value} className="dropdown-item" onClick={() => handleSelectPlatform(platform)}>
+                    <div key={platform.value} className="dropdown-item-rev" onClick={() => handleSelectPlatform(platform)}>
                       <img src={platform.icon.src} alt={platform.name} />
                       {platform.name}
                     </div>
