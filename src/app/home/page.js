@@ -524,7 +524,7 @@ function HomePage() {
           <div style={{ width: '40px', height: '40px' }}></div>
         )}
 
-        <img src={policeLogo.src} style={{ marginRight: '30px', borderRadius: '40px' }} alt="Logo" className="logo" />
+        <img src={policeLogo.src} style={{ marginRight: '30px', borderRadius: '100px' }} alt="Logo" className="logo" />
 
         {!isMobile && (
           <>

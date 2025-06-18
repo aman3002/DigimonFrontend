@@ -104,7 +104,7 @@ export default function ReverseImageSearch() {
     <div className="home-page">
       {/* Top Bar */}
       <div className="top-bar">
-        <img src={policeLogo.src} alt="Logo" className="logo" onClick={() => router.push('/homepage')} style={{ cursor: 'pointer', marginRight: '30px', borderRadius: '40px' }} />
+        <img src={policeLogo.src} alt="Logo" className="logo" onClick={() => router.push('/homepage')} style={{ cursor: 'pointer', marginRight: '30px', borderRadius: '100px' }} />
         {isMobile ? (
           <img src={menuIcon.src} alt="Menu" className="hamburger-menu" onClick={() => setMenuOpen(!menuOpen)} />
         ) : (

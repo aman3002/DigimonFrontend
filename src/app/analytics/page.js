@@ -70,7 +70,7 @@ export default function Analytics() {
           alt="Logo"
           className="logo"
           onClick={() => router.push("/homepage")}
-          style={{ cursor: "pointer", marginRight: '30px', borderRadius: '40px' }}
+          style={{ cursor: "pointer", marginRight: '30px', borderRadius: '100px' }}
         />
 
         {isMobile ? (
