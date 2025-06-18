@@ -2,53 +2,50 @@
 .reverse-search-container-rev {
 	align-self: center;
 	position: relative;
-	margin: 80px auto 60px auto;
-	width: 672px;
-	min-height: 150px;
+	margin: 8.33vh auto 6.25vh auto; /* 80px, 60px */
+	width: 34.53vw; /* 672px */
+	min-height: 15.63vh; /* 150px */
 	height: fit-content;
 	background-color: #191818;
-	border-radius: 8px;
-	border: 2px solid #888484;
-	box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+	border-radius: 0.83vh; /* 8px */
+	border: 0.21vw solid #888484; /* 2px */
+	box-shadow: 0 0 2.6vh rgba(255, 255, 255, 0.05); /* 25px */
 	align-items: center;
-	padding-bottom: 30px;
-	margin-bottom: 60px;
+	padding-bottom: 3.13vh; /* 30px */
+	margin-bottom: 6.25vh; /* 60px */
 }
 
-/* Upload Section */
 .upload-section-rev {
 	position: relative;
 	width: 100%;
-	min-height: 100px;
-	padding-bottom: 10px;
+	min-height: 10.42vh; /* 100px */
+	padding-bottom: 1.04vh; /* 10px */
 }
 
-/* File Input Container */
 .file-input-container-rev {
 	position: absolute;
-	width: 364px;
-	height: 48px;
-	top: 49px;
-	left: 154px;
+	width: 18.7vw; /* 364px */
+	height: 5vh; /* 48px */
+	top: 5.1vh; /* 49px */
+	left: 7.91vw; /* 154px */
 	background-color: #191818;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+	border: 0.05vw solid #ccc;
+	border-radius: 0.42vh; /* 4px */
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	padding-left: 15px;
+	padding-left: 0.77vw; /* 15px */
 	color: white;
-	font-size: 15px;
+	font-size: 1.56vh; /* 15px */
 	transition: all 0.3s ease;
 }
 
 .file-input-container-rev:hover {
 	background-color: #2a2a2a;
 	border-color: #fff;
-	box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 1.04vh rgba(255, 255, 255, 0.1); /* 10px */
 }
 
-/* Hidden File Input */
 .hidden-file-input-rev {
 	position: absolute;
 	top: 0;
@@ -60,31 +57,30 @@
 	z-index: 2;
 }
 
-/* File Input Label */
 .file-input-label-rev {
 	cursor: pointer;
 	z-index: 1;
 	pointer-events: none;
 	transition: all 0.3s ease;
+	font-size: 3vh;
 }
 
 .file-input-container-rev:hover .file-input-label-rev {
 	color: #fff;
-	text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+	text-shadow: 0 0 0.52vh rgba(255, 255, 255, 0.3); /* 5px */
 }
 
-/* Upload Button */
 .upload-btn-rev {
 	position: absolute;
-	width: 131px;
-	height: 35px;
-	top: 55px;
-	left: 379px;
+	width: 6.73vw; /* 131px */
+	height: 3.65vh; /* 35px */
+	top: 5.73vh; /* 55px */
+	left: 19.47vw; /* 379px */
 	background-color: #eee;
 	color: #000;
 	border: none;
-	border-radius: 4px;
-	font-size: 14px;
+	border-radius: 0.42vh; /* 4px */
+	font-size: 2vh; /* 14px */
 	font-weight: 500;
 	display: flex;
 	align-items: center;
@@ -102,78 +98,72 @@
 	background-color: #c0c0c0;
 }
 
-/* Preview Container */
 .preview-container-rev {
 	position: relative;
-	margin-top: 40px;
+	margin-top: 4.17vh; /* 40px */
 	align-self: center;
 	max-width: 90%;
 }
 
 .image-preview-rev {
-	max-width: 200px;
-	max-height: 100px;
-	border-radius: 4px;
-	border: 1px solid #444;
+	max-width: 10.27vw; /* 200px */
+	max-height: 10.42vh; /* 100px */
+	border-radius: 0.42vh; /* 4px */
+	border: 0.05vw solid #444;
 }
 
-/* Dropdown Toggle (Platform Selector) */
 .dropdown-toggle-rev {
 	background-color: #000000;
 	color: white;
 	border: none;
-	border-radius: 5px;
-	padding: 8px 12px;
+	border-radius: 0.52vh; /* 5px */
+	padding: 0.83vh 0.62vw; /* 8px 12px */
 	cursor: pointer;
-	font-size: 20px;
+	font-size: 2.08vh; /* 20px */
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 0.52vw; /* 10px */
 	position: relative;
 }
 
-/* Hollow Down Arrow */
 .dropdown-toggle-rev::after {
 	content: "";
 	display: inline-block;
-	margin-top: -3px;
-	width: 7px;
-	height: 7px;
+	margin-top: -0.31vh; /* -3px */
+	width: 0.36vw; /* 7px */
+	height: 0.73vh; /* 7px */
 	border: solid white;
-	border-width: 0 2px 2px 0;
+	border-width: 0 0.10vw 0.21vh 0;
 	transform: rotate(45deg);
 	margin-left: auto;
-	margin-right: 5px;
+	margin-right: 0.26vw; /* 5px */
 }
 
-/* Platform Icon in Dropdown */
 .dropdown-toggle-rev img {
-	width: 20px;
-	height: 20px;
+	width: 1.03vw; /* 20px */
+	height: 2.08vh;
 }
 
-/* Dropdown Menu */
 .dropdown-menu-rev {
 	position: absolute;
 	top: 110%;
 	background-color: #000000;
-	border-radius: 8px;
+	border-radius: 0.83vh;
 	overflow: hidden;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-	width: 180px;
+	box-shadow: 0 0.21vh 0.63vh rgba(0, 0, 0, 0.4); /* 2px 6px */
+	width: 9.25vw; /* 180px */
 	z-index: 1000;
 }
 
-/* Individual Dropdown Items */
 .dropdown-item-rev {
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	padding: 10px 15px;
+	gap: 0.52vw; /* 10px */
+	padding: 1.04vh 0.77vw; /* 10px 15px */
 	cursor: pointer;
 	color: white;
-	font-size: 16px;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	font-size: 1.67vh; /* 16px */
+	border-bottom: 0.1vh solid rgba(255, 255, 255, 0.1);
 	transition: background 0.2s;
 }
 
@@ -186,28 +176,26 @@
 }
 
 .dropdown-item-rev img {
-	height: 20px;
-	width: 20px;
+	height: 2.08vh;
+	width: 1.03vw;
 }
 
-/* Filename Display */
 .filename-display-rev {
-	font-size: 13px;
+	font-size: 1.35vh;
 	color: #ccc;
-	margin-bottom: -40px;
+	margin-bottom: -4.17vh; /* -40px */
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 2.08vh;
 }
 
-/* Result Section */
 .result-container-rev {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	margin-top: -10px;
-	padding-top: 60px;
+	margin-top: -1.04vh; /* -10px */
+	padding-top: 6.25vh; /* 60px */
 }
 
 .preview-image-rev {
@@ -215,35 +203,35 @@
 	display: inline-block;
 	max-width: 50%;
 	max-height: 50%;
-	margin-bottom: 10px;
-	border-radius: 8px;
+	margin-bottom: 1.04vh;
+	border-radius: 0.83vh;
 }
 
 .preview-image-rev img {
 	width: 100%;
-	border-radius: 8px;
+	border-radius: 0.83vh;
 }
 
 .image-tag-rev {
 	position: absolute;
-	top: 4px;
-	left: 4px;
+	top: 0.42vh;
+	left: 0.21vw;
 	background: rgba(255, 255, 255, 0);
 	color: rgb(255, 255, 255);
-	font-size: 13px;
+	font-size: 1.35vh;
 	font-weight: 700;
-	padding: 2px 6px;
-	border-radius: 4px;
+	padding: 0.21vh 0.31vw;
+	border-radius: 0.42vh;
 }
 
 .result-box-rev {
 	position: relative;
 	background-color: #e5e5e5;
 	color: #000;
-	padding: 4px 8px;
-	border-radius: 4px;
+	padding: 0.42vh 0.42vw; /* 4px 8px */
+	border-radius: 0.42vh;
 	font-weight: 500;
-	font-size: 14px;
+	font-size: 1.46vh;
 }
 
 /* =============== Mobile View Adjustments =============== */

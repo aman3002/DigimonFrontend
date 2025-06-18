@@ -2,7 +2,7 @@
 	background-image: url("../Assets/background.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
-	height: 100vh;
+	height: 133vh;
 	width: 100%;
 	color: white;
 	margin: 0;
@@ -13,39 +13,38 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: 101px;
-	padding: 0 20px 0 20px;
+	height: 10.52vh; /* 101px */
+	padding: 0 1.03vw; /* 20px */
 	background: rgba(0, 0, 0, 0.35);
 	font-family: "Poppins", sans-serif;
 	position: relative;
 	margin-top: 0;
 	padding-top: 0;
 }
+
 .deepfake-detect-container {
 	position: relative;
-	margin: 40px auto 40px auto;
-	width: 672px;
+	margin: 4.17vh auto; /* 40px */
+	width: 34.53vw; /* 672px */
 	background-color: #111;
-	border-radius: 8px;
-	border: 2px solid #888484;
-	padding: 30px;
+	border-radius: 0.41vw; /* 8px */
+	border: 0.10vw solid #888484; /* 2px */
+	padding: 3.13vh; /* 30px */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
+	box-shadow: 0 0 1.30vw rgba(255, 255, 255, 0.05); /* 25px */
 	transition: all 0.3s ease;
-	align-items: center;
 	align-self: center;
 }
 
 .radio-group {
 	display: flex;
 	justify-content: center;
-	gap: 50px;
-	font-size: 18px;
-	margin-bottom: 30px;
-	margin-top: 20px;
+	gap: 2.57vw; /* 50px */
+	font-size: 2vw; /* 18px */
+	margin: 2.08vh 0 3.13vh 0; /* 20px top, 30px bottom */
 	width: 100%;
 	color: white;
 }
@@ -53,48 +52,46 @@
 .radio-group label {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 0.41vw; /* 8px */
 	cursor: pointer;
 }
 
 .radio-group input[type="radio"] {
-	margin-right: 8px;
+	margin-right: 0.41vw; /* 8px */
 }
 
 .upload-section {
 	position: relative;
 	width: 100%;
-	min-height: 100px; /* Keep original height for upload section */
-	padding-bottom: 10px;
+	min-height: 10.42vh; /* 100px */
+	padding-bottom: 1.04vh; /* 10px */
 }
 
-/* File Input Container */
 .file-input-container {
 	position: absolute;
-	width: 364px;
-	height: 48px;
-	top: 49px; /* 281px - 232px = 49px relative to container */
-	left: 154px; /* 791px - 637px = 154px relative to container */
+	width: 18.7vw; /* 364px */
+	height: 5vh; /* 48px */
+	top: 5.1vh; /* 49px */
+	left: 7.91vw; /* 154px */
 	background-color: #1e1e1e;
-	margin-left: -30px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
+	margin-left: -1.54vw; /* -30px */
+	border: 0.05vw solid #ccc;
+	border-radius: 0.21vw; /* 4px */
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	padding-left: 15px;
+	padding-left: 0.77vw; /* 15px */
 	color: white;
-	font-size: 15px;
+	font-size: 1.2vh; /* 15px */
 	transition: all 0.3s ease;
 }
 
 .file-input-container:hover {
 	background-color: #2a2a2a;
 	border-color: #fff;
-	box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 0.52vw rgba(255, 255, 255, 0.1); /* 10px */
 }
 
-/* Hidden File Input */
 .hidden-file-input {
 	position: absolute;
 	top: 0;
@@ -106,9 +103,9 @@
 	z-index: 2;
 }
 
-/* File Input Label */
 .file-input-label {
 	cursor: pointer;
+	font-size: 3vh;
 	z-index: 1;
 	pointer-events: none;
 	color: white;
@@ -117,29 +114,28 @@
 
 .file-input-container:hover .file-input-label {
 	color: #fff;
-	text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+	text-shadow: 0 0 0.26vw rgba(255, 255, 255, 0.3); /* 5px */
 }
 
-/* Upload Button */
 .upload-btn {
 	position: absolute;
-	width: 131px;
-	height: 35px;
-	top: 55px; /* 287px - 232px = 55px relative to container */
-	left: 379px; /* 1016px - 637px = 379px relative to container */
+	width: 6.73vw; /* 131px */
+	height: 3.65vh; /* 35px */
+	top: 5.73vh; /* 55px */
+	left: 19.47vw; /* 379px */
 	background-color: #eee;
-	margin-left: -30px;
+	margin-left: -1.54vw; /* -30px */
 	color: #000;
 	border: none;
-	border-radius: 4px;
-	font-size: 14px;
+	border-radius: 0.21vw; /* 4px */
+	font-size: 2vh; /* 14px */
 	font-weight: 500;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 	transition: background-color 0.2s ease;
-	z-index: 3; /* Ensure upload button is above file input */
+	z-index: 3;
 }
 
 .upload-btn:hover {
@@ -149,17 +145,16 @@
 .upload-btn:active {
 	background-color: #c0c0c0;
 }
-
 .filename-display {
-	font-size: 13px;
+	font-size: 1.35vh; /* 13px */
 	color: #ccc;
-	margin-bottom: 20px;
+	margin-bottom: 2.08vh; /* 20px */
 	text-align: center;
 }
 
 .result-container {
 	position: relative;
-	margin-top: 20px;
+	margin-top: 2.08vh; /* 20px */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -171,34 +166,34 @@
 	display: inline-block;
 	max-width: 70%;
 	max-height: 50%;
-	margin-bottom: 10px;
-	border-radius: 8px;
+	margin-bottom: 1.04vh; /* 10px */
+	border-radius: 0.83vh; /* 8px */
 }
 
 .preview-image img {
 	width: 100%;
-	border-radius: 8px;
+	border-radius: 0.83vh; /* 8px */
 }
 
 .image-tag {
 	position: absolute;
-	top: 4px;
-	left: 4px;
+	top: 0.42vh; /* 4px */
+	left: 0.21vw; /* 4px */
 	background: rgba(255, 255, 255, 0);
 	color: rgb(255, 255, 255);
-	font-size: 13px;
+	font-size: 1.35vh; /* 13px */
 	font-weight: 700;
-	padding: 2px 6px;
-	border-radius: 4px;
+	padding: 0.21vh 0.31vw; /* 2px 6px */
+	border-radius: 0.42vh; /* 4px */
 }
 
 .result-box {
 	background-color: #e5e5e5;
 	color: #000;
-	padding: 8px 16px;
-	border-radius: 4px;
+	padding: 0.83vh 0.82vw; /* 8px 16px */
+	border-radius: 0.42vh; /* 4px */
 	font-weight: 500;
-	font-size: 14px;
+	font-size: 14px; /* 14px */
 }
 
 /* =============== Mobile View Adjustments =============== */

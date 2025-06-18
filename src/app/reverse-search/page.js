@@ -27,17 +27,17 @@ import Cookie from '../lib/cookie';
 
 export default function ReverseImageSearch() {
 
-  // user login check
-  const cookies = Cookie();
-  const user = cookies.getpublicUserCookie();
-  const router = useRouter();
-  useEffect(() => {
-    if (!user?.loggedIn) {
-      router.push("/login");
-    }
-  }, []);
+  // // user login check
+  // const cookies = Cookie();
+  // const user = cookies.getpublicUserCookie();
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (!user?.loggedIn) {
+  //     router.push("/login");
+  //   }
+  // }, []);
 
-  if (!user?.loggedIn) return null;
+  // if (!user?.loggedIn) return null;
 
 
 
@@ -191,7 +191,7 @@ export default function ReverseImageSearch() {
             </label>
           </div>
           <button className="upload-btn-rev" onClick={handleUploadClick} disabled={loading || !selectedFile}>
-            <MdOutlineFileUpload size={16} style={{ marginRight: '4px' }} /> Upload
+            <MdOutlineFileUpload size={30} style={{ marginRight: '4px' }} /> Upload
           </button>
         </div>
 
