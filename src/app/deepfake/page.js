@@ -143,7 +143,7 @@ export default function DeepfakeDetect() {
                     {currentPlatform.name}
                   </>
                 ) : (
-                  <>NONE</>
+                  <div style={{ fontSize: '4vh' }}>None</div>
                 )}
               </button>
 
@@ -165,18 +165,23 @@ export default function DeepfakeDetect() {
               )}
             </div>
 
-            <div className="nav-items">
-              <div className="nav-item selected">
+            <div style={{
+              display: 'flex',
+              gap: '60px',
+              marginLeft: 'auto',
+              marginRight: '30px',
+            }}>
+              <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
-                <span>Deepfake Detect</span>
+                <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
               </div>
-              <div className="nav-item" onClick={() => router.push("/reverse-search")}>
+              <div className="nav-item" onClick={() => router.push('/reverse-search')}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
-                <span>Reverse Image Search</span>
+                <span style={{ fontSize: '25px' }}>Reverse Image Search</span>
               </div>
-              <div className="nav-item" onClick={() => router.push("/analytics")}>
+              <div className="nav-item" onClick={() => router.push('/analytics')}>
                 <img src={analyticsIcon.src} alt="Analytics" />
-                <span>Analytics</span>
+                <span style={{ fontSize: '25px' }}>Analytics</span>
               </div>
             </div>
           </>

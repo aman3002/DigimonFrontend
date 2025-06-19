@@ -103,9 +103,9 @@
 
 .nav-items {
 	display: flex;
-	gap: 2.05vw; /* 40px */
+	gap: 60px; /* 40px */
 	margin-left: auto;
-	margin-right: 1.03vw; /* 20px */
+	margin-right: 30px; /* 20px */
 }
 
 .nav-item {
@@ -135,7 +135,7 @@
 }
 
 .nav-item span {
-	font-size: 1.03vw; /* 20px */
+	font-size: 25px; /* 20px */
 }
 
 .logout-icon {

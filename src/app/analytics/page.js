@@ -92,7 +92,7 @@ export default function Analytics() {
                     {currentPlatform.name}
                   </>
                 ) : (
-                  <>NONE</>
+                  <div style={{ fontSize: '4vh' }}>None</div>
                 )}
               </button>
 
