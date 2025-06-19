@@ -79,17 +79,17 @@ const items = [
 
 function HomePage() {
 
-  // // // user login check
-  // const cookies = Cookie();
-  // const user = cookies.getpublicUserCookie();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!user?.loggedIn) {
-  //     router.push("/login");
-  //   }
-  // }, []);
+  // // user login check
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
 
-  // if (!user?.loggedIn) return null;
+  if (!user?.loggedIn) return null;
 
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 500);

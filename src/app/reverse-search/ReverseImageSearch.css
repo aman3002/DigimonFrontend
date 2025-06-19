@@ -129,17 +129,17 @@
 .dropdown-toggle-rev::after {
 	content: "";
 	display: inline-block;
-	margin-top: -0.31vh; /* -3px */
-	width: 0.4vw; /* 7px */
-	height: auto; /* 7px */
+	width: 7px;
+	height: 7px;
 	border: solid white;
-	border-width: 0 0.10vw 0.21vh 0;
+	border-width: 0 2px 2px 0;
 	transform: rotate(45deg);
 	margin-left: auto;
+	margin-right: 5px;
 }
 
 .dropdown-toggle-rev img {
-	width: 2vw; /* 20px */
+	width: 2.5vw; /* 20px */
 	height: auto;
 }
 

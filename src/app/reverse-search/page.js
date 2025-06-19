@@ -27,17 +27,17 @@ import Cookie from '../lib/cookie';
 
 export default function ReverseImageSearch() {
 
-  // // // user login check
-  // const cookies = Cookie();
-  // const user = cookies.getpublicUserCookie();
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!user?.loggedIn) {
-  //     router.push("/login");
-  //   }
-  // }, []);
+  // // user login check
+  const cookies = Cookie();
+  const user = cookies.getpublicUserCookie();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user?.loggedIn) {
+      router.push("/login");
+    }
+  }, []);
 
-  // if (!user?.loggedIn) return null;
+  if (!user?.loggedIn) return null;
 
 
 
@@ -61,8 +61,6 @@ export default function ReverseImageSearch() {
   const handleSelectPlatform = (platform) => {
 
     window.location.href = '/home';
-    setSelectedPlatform(platform.value);
-    setMenuOpen(false);
   };
   const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
 

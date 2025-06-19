@@ -344,6 +344,7 @@ const InstagramAnalytics = () => {
         Post Analytics
       </Typography>
 
+      {/* filters */}
       <Box sx={{ mb: 3, display: 'flex', gap: 2 }}>
         <FormControl
           size="small"
@@ -411,223 +412,143 @@ const InstagramAnalytics = () => {
         </FormControl>
       </Box>
 
-
-      <Grid container spacing={3}>
-  {/* Media Type Distribution */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Post Type Distribution
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Pie
-          data={mediaTypeChartData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'right',
-              },
-            },
-          }}
-        />
+      {/* chart cards container */}
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: 3,              // space between cards
+        }}
+      >
+        {[
+          {
+            title: 'Post Type Distribution',
+            content: (
+              <Pie
+                data={mediaTypeChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: { legend: { position: 'right' } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Engagement by Post Type',
+            content: (
+              <Bar
+                data={engagementChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { y: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Top Hashtags in caption',
+            content: (
+              <Bar
+                data={hashtagChartData}
+                options={{
+                  indexAxis: 'y',
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { x: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Top Location Searches',
+            content: (
+              <Bar
+                data={LocationChartData}
+                options={{
+                  indexAxis: 'y',
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { x: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Violent Searches',
+            content: (
+              <Bar
+                data={ViolentChartData}
+                options={{
+                  indexAxis: 'y',
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { x: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Engagement Over Time',
+            content: (
+              <Line
+                data={timeSeriesChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { y: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Total Posts per Day',
+            content: (
+              <Line
+                data={totalObjectsChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: { y: { beginAtZero: true } },
+                }}
+              />
+            ),
+          },
+        ].map(({ title, content }) => (
+          <Paper
+            key={title}
+            elevation={3}
+            sx={{
+              width: 1400,        // fixed width
+              height: 400,        // fixed height
+              p: 2,               // padding
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Typography variant="h6" gutterBottom>
+              {title}
+            </Typography>
+            <Box
+              sx={{
+                flexGrow: 1,             // fill remaining space
+                position: 'relative',    // for charts with maintainAspectRatio:false
+              }}
+            >
+              {content}
+            </Box>
+          </Paper>
+        ))}
       </Box>
-    </Paper>
-  </Grid>
-
-  {/* Engagement by Post Type */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Engagement by Post Type
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Bar
-          data={engagementChartData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-
-  {/* Top Hashtags */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Top Hashtags in caption
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Bar
-          data={hashtagChartData}
-          options={{
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-
-  {/* Top Location Searches */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Top Location Searches
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Bar
-          data={LocationChartData}
-          options={{
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-
-  {/* Violent Searches */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Violent Searches
-      </Typography>
-      <Box 
-      sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Bar
-          data={ViolentChartData}
-          options={{
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-
-  {/* Engagement Over Time */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Engagement Over Time
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Line
-          data={timeSeriesChartData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-
-  {/* Total posts per day */}
-  <Grid item xs={12} md={6}>
-    <Paper elevation={3} sx={{ p: '1.0276vw', height: '100%' }}>
-      <Typography variant="h6" gutterBottom>
-        Total Posts per Day
-      </Typography>
-      <Box 
-     sx={{ 
-        height: '31.25vh', 
-        width: 'calc(100% + 4vw)', 
-        ml: '-1.23vw', 
-        marginBottom: '2vh',
-      }}
-    >
-        <Line
-          data={totalObjectsChartData}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          }}
-        />
-      </Box>
-    </Paper>
-  </Grid>
-</Grid>
-  </Box>
+    </Box>
   );
-};
-
+}
 export default InstagramAnalytics;
+
+
+
+
+
+
