@@ -21,7 +21,9 @@ import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
 import analyticsIcon from '../Assets/analyticsIcon.png';
 import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
-
+import whatsappLogo from "../Assets/whatsappLogo.png"
+import telegramLogo from "../Assets/telegramLogo.png"
+import ccu from "../Assets/ccu.png"
 import ReverseImageSearchList from '../components/ReverseImageSearchList';
 import Cookie from '../lib/cookie';
 
@@ -51,12 +53,16 @@ export default function ReverseImageSearch() {
   const [loading, setLoading] = useState(false);
   const [origins, setOrigins] = useState([]);
 
-  const platforms = [
-    { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
-    { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-    { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
-    { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
-  ];
+  
+  
+    const platforms = [
+      { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
+      { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
+      { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+      { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+      { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+      { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
+    ];
 
   const handleSelectPlatform = (platform) => {
 
@@ -105,7 +111,7 @@ export default function ReverseImageSearch() {
     <div className="home-page">
       {/* Top Bar */}
       <div className="top-bar">
-        <img src={policeLogo.src} alt="Logo" className="logo" style={{ cursor: 'pointer', marginRight: '30px', borderRadius: '100px' }} />
+        <img src={user.name.includes("HITAC")?ccu.src:policeLogo.src} alt="Logo" className="logo" style={{ cursor: 'pointer', marginRight: '30px', borderRadius: '100px' }} />
         {isMobile ? (
           <img src={menuIcon.src} alt="Menu" className="hamburger-menu" onClick={() => setMenuOpen(!menuOpen)} />
         ) : (

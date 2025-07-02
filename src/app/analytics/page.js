@@ -17,7 +17,9 @@ import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
 import InstagramAnalytics from "../components/insta_analytics";
 import Cookie from "../lib/cookie";
-
+import whatsappLogo from "../Assets/whatsappLogo.png"
+import telegramLogo from "../Assets/telegramLogo.png"
+import ccu from "../Assets/ccu.png"
 
 export default function Analytics() {
 
@@ -40,12 +42,16 @@ export default function Analytics() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const platforms = [
-    { name: "Instagram", value: "INSTAGRAM", icon: instagramLogo },
-    { name: "Twitter", value: "TWITTER", icon: twitterLogo },
-    { name: "Facebook", value: "FACEBOOK", icon: facebookLogo },
-    { name: "Snapchat", value: "SNAPCHAT", icon: snapchatLogo },
-  ];
+  
+  
+    const platforms = [
+      { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
+      { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
+      { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+      { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+      { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+      { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
+    ];
 
   const currentPlatform = platforms.find(p => p.value === selectedPlatform);
 
@@ -67,7 +73,7 @@ export default function Analytics() {
     <div >
       <div className="top-bar">
         <img
-          src={policeLogo.src}
+          src={user.name.includes("HITAC")?ccu.src:policeLogo.src}
           alt="Logo"
           className="logo"
           onClick={() => window.location.href = '/home'}

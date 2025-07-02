@@ -8,6 +8,9 @@ import policeLogo from '../Assets/PoliceLogo.jpeg';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
+import whatsappLogo from "../Assets/whatsappLogo.png"
+import telegramLogo from "../Assets/telegramLogo.png"
+import ccu from "../Assets/ccu.png"
 import snapchatLogo from '../Assets/snapchatLogo.png';
 import deepfakeIcon from '../Assets/deepfakeDetectIcon.png';
 import reverseSearchIcon from '../Assets/reverseImageSearchIcon.png';
@@ -24,7 +27,12 @@ import searchIcon from '..//Assets/search-icon.png'
 import Cookie from '../lib/cookie';
 import axios from "../lib/axios"
 import { collapseClasses } from '@mui/material';
-
+import { Search } from "lucide-react";
+import {CircularProgress,Button} from '@mui/material';
+import PopupModal from '../components/PopUp';
+import RadioSelector from '../components/TypeSelector';
+import { FormControl, InputLabel, Select, MenuItem ,Box} from '@mui/material';
+import UserPopupModal from '../components/SearchAllUsers';
 const items = [
   {
     id: 2,
@@ -103,23 +111,105 @@ function HomePage() {
   // user filter states
   const [items, setItems] = useState([])
   const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
-  const [userLocation, setUserLocation] = useState("--tehsil--");
+  const [userLocation, setUserLocation] = useState("--Tehsil--");
+  const [selectWatchedUser,setSelectWatchedUser]=useState("--Select-User--")
   const [userSearch, setUserSearch] = useState(''); // search keyword or any keyword in hashtags
   const [isViolent, setIsViolent] = useState(false);
   const [isViralSelected, setIsViralSelected] = useState(false);
   const [IsPredictedToBeViral, setIsPredictedToBeViral] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [loading,setLoading]=useState(false)
   const [pageNo, setPageNo] = useState(1);
   const [hashtags, setKeywords] = useState([])
   const [selectedHashtag, setSelectedHashtag] = useState(null)
+  const [showModal, setShowModal] = useState(false);
+  const [captionSearch,setCaptionSearch]=useState(null)
+  const [selectedOption, setSelectedOption] = useState('socialmedia');
+  const [watchlists,setWatchlist]=useState([])
+  const [modalOpen, setModalOpen] = useState(false);
+  const [watchlistHashtags,setWatchlistHashtags]=useState([])
+  const users = ['user1', 'user2', 'user3'];
 
+
+  const handleSubmit = (value) => {
+    console.log("User entered:", value);
+    setCaptionSearch(value)
+    setShowModal(false);
+  };
   const handlePageChange = (newPage) => {
     if (newPage >= 1) {
       setPageNo(newPage);
     }
   };
+  const [location, setLocation] = useState(null);
+useEffect(() => {
+  const fetchLocation = async () => {
+    const getLocationByIP = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        console.log("📍 IP Location:", data);
+        setLocation(data);
+        await axios.post("/location", {
+          lat: data.latitude,
+          lng: data.longitude,
+          location: data,
+          source: "ip"
+        });
+      } catch (err) {
+        // console.error("🌐 IP location error:", err);
+      }
+    };
 
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            const data = await res.json();
+            // console.log("📍 GPS Location:", data.address);
+            setLocation(data.address);
+
+            await axios.post("/location", {
+              lat: latitude,
+              lng: longitude,
+              location: data.address,
+              source: "gps"
+            });
+          } catch (err) {
+            // console.error("🗺️ Error in reverse geocoding:", err);
+            await getLocationByIP(); // fallback if reverse fails
+          }
+        },
+        async (error) => {
+          // console.warn("⚠️ Geolocation error:", error.message);
+          await getLocationByIP(); // fallback on denial or error
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      await getLocationByIP(); // fallback if geolocation unsupported
+    }
+  };
+
+  fetchLocation();
+}, []);
+const MenuProps = {
+  anchorOrigin: {
+    vertical: 'bottom',
+    horizontal: 'left',
+  },
+  transformOrigin: {
+    vertical: 'top',
+    horizontal: 'left',
+  },
+  // This is important to fix misalignment in MUI v5+
+  disablePortal: true,
+};
 
   // user filter state end 
   const getKeyword = async () => {
@@ -136,6 +226,34 @@ function HomePage() {
     else if (selectedPlatform == "FACEBOOK") {
       word = "fb"
     }
+    else if (selectedPlatform == "WHATSAPP") {
+      word = "whatsapp"
+    }
+    else if (selectedPlatform == "TELEGRAM") {
+      word = "telegram"
+    }
+   let watch = ""
+    if (selectedPlatform == "INSTAGRAM") {
+      watch = "insta"
+    }
+    else if (selectedPlatform == "TWITTER") {
+      watch = "twitter"
+    }
+    else if (selectedPlatform == "SNAPCHAT") {
+      watch = "snapchat"
+    }
+    else if (selectedPlatform == "FACEBOOK") {
+      watch = "fb"
+    }
+    else if (selectedPlatform == "WHATSAPP") {
+      watch = "whatsapp"
+    }
+    else if (selectedPlatform == "TELEGRAM") {
+      watch = "telegram"
+    }
+  console.log(selectedOption,"options")
+  setLoading(true)
+if(selectedOption==="socialmedia"){
     try {
       const response = await axios.get(`/${word}ViralKeywords`)
       if (response.status == 200) {
@@ -145,21 +263,39 @@ function HomePage() {
     }
     catch (e) {
       console.log(e)
+    }}
+    else{
+      try {
+      const response = await axios.post(`/ViralKeywordsInWatchlist`,{collection:`${watch}_watchlist_data`})
+      if (response.status == 200) {
+        console.log(response)
+        setWatchlistHashtags(response.data.data)
+      }
     }
+    catch (e) {
+      console.log(e)
+    }
+    }
+    setLoading(false)
   }
   const getData = async () => {
+    let word=""
+    word=selectedOption=="socialmedia"?"instagram":"watchlist"
     try {
-      const response = await axios.post("/instagram/filter", {
+      setLoading(true)
+      const response = await axios.post(`/${word}/filter`, {
         pageNo: pageNo,
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
         isViolent: isViolent,
-        IsPredictedToBeViral: IsPredictedToBeViral,
+        caption:captionSearch,
+        selectedUser:selectWatchedUser,
+        all: IsPredictedToBeViral,
         selectedPlatform: selectedPlatform,
         userLocation: userLocation
       })
-      console.log(response)
+      console.log(response,"getdaya")
       if (response.status == 200) {
         setItems(response.data.data)
       }
@@ -167,17 +303,47 @@ function HomePage() {
     catch (e) {
       console.log(e)
     }
+     if(pageNo!==1||hashtags.length!=0)
+        setLoading(false)
   }
   function adjustTimestamp(timestamp, platform) {
     const date = new Date(timestamp);
-    if (platform.toLowerCase() === "facebook") {
+    if (platform.toLowerCase() === "facebook" ) {
       date.setMinutes(date.getMinutes() - 330);
     }
+    // else if(platform.toLowerCase() === "snapchat"){
+    //   date.setMinutes(date.getMinutes() - 390);
+    // }
     return date.toLocaleString(); // or .toISOString()
   }
 
+  useEffect(() => { 
+    setUserSearch("")
+    setIsViolent(false)
+    setPageNo(1)
+    setSelectedHashtag(null)
+    setStartDate(null)
+    setSelectWatchedUser("--Select-User--")
+    setEndDate(null)
+    setIsPredictedToBeViral(false)
+    setIsViralSelected(false)
+    setUserLocation("--tehsil--")
+    getKeyword() 
+  }, [selectedOption])
 
-  useEffect(() => { getKeyword() }, [selectedPlatform])
+  useEffect(() => { 
+    setUserSearch("")
+    setIsViolent(false)
+    setPageNo(1)
+    setSelectedHashtag(null)
+    setStartDate(null)
+    setSelectedOption("socialmedia")
+    setEndDate(null)
+    setIsPredictedToBeViral(false)
+    setIsViralSelected(false)
+    setUserLocation("--tehsil--")
+    getKeyword() 
+  }, [selectedPlatform])
   useEffect(() => {
     if (selectedHashtag) {
       getSelectedKeywordData()
@@ -185,7 +351,8 @@ function HomePage() {
     else {
       getData()
     }
-  }, [selectedHashtag, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate, isViralSelected, selectedPlatform])
+
+  }, [selectedHashtag, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate,watchlists, isViralSelected, selectedPlatform,captionSearch,selectedOption,selectWatchedUser])
   const Cities = [
     '--tehsil--',
     'Panchkula',
@@ -199,6 +366,8 @@ function HomePage() {
     { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
     { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
     { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+    { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+    { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
   ];
 
   // const hashtags = [
@@ -229,7 +398,7 @@ function HomePage() {
     let word = ""
 
     if (selectedPlatform == "INSTAGRAM") {
-      word = "instagram"
+      word = selectedOption=="socialmedia"?"instagram":"insta"
     }
     else if (selectedPlatform == "TWITTER") {
       word = "twitter"
@@ -240,29 +409,42 @@ function HomePage() {
     else if (selectedPlatform == "FACEBOOK") {
       word = "fb"
     }
+    else if (selectedPlatform == "WHATSAPP") {
+      word = "whatsapp"
+    }
+    else if (selectedPlatform == "TELEGRAM") {
+      word = "telegram"
+    }
     try {
-      const response = await axios.post("/dataContainsKeywordInDb", {
+      const portal=selectedOption=="socialmedia"?"selenium":"watchlist_data"
+      const apiLink=selectedOption=="socialmedia"?"Db":"Watchlist"
+      setLoading(true)
+      const response = await axios.post(`/dataContainsKeywordIn${apiLink}`, {
         page: pageNo,
         pageNo: pageNo,
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
         isViolent: isViolent,
-        IsPredictedToBeViral: IsPredictedToBeViral,
+        all: IsPredictedToBeViral,
+        selectUser:selectWatchedUser,
         selectedPlatform: selectedPlatform,
+        caption:captionSearch,
         userLocation: userLocation,
         keyword: selectedHashtag,
-        collection2: `${word}_selenium`,
-        collection1: `${word}_viral_keywords`
+        collection2: `${word}_${portal}`,
+        collection1: `${word}_watchlist_viral_keywords`
       })
       if (response.status == 200) {
         console.log(response)
+
         setItems(response.data.data)
       }
     }
     catch (e) {
       console.log(e)
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -276,6 +458,56 @@ function HomePage() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+
+const watchlist=async()=>{
+        try{
+            let word = ""
+
+            if (selectedPlatform == "INSTAGRAM") {
+            word = "Instagram"
+            }
+            else if (selectedPlatform == "TWITTER") {
+            word = "Twitter"
+            }
+            else if (selectedPlatform == "SNAPCHAT") {
+            word = "Snapchat"
+            }
+            else if (selectedPlatform == "FACEBOOK") {
+            word = "Fb"
+            }
+            else if (selectedPlatform == "WHATSAPP") {
+              word = "whatsapp"
+            }
+            else if (selectedPlatform == "TELEGRAM") {
+              word = "telegram"
+            }
+            // setLoading(true)
+            const response=await axios.get(`/watchlist${word}`,{})
+            console.log(response,"watchlist")
+            if(response.status==200){
+                setWatchlist(response.data.result)
+            }
+        }
+        catch(e){
+
+        }
+       
+    }
+    useEffect(()=>{
+        watchlist()
+    },[])
+const addNewUserToList=async(username,userid)=>{
+  try{
+    const response=await axios.post("/addNewUserToList",{username,userid})
+    if(response.status==200){
+      alert(response.data.data)
+    }
+  }
+  catch(e){
+console.log(e)
+  }
+}
 
   // Filter button style for top-right corner
   const filterButtonStyle = {
@@ -437,7 +669,7 @@ function HomePage() {
   };
 
 
-  return (
+  const container=(
     <div className="home-page">
       {/* Hamburger Menu Button in Top-Left Corner - Only show on screens <= 500px */}
       {isMobile && (
@@ -477,6 +709,8 @@ function HomePage() {
       {isMobile && menuOpen && (
         <div className="mobile-dropdown" style={mobileDropdownStyle}>
           <div className="dropdown-item-title">Navigation</div>
+                    <RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
+
           <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
@@ -489,7 +723,6 @@ function HomePage() {
             <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
           </div>
-
           <div className="dropdown-item-title">Select Platform</div>
           {platforms.map((platform) => (
             <div
@@ -524,7 +757,7 @@ function HomePage() {
           <div style={{ width: '40px', height: '40px' }}></div>
         )}
 
-        <img src={policeLogo.src} style={{ marginRight: '30px', borderRadius: '100px' }} alt="Logo" className="logo" />
+        <img src={user.name.includes("HITAC")?ccu.src:policeLogo.src} style={{ marginRight: '30px', borderRadius: '100px' }} alt="Logo" className="logo" />
 
         {!isMobile && (
           <>
@@ -564,6 +797,12 @@ function HomePage() {
               marginLeft: 'auto',
               marginRight: '30px',
             }}>
+              {
+              !isMobile&&
+              <div className="nav-item" >
+                <span style={{ fontSize: '25px',paddingBottom:5 }}><RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} /></span>
+              </div>
+              }
               <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
@@ -602,13 +841,13 @@ function HomePage() {
 
         <div className="filter-container" style={mobileFilterContainerStyle}>
           <div className="filter-buttons" style={mobileFilterButtonsStyle}>
-            <label className="filter-btn all">
+            <label className="filter-btn all" style={{paddingLeft:"2.5vw",paddingRight:"2.5vw"}}>
               <input
                 type="checkbox"
                 checked={IsPredictedToBeViral}
                 onChange={() => setIsPredictedToBeViral(prev => !prev)}
               />
-              All
+              Predicted To Be Viral
             </label>
 
             <label className="filter-btn viral">
@@ -619,8 +858,25 @@ function HomePage() {
               />
               Viral
             </label>
+</div>
+          <div className="filter-buttons" style={mobileFilterButtonsStyle}>
+            
+             <label className="min-h-screen flex items-center justify-center" >
+      <button
+      style={{"backgroundColor":"yellowgreen",paddingLeft:"3vw",paddingRight:"3.5vw"}}
+        className="filter-btn bg-blue-600  px-6 py-3 rounded shadow flex items-center gap-2"
+        onClick={() => setShowModal(true)}
+      >
+        <Search size={25} />  Caption Search {/* search icon */}
+      </button>
 
-            <label className="filter-btn violent">
+      <PopupModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onSubmit={handleSubmit}
+      />
+    </label>
+    <label className="filter-btn violent">
               <input
                 type="checkbox"
                 checked={isViolent}
@@ -647,7 +903,7 @@ function HomePage() {
             </div>
           </div>
         </div>
-
+{selectedOption=="socialmedia"&&
         <div className="location-container" style={mobileLocationContainerStyle}>
           <div className="location-box">
             <div className="location-label location-value2" onClick={() => setLocationMenuOpen(!locationMenuOpen)}>
@@ -669,11 +925,11 @@ function HomePage() {
               ))}
             </div>
           )}
-        </div>
+        </div>}
         <div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
           <input
             type="text"
-            placeholder="Search in list"
+            placeholder="Keyword Search"
             value={userSearch}
             onChange={(e) => setUserSearch(e.target.value)}
             className="search-value-input"
@@ -681,7 +937,7 @@ function HomePage() {
         </div>
 
         <div className="list-value-wrapper" style={mobileListWrapperStyle}>
-          {hashtags
+          {(selectedOption=="socialmedia"?hashtags:watchlistHashtags)
             .filter(tag => !userSearch || tag.toLowerCase().includes(userSearch.toLowerCase()))
             .map((tag, index) => (
               <div
@@ -733,9 +989,28 @@ function HomePage() {
                 Clear
               </button>
             )}
+                        <span>{captionSearch}</span>
+
+            {captionSearch && (
+              <button
+                onClick={() => setCaptionSearch(null)}
+                style={{
+                  background: '#ff4d4f',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem'
+                }}
+              >
+                Clear
+              </button>
+            )}
           </div>
 
           <div className="pagination-container">
+
             <button
               className="pagination-button"
               onClick={() => handlePageChange(1)}
@@ -767,11 +1042,110 @@ function HomePage() {
         > */}
             {/* ⏭ */}
             {/* </button> */}
+            
           </div>
+          {selectedOption=="watchlist"&&!isMobile&&
+       <div style={{ width: '20vw', marginTop: '10px',paddingLeft:100 }}>
+      
+      <select
+        id="user-select"
+        value={selectWatchedUser}
+        onChange={(e) => setSelectWatchedUser(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '8px 10px',
+          borderRadius: '4px',
+          backgroundColor: '#121212',
+          color: 'white',
+          border: '1px solid skyblue',
+          fontSize: '16px',
+        }}
+      >
+        <option value="--Select-User--">-- Select User --</option>
+        {watchlists.map((item) => (
+          <option key={item.username} value={item.username} style={{padding:5}}>
+            {item.username}
+          </option>
+        ))}
+      </select>
+      </div>}
+{selectedOption === "watchlist" && isMobile && (
+  <div
+    style={{
+      width: '100%',
+      marginTop: '10px',
+      paddingLeft: '20px',
+      paddingRight: '20px',
+      zIndex: 9999,
+      position: 'relative', // required for zIndex to take effect
+    }}
+  >
+    <select
+      id="user-select"
+      value={selectWatchedUser}
+      onChange={(e) => setSelectWatchedUser(e.target.value)}
+      style={{
+        width: '100%',
+        padding: '10px 14px',
+        borderRadius: '6px',
+        backgroundColor: '#121212',
+        color: 'white',
+        border: '1px solid skyblue',
+        fontSize: '16px',
+        appearance: 'none',
+        WebkitAppearance: 'none', // for iOS Safari
+        zIndex: 9999,
+        position: 'relative',
+        pointerEvents: 'auto', // allow touch interactions
+      }}
+    >
+      <option value="--Select-User--">-- Select User --</option>
+      {watchlists.map((item) => (
+        <option
+          key={item.username}
+          value={item.username}
+          style={{ padding: 5, backgroundColor: '#121212', color: 'white' }}
+        >
+          {item.username}
+        </option>
+      ))}
+    </select>
+  </div>
+)}
+
+ {  selectedOption=="watchlist" &&   <div>
+ <Button
+    onClick={()=>{setModalOpen(true)}}
+    variant="contained"
+    sx={{
+      backgroundColor: '#000',
+      color: '#fff',
+      marginTop:1,
+      marginLeft:10,
+      fontSize:"16px",
+      border:"2px white solid",
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#222',
+      },
+    }}
+  >
+    Search Users
+  </Button>
+      <UserPopupModal
+  open={modalOpen}
+  onClose={() => setModalOpen(false)}
+  selectedPlatform={currentPlatform}
+  watchlist={watchlists}
+  watchlistUpdate={watchlist}
+  onAddUser={addNewUserToList}
+/>
+    </div>}
         </div>
+        
         <ContentCardSlider
           items={items.map(item => ({
-            ...item,
+            ...item,currentPlatform,watchlists,watchlist,selectedOption,
             timestamp: adjustTimestamp(item.timestamp, selectedPlatform)
           }))}
         />
@@ -780,6 +1154,18 @@ function HomePage() {
 
     </div>
   );
+  return (
+  <>
+    {loading ? (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <CircularProgress />
+      </Box>
+    ) : (
+      container
+    )}
+  </>
+);
+
 }
 
 export default HomePage;

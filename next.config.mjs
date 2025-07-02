@@ -2,6 +2,10 @@
 import TerserPlugin from 'terser-webpack-plugin';
 
 const nextConfig = {
+    output: 'export', // Enables static HTML export
+  images: {
+    unoptimized: true, 
+  },
     webpack(config, { isServer }) {
         if (!isServer) {
             config.optimization.minimizer = [

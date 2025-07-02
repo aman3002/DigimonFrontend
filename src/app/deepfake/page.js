@@ -26,7 +26,9 @@ import backIcon from '../Assets/BackIcon.png';
 import menuIcon from '../Assets/menuIcon.png';
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import Cookie from "../lib/cookie";
-
+import whatsappLogo from "../Assets/whatsappLogo.png"
+import telegramLogo from "../Assets/telegramLogo.png"
+import ccu from "../Assets/ccu.png"
 export default function DeepfakeDetect() {
 
   // // user login check
@@ -53,12 +55,14 @@ export default function DeepfakeDetect() {
   const [result, setResult] = useState(null);
   const [feedback, setFeedback] = useState(null);
 
-  const platforms = [
-    { name: "Instagram", value: "INSTAGRAM", icon: instagramLogo },
-    { name: "Twitter", value: "TWITTER", icon: twitterLogo },
-    { name: "Facebook", value: "FACEBOOK", icon: facebookLogo },
-    { name: "Snapchat", value: "SNAPCHAT", icon: snapchatLogo },
-  ];
+  const platforms =  [
+      { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
+      { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
+      { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+      { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
+      { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+      { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
+    ];
 
   const currentPlatform = platforms.find((p) => p.value === selectedPlatform);
 
@@ -73,51 +77,66 @@ export default function DeepfakeDetect() {
     window.location.href = '/home'
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setImagePreview(URL.createObjectURL(file));
-      setResult(null);
-      setFeedback(null);
-    }
-  };
+const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    setSelectedFile(file);
+    const previewURL = URL.createObjectURL(file);
+    setImagePreview(previewURL);
+
+    // Optional cleanup
+    return () => URL.revokeObjectURL(previewURL);
+  }
+};
+
 
   const activeLearning = (media_link, is_correct) => {
     axios.post('/mediaAl', { media_link, is_correct })
       .then(() => { })
       .catch(() => { });
   };
+  
+const handleUploadClick = () => {
+  if (!selectedFile) return;
 
-  const handleUploadClick = () => {
-    if (!selectedFile) return;
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('file_type', 'img');
-    formData.append('input_type', radio === 'fake' ? '0' : '1');
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+  console.log(selectedFile,"sgs")
 
-    setLoading(true);
-    setResult(null);
-    setFeedback(null);
+  const fileType = selectedFile.type.startsWith('video') ? 'video' : 'img';
+  formData.append('file_type', fileType);
+  formData.append('input_type', radio === 'fake' ? '0' : '1');
 
-    const endpoint = radio === 'fake' ? '/predictFromMedia' : '/imageViolentNonviolent';
-    axiosWsp.post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-      .then((response) => {
-        setResult(response.data);
-      })
-      .catch(() => {
-        alert('Error processing file');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  setLoading(true);
+  setResult(null);
+  setFeedback(null);
 
+  const endpoint =
+    radio === 'fake'
+      ? ('/predictFromMedia')
+      : fileType=="img"?'/imageViolentNonviolent':'/videoViolentNonviolent';
+
+  axiosWsp
+    .post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    .then((response) => {
+      console.log(response)
+      setResult(response.data);
+    })
+    .catch((e) => {
+      alert('Error processing file',e);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
+useEffect(()=>{setResult(null)
+  
+},[selectedFile,radio])
   return (
     <div className="home-page">
       <div className="top-bar">
         <img
-          src={policeLogo.src}
+          src={user.name.includes("HITAC")?ccu.src:policeLogo.src}
           alt="Logo"
           className="logo"
           onClick={() => router.push("/homepage")}
@@ -246,7 +265,7 @@ export default function DeepfakeDetect() {
           <div className="file-input-container">
             <input
               type="file"
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/*, video/*"
               onChange={handleFileChange}
               className="hidden-file-input"
               id="file-input"
@@ -268,17 +287,32 @@ export default function DeepfakeDetect() {
             <span>Please wait...</span>
           </div>
         )}
+{imagePreview && selectedFile && (
+  <div className="result-container">
+    <div className="preview-media">
+      <span className="image-tag">PREVIEW</span>
 
-        {imagePreview && (
-          <div className="result-container">
-            <div className="preview-image">
-              <span className="image-tag">ORIGINAL</span>
-              <img src={imagePreview} alt="Uploaded" />
-            </div>
+      {selectedFile.type.startsWith("image") ? (
+        <img src={imagePreview} alt="Uploaded preview" />
+      ) : selectedFile.type.startsWith("video") ? (
+        <video
+          key={imagePreview} // 🔁 Forces re-render when src changes
+          controls
+          width="100%"
+          height="auto"
+        >
+          <source src={imagePreview} type={selectedFile.type} />
+          Your browser does not support the video tag.
+        </video>
+      ) : (
+        <p>Unsupported file type</p>
+      )}
+    </div>
+  
             {result &&
               <div className="result-box">
                 {radio === "fake" ? (
-                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score) * 100).toFixed(2)}%</strong></>
+                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score) ).toFixed(2)}%</strong></>
                 ) : (
                   <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score)).toFixed(2)}%</strong></>
                 )}

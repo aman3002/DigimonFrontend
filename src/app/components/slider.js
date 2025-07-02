@@ -11,9 +11,14 @@ export default function ContentCardSlider({ items }) {
                         mediaType={item.mediaType}
                         mediaSrc={item.mediaSrc}
                         username={item.username}
+                        selectedPlatform={item.currentPlatform.value}
                         likes={item.likes}
+                        selectedOption={item.selectedOption}
                         timestamp={item.timestamp}
+                        watchlistUpdate={item.watchlist}
+                        watchlist={item.watchlists}
                         location={item.location}
+                        userProfileLink={item.userProfileLink}
                         description={item.description}
                         comments={item.comments}
                         postlink={item.postlink}

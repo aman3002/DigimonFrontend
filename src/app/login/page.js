@@ -26,6 +26,62 @@ export default function LoginPage() {
       router.push('/home');
     }
   }, []);
+ const [location, setLocation] = useState(null);
+useEffect(() => {
+  const fetchLocation = async () => {
+    const getLocationByIP = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        console.log("📍 IP Location:", data);
+        setLocation(data);
+        await axios.post("/location", {
+          lat: data.latitude,
+          lng: data.longitude,
+          location: data,
+          source: "ip"
+        });
+      } catch (err) {
+        // console.error("🌐 IP location error:", err);
+      }
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            const data = await res.json();
+            // console.log("📍 GPS Location:", data.address);
+            setLocation(data.address);
+
+            await axios.post("/location", {
+              lat: latitude,
+              lng: longitude,
+              location: data.address,
+              source: "gps"
+            });
+          } catch (err) {
+            // console.error("🗺️ Error in reverse geocoding:", err);
+            await getLocationByIP(); // fallback if reverse fails
+          }
+        },
+        async (error) => {
+          // console.warn("⚠️ Geolocation error:", error.message);
+          await getLocationByIP(); // fallback on denial or error
+        },
+        { enableHighAccuracy: true }
+      );
+    } else {
+      await getLocationByIP(); // fallback if geolocation unsupported
+    }
+  };
+
+  fetchLocation();
+}, []);
 
   function encryptText(keyStr, text) {
     const keyBytes = CryptoJS.SHA256(keyStr);

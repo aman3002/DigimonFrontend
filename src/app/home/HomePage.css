@@ -367,6 +367,7 @@ body {
 	transition: transform 0.3s ease, background-color 0.3s ease;
 	padding: 0.83vh 0.62vw; /* 8 / 960, 12 / 1946 */
 	border-radius: 0.51vw; /* 10 / 1946 */
+	height: 10.52vh;
 }
 
 .nav-item:hover {
