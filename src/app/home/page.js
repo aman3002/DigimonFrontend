@@ -33,6 +33,8 @@ import PopupModal from '../components/PopUp';
 import RadioSelector from '../components/TypeSelector';
 import { FormControl, InputLabel, Select, MenuItem ,Box} from '@mui/material';
 import UserPopupModal from '../components/SearchAllUsers';
+import { SettingsBackupRestore } from '@mui/icons-material';
+import SendMailPopupModal from '../components/SendMailPopUp';
 const items = [
   {
     id: 2,
@@ -130,6 +132,8 @@ function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [watchlistHashtags,setWatchlistHashtags]=useState([])
   const users = ['user1', 'user2', 'user3'];
+  const [sexual,setSexual]=useState(false)
+  const [takeDown,setTakeDown]=useState(false)
 
 
   const handleSubmit = (value) => {
@@ -289,6 +293,7 @@ if(selectedOption==="socialmedia"){
         endDate: endDate,
         isViralSelected: isViralSelected,
         isViolent: isViolent,
+        isSexual:sexual,
         caption:captionSearch,
         selectedUser:selectWatchedUser,
         all: IsPredictedToBeViral,
@@ -311,14 +316,15 @@ if(selectedOption==="socialmedia"){
     if (platform.toLowerCase() === "facebook" ) {
       date.setMinutes(date.getMinutes() - 330);
     }
-    // else if(platform.toLowerCase() === "snapchat"){
-    //   date.setMinutes(date.getMinutes() - 390);
-    // }
+    else if(platform.toLowerCase() === "snapchat"){
+      date.setMinutes(date.getMinutes() + 330);
+    }
     return date.toLocaleString(); // or .toISOString()
   }
 
   useEffect(() => { 
     setUserSearch("")
+    setSexual(false)
     setIsViolent(false)
     setPageNo(1)
     setSelectedHashtag(null)
@@ -334,6 +340,7 @@ if(selectedOption==="socialmedia"){
   useEffect(() => { 
     setUserSearch("")
     setIsViolent(false)
+    setSexual(false)
     setPageNo(1)
     setSelectedHashtag(null)
     setStartDate(null)
@@ -352,7 +359,7 @@ if(selectedOption==="socialmedia"){
       getData()
     }
 
-  }, [selectedHashtag, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate,watchlists, isViralSelected, selectedPlatform,captionSearch,selectedOption,selectWatchedUser])
+  }, [selectedHashtag,sexual, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate,watchlists, isViralSelected, selectedPlatform,captionSearch,selectedOption,selectWatchedUser])
   const Cities = [
     '--tehsil--',
     'Panchkula',
@@ -366,7 +373,7 @@ if(selectedOption==="socialmedia"){
     { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
     { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
     { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
-    { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+    // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
     { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
   ];
 
@@ -425,6 +432,7 @@ if(selectedOption==="socialmedia"){
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
+        isSexual:sexual,
         isViolent: isViolent,
         all: IsPredictedToBeViral,
         selectUser:selectWatchedUser,
@@ -496,7 +504,7 @@ const watchlist=async()=>{
     }
     useEffect(()=>{
         watchlist()
-    },[])
+    },[selectedPlatform])
 const addNewUserToList=async(username,userid)=>{
   try{
     const response=await axios.post("/addNewUserToList",{username,userid})
@@ -667,7 +675,17 @@ console.log(e)
     setUserLocation(city);
     setLocationMenuOpen(false);
   };
+  const sendMail=async(link)=>{
+    try{
+      const response=await axios.post("/sendMail",{link:link})
+      if(response.status==200){
+        alert("Report Submitted we will take action as soon as possible")
+      }
+    }
+    catch(e){
 
+    }
+  }
 
   const container=(
     <div className="home-page">
@@ -709,8 +727,9 @@ console.log(e)
       {isMobile && menuOpen && (
         <div className="mobile-dropdown" style={mobileDropdownStyle}>
           <div className="dropdown-item-title">Navigation</div>
+          {selectedPlatform.name=="INSTAGRAM"&&
                     <RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
-
+          }
           <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
@@ -798,7 +817,7 @@ console.log(e)
               marginRight: '30px',
             }}>
               {
-              !isMobile&&
+              !isMobile&&selectedPlatform=="INSTAGRAM"&&
               <div className="nav-item" >
                 <span style={{ fontSize: '25px',paddingBottom:5 }}><RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} /></span>
               </div>
@@ -886,6 +905,32 @@ console.log(e)
             </label>
           </div>
 
+                 <div className="filter-buttons" style={{mobileFilterButtonsStyle}}>
+                <label className="filter-btn sexual" style={{paddingLeft:"3vw",paddingRight:"3.5vw"}} >
+              <input
+                type="checkbox"
+                checked={sexual}
+                onChange={() => setSexual(prev => !prev)}
+              />
+              Sexual Content
+            </label>
+        
+<label className="filter-btn blocker" style={{marginLeft:1,paddingLeft:"0.5vw",paddingRight:0}}>
+  <button
+    className=" filter-btn"
+    onClick={() => setTakeDown(true)}
+  style={{backgroundColor:"transparent",color:"white",border:0,maxWidth:"fit-content",margin:0,padding:0}}
+  >
+    Take Down
+  </button>
+
+  <SendMailPopupModal
+    isOpen={takeDown}
+    onClose={() => setTakeDown(false)}
+    onSubmit={sendMail}
+  />
+</label>
+          </div>
           <div className="date-inputs" style={mobileDateInputsStyle}>
             <div className="date-box">
               <div className="date-wrapper" onClick={() => startDateRef.current && startDateRef.current.showPicker && startDateRef.current.showPicker()} style={{ cursor: 'pointer' }}>

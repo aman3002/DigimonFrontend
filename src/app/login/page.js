@@ -10,6 +10,7 @@ import axios from '../lib/axios';
 import CryptoJS from 'crypto-js';
 import Cookie from '../lib/cookie';
 
+
 export default function LoginPage() {
   const router = useRouter();
   const cookies = Cookie();

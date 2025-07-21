@@ -582,7 +582,12 @@ body {
 .filter-btn.violent {
 	background-color: #c92a2a;
 }
-
+.filter-btn.sexual {
+	background-color: #f03a13;
+}
+.filter-btn.blocker {
+	background-color: #e5a496;
+}
 .date-inputs {
 	display: flex;
 	justify-content: space-between;

@@ -60,7 +60,7 @@ export default function DeepfakeDetect() {
       { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
       { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
       { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
-      { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+      // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
       { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
     ];
 
