@@ -11,7 +11,7 @@ import axios from '../lib/axios';
 import '../home/HomePage.css';
 import './ReverseImageSearch.css';
 
-import policeLogo from '../Assets/PoliceLogo.jpeg';
+import policeLogo from '../Assets/PoliceLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -145,14 +145,14 @@ export default function ReverseImageSearch() {
               marginLeft: 'auto',
               marginRight: '30px',
             }}>
-              <div className="nav-item" onClick={() => router.push('/deepfake')} >
+              {/* <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
               </div>
               <div className="nav-item" onClick={() => router.push('/reverse-search')}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span style={{ fontSize: '25px' }}>Reverse Image Search</span>
-              </div>
+              </div> */}
               <div className="nav-item" onClick={() => router.push('/analytics')}>
                 <img src={analyticsIcon.src} alt="Analytics" />
                 <span style={{ fontSize: '25px' }}>Analytics</span>
@@ -169,12 +169,12 @@ export default function ReverseImageSearch() {
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { router.push('/deepfake'); setMenuOpen(false); }}>
+          {/* <div className="dropdown-item" onClick={() => { router.push('/deepfake'); setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" /> Deepfake Detect
           </div>
           <div className="dropdown-item" onClick={() => { router.push('/reverse-search'); setMenuOpen(false); }}>
             <img src={reverseSearchIcon.src} alt="Reverse Search" /> Reverse Image Search
-          </div>
+          </div> */}
           <div className="dropdown-item" onClick={() => { router.push('/analytics'); setMenuOpen(false); }}>
             <img src={analyticsIcon.src} alt="Analytics" /> Analytics
           </div>

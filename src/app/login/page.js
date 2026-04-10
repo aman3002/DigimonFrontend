@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import './LoginPage.css';
-import policeLogo from '../../../public/PoliceLogo.jpeg';
+import policeLogo from '../../../public/PoliceLogo.png';
 import deepgaze from '../../../public/deegaze.jpg';
 import axios from '../lib/axios';
 import CryptoJS from 'crypto-js';

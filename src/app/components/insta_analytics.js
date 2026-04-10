@@ -88,7 +88,10 @@ const InstagramAnalytics = () => {
     }
 
     data.forEach(post => {
-      const postDate = new Date(post.dateTime_of_post.$date)
+      console.log(post.dateTime_of_post_str)
+      const postDateStr = post.dateTime_of_post_str?.split('T')[0] || post.dateTime_of_post_str?.split(' ')[0];
+const postDate = new Date(postDateStr);
+
 
       if (timeRange === 'week' || timeRange === 'month') {
         if (postDate <= timeLimit) return; // Skip
@@ -136,7 +139,8 @@ const InstagramAnalytics = () => {
       }
 
       // Time series and total objects
-      const dateStr = postDate.toLocaleDateString();
+      const dateStr = postDateStr
+      console.log(postDateStr,"data")
 
       if (!timeSeriesMap[dateStr]) {
         timeSeriesMap[dateStr] = { date: dateStr, likes: 0, comments: 0 };

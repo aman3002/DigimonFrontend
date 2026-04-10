@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://dg.Panchkula.deepgazetech.com/api',
+    baseURL: 'https://dg.solapur.deepgazetech.com/api',
     // You can also add headers or interceptors here if needed
 });
 

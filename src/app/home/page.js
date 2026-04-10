@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import './HomePage.css';
 import ContentCardSlider from '../components/slider';
 
-import policeLogo from '../Assets/PoliceLogo.jpeg';
+import policeLogo from '../Assets/PoliceLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -279,9 +279,11 @@ if(selectedOption==="socialmedia"){
     catch (e) {
       console.log(e)
     }
-    }
-    setLoading(false)
+finally{
+   setLoading(false)    
   }
+ 
+}}
   const getData = async () => {
     let word=""
     word=selectedOption=="socialmedia"?"instagram":"watchlist"
@@ -308,8 +310,11 @@ if(selectedOption==="socialmedia"){
     catch (e) {
       console.log(e)
     }
-     if(pageNo!==1||hashtags.length!=0)
-        setLoading(false)
+    finally{
+      setLoading(false)
+    }
+    //  if(pageNo!==1||hashtags.length!=0)
+    //     setLoading(false)
   }
   function adjustTimestamp(timestamp, platform) {
     const date = new Date(timestamp);
@@ -361,11 +366,9 @@ if(selectedOption==="socialmedia"){
 
   }, [selectedHashtag,sexual, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate,watchlists, isViralSelected, selectedPlatform,captionSearch,selectedOption,selectWatchedUser])
   const Cities = [
-    '--tehsil--',
-    'Panchkula',
-    'Raipur rani',
-    'Kalka'
-  ];
+  '--tehsil--',
+  "Solapur North", "Solapur South", "Akkalkot", "Barshi", "Mohol", "Karmala", "Pandharpur"
+];
 
 
   const platforms = [
@@ -452,8 +455,9 @@ if(selectedOption==="socialmedia"){
     catch (e) {
       console.log(e)
     }
+    finally{
     setLoading(false)
-  }
+  }}
 
   useEffect(() => {
     const handleResize = () => {
@@ -675,9 +679,9 @@ console.log(e)
     setUserLocation(city);
     setLocationMenuOpen(false);
   };
-  const sendMail=async(link)=>{
+  const sendMail=async(link,type,reason)=>{
     try{
-      const response=await axios.post("/sendMail",{link:link})
+      const response=await axios.post("/sendMail",{link:link,type,reason})
       if(response.status==200){
         alert("Report Submitted we will take action as soon as possible")
       }
@@ -727,17 +731,18 @@ console.log(e)
       {isMobile && menuOpen && (
         <div className="mobile-dropdown" style={mobileDropdownStyle}>
           <div className="dropdown-item-title">Navigation</div>
-          {selectedPlatform.name=="INSTAGRAM"&&
+          {/* {selectedPlatform.name=="INSTAGRAM"&&
                     <RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
-          }
-          <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
+          } */}
+           <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
+          
             Deepfake Detect
           </div>
-          <div className="dropdown-item" onClick={() => { router.push('/reverse-search'); setMenuOpen(false); }}>
+          {/*<div className="dropdown-item" onClick={() => { router.push('/reverse-search'); setMenuOpen(false); }}>
             <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
-          </div>
+          </div> */}
           <div className="dropdown-item" onClick={() => { router.push('/analytics'); setMenuOpen(false); }}>
             <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
@@ -816,20 +821,20 @@ console.log(e)
               marginLeft: 'auto',
               marginRight: '30px',
             }}>
-              {
+              {/* {
               !isMobile&&selectedPlatform=="INSTAGRAM"&&
               <div className="nav-item" >
                 <span style={{ fontSize: '25px',paddingBottom:5 }}><RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} /></span>
               </div>
-              }
-              <div className="nav-item" onClick={() => router.push('/deepfake')} >
+              } */}
+               <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
               </div>
-              <div className="nav-item" onClick={() => router.push('/reverse-search')}>
+             {/* <div className="nav-item" onClick={() => router.push('/reverse-search')}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span style={{ fontSize: '25px' }}>Reverse Image Search</span>
-              </div>
+              </div> */}
               <div className="nav-item" onClick={() => router.push('/analytics')}>
                 <img src={analyticsIcon.src} alt="Analytics" />
                 <span style={{ fontSize: '25px' }}>Analytics</span>

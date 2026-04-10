@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import "./Analytics.css";
 
-import policeLogo from '../Assets/PoliceLogo.jpeg';
+import policeLogo from '../Assets/PoliceLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -49,7 +49,7 @@ export default function Analytics() {
       { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
       { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
       { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
-      { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
+      // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
       { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
     ];
 
@@ -122,14 +122,14 @@ export default function Analytics() {
             </div>
 
             <div className="nav-items">
-              <div className="nav-item" onClick={() => router.push("/deepfake")}>
+               <div className="nav-item" onClick={() => router.push("/deepfake")}>
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span>Deepfake Detect</span>
               </div>
-              <div className="nav-item" onClick={() => router.push("/reverse-search")}>
+              {/*<div className="nav-item" onClick={() => router.push("/reverse-search")}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span>Reverse Image Search</span>
-              </div>
+              </div> */}
               <div className="nav-item active">
                 <img src={analyticsIcon.src} alt="Analytics" />
                 <span>Analytics</span>
@@ -152,14 +152,14 @@ export default function Analytics() {
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
+          {/* <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
           </div>
           <div className="dropdown-item" onClick={() => { router.push("/reverse-search"); setMenuOpen(false); }}>
             <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
-          </div>
+          </div> */}
           <div className="dropdown-item" onClick={() => { router.push("/analytics"); setMenuOpen(false); }}>
             <img src={analyticsIcon.src} alt="Analytics" />
             Analytics

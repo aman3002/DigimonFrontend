@@ -14,7 +14,7 @@ import axiosWsp from '../lib/axioswsp';
 import "../home/HomePage.css";
 import "./DeepfakeDetect.css";
 
-import policeLogo from '../Assets/PoliceLogo.jpeg';
+import policeLogo from '../Assets/PoliceLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
 import twitterLogo from '../Assets/twitterLogo.png';
 import facebookLogo from '../Assets/facebookLogo.png';
@@ -113,10 +113,10 @@ const handleUploadClick = () => {
 
   const endpoint =
     radio === 'fake'
-      ? ('/predictFromMedia')
+      ?fileType=="img"?('/analyze-image'): ('/analyze-video')
       : fileType=="img"?'/imageViolentNonviolent':'/videoViolentNonviolent';
 
-  axiosWsp
+  axios
     .post(endpoint, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     .then((response) => {
       console.log(response)
@@ -190,14 +190,14 @@ useEffect(()=>{setResult(null)
               marginLeft: 'auto',
               marginRight: '30px',
             }}>
-              <div className="nav-item" onClick={() => router.push('/deepfake')} >
+              {/* <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
               </div>
               <div className="nav-item" onClick={() => router.push('/reverse-search')}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span style={{ fontSize: '25px' }}>Reverse Image Search</span>
-              </div>
+              </div> */}
               <div className="nav-item" onClick={() => router.push('/analytics')}>
                 <img src={analyticsIcon.src} alt="Analytics" />
                 <span style={{ fontSize: '25px' }}>Analytics</span>
@@ -220,14 +220,14 @@ useEffect(()=>{setResult(null)
       {isMobile && menuOpen && (
         <div className="mobile-dropdown">
           <div className="dropdown-item-title">Navigation</div>
-          <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
+          {/* <div className="dropdown-item" onClick={() => { router.push("/deepfake"); setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
             Deepfake Detect
           </div>
           <div className="dropdown-item" onClick={() => { router.push("/reverse-search"); setMenuOpen(false); }}>
             <img src={reverseSearchIcon.src} alt="Reverse Search" />
             Reverse Image Search
-          </div>
+          </div> */}
           <div className="dropdown-item" onClick={() => { router.push("/analytics"); setMenuOpen(false); }}>
             <img src={analyticsIcon.src} alt="Analytics" />
             Analytics
@@ -258,14 +258,14 @@ useEffect(()=>{setResult(null)
           onChange={(e) => setRadio(e.target.value)}
         >
           <FormControlLabel value="fake" control={<Radio />} label="Fake Detect" />
-          <FormControlLabel value="violent" control={<Radio />} label="Violent Detect" />
+          {/* <FormControlLabel value="violent" control={<Radio />} label="Violent Detect" /> */}
         </RadioGroup>
 
         <div className="upload-section">
           <div className="file-input-container">
             <input
               type="file"
-              accept="image/*, video/*"
+              accept={radio=="fake"?"video/*":"image/*, video/*"}
               onChange={handleFileChange}
               className="hidden-file-input"
               id="file-input"
@@ -308,13 +308,13 @@ useEffect(()=>{setResult(null)
         <p>Unsupported file type</p>
       )}
     </div>
-  
+  {console.log(result)}
             {result &&
               <div className="result-box">
                 {radio === "fake" ? (
-                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score) ).toFixed(2)}%</strong></>
+                  <>Image is <strong>{result.result}</strong> with a score of <strong>{(parseFloat(result?.anomaly_ratio??result.confidence) ).toFixed(2)*100}%</strong></>
                 ) : (
-                  <>Image is <strong>{result.label}</strong> with a score of <strong>{(parseFloat(result.score)).toFixed(2)}%</strong></>
+                  <>Image is <strong>{result.result}</strong> with a score of <strong>{(parseFloat(result?.anomaly_ratio??confidence)).toFixed(2)}%</strong></>
                 )}
                 <div className="feedback-buttons">
                   <ThumbUpOffAltIcon
