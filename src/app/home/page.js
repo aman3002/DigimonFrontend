@@ -236,6 +236,9 @@ const MenuProps = {
     else if (selectedPlatform == "TELEGRAM") {
       word = "telegram"
     }
+    else if (selectedPlatform == "YOUTUBE") {
+      word = "youtube"
+    }
    let watch = ""
     if (selectedPlatform == "INSTAGRAM") {
       watch = "insta"
@@ -254,6 +257,9 @@ const MenuProps = {
     }
     else if (selectedPlatform == "TELEGRAM") {
       watch = "telegram"
+    }
+    else if (selectedPlatform == "YOUTUBE") {
+      watch = "youtube"
     }
   console.log(selectedOption,"options")
   setLoading(true)
@@ -289,6 +295,31 @@ finally{
     word=selectedOption=="socialmedia"?"instagram":"watchlist"
     try {
       setLoading(true)
+      setItems([]) // Clear previous items
+
+      // MOCK BACKEND DATA FOR YOUTUBE
+      if (selectedPlatform === "YOUTUBE") {
+        setTimeout(() => {
+          setItems([{
+            _id: "69cb81c06faa0f76d35c741f",
+            unique: "v9c6MupMJ8U",
+            video_link: "https://dl.dropboxusercontent.com/s/b5c8x8k5s5h9d8o/sample-mp4-file.mp4?dl=0", // Use a generic available video or keeping the original
+            original_video_link: "https://www.youtube.com/watch?v=v9c6MupMJ8U",
+            username: "RAJNITI NEWS",
+            user_profile_link: "https://www.youtube.com/@rajnitinewsmh",
+            caption: "Solapur Accident News",
+            media_type: "vid",
+            views: "15K views",
+            upload_date: "2026-03-28T00:00:00.000+00:00",
+            scraped_dateTime: "2026-03-31T08:11:44.641+00:00",
+            keyword: "#SolapurAccidentRajniti",
+            place: "Solapur"
+          }]);
+          setLoading(false);
+        }, 800);
+        return;
+      }
+
       const response = await axios.post(`/${word}/filter`, {
         pageNo: pageNo,
         startDate: startDate,
@@ -374,7 +405,8 @@ finally{
   const platforms = [
     { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
     { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-    { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+    // { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+    { name: 'YouTube', value: 'YOUTUBE', icon: { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg' } },
     { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
     // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
     { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
@@ -425,10 +457,38 @@ finally{
     else if (selectedPlatform == "TELEGRAM") {
       word = "telegram"
     }
+    else if (selectedPlatform == "YOUTUBE") {
+      word = "youtube"
+    }
     try {
       const portal=selectedOption=="socialmedia"?"selenium":"watchlist_data"
       const apiLink=selectedOption=="socialmedia"?"Db":"Watchlist"
       setLoading(true)
+      setItems([]) // Clear previous items
+
+      // MOCK BACKEND DATA FOR YOUTUBE KEYWORD SEARCH
+      if (selectedPlatform === "YOUTUBE") {
+        setTimeout(() => {
+          setItems([{
+            _id: "69cb81c06faa0f76d35c741f",
+            unique: "v9c6MupMJ8U",
+            video_link: "https://dl.dropboxusercontent.com/s/b5c8x8k5s5h9d8o/sample-mp4-file.mp4?dl=0",
+            original_video_link: "https://www.youtube.com/watch?v=v9c6MupMJ8U",
+            username: "RAJNITI NEWS SEARCH RESULT",
+            user_profile_link: "https://www.youtube.com/@rajnitinewsmh",
+            caption: "Solapur Accident News :सोलापूरच्या बोरामणी नाका अपघातात 2 सेकंदात होत्…",
+            media_type: "vid",
+            views: "15K views",
+            upload_date: "2026-03-28T00:00:00.000+00:00",
+            scraped_dateTime: "2026-03-31T08:11:44.641+00:00",
+            keyword: "#SolapurAccidentRajniti",
+            place: "Solapur"
+          }]);
+          setLoading(false);
+        }, 800);
+        return;
+      }
+
       const response = await axios.post(`/dataContainsKeywordIn${apiLink}`, {
         page: pageNo,
         pageNo: pageNo,
@@ -493,6 +553,9 @@ const watchlist=async()=>{
             }
             else if (selectedPlatform == "TELEGRAM") {
               word = "telegram"
+            }
+            else if (selectedPlatform == "YOUTUBE") {
+              word = "Youtube"
             }
             // setLoading(true)
             const response=await axios.get(`/watchlist${word}`,{})
@@ -1196,7 +1259,15 @@ console.log(e)
         <ContentCardSlider
           items={items.map(item => ({
             ...item,currentPlatform,watchlists,watchlist,selectedOption,
-            timestamp: adjustTimestamp(item.timestamp, selectedPlatform)
+            id: item.id || item._id,
+            mediaType: item.mediaType || item.media_type,
+            mediaSrc: item.mediaSrc || item.video_link || item.media_link,
+            likes: item.likes || item.likes_count || item.views,
+            description: item.description || item.caption,
+            postlink: item.postlink || item.original_video_link || item.post_link,
+            userProfileLink: item.userProfileLink || item.user_profile_link || item.profile_link,
+            location: item.location || item.place,
+            timestamp: adjustTimestamp(item.timestamp || item.upload_date || item.dateTime_of_post_str, selectedPlatform)
           }))}
         />
 

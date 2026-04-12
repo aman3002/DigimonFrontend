@@ -377,7 +377,8 @@ const postDate = new Date(postDateStr);
             onChange={(e) => setPlatform(e.target.value)}
           >
             <MenuItem value="instagram">Instagram</MenuItem>
-            <MenuItem value="facebook">Facebook</MenuItem>
+            {/* <MenuItem value="facebook">Facebook</MenuItem> */}
+            <MenuItem value="youtube">YouTube</MenuItem>
             <MenuItem value="twitter">Twitter</MenuItem>
             <MenuItem value="snapchat">Snapchat</MenuItem>
           </Select>
