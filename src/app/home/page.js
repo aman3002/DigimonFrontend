@@ -297,29 +297,6 @@ finally{
       setLoading(true)
       setItems([]) // Clear previous items
 
-      // MOCK BACKEND DATA FOR YOUTUBE
-      if (selectedPlatform === "YOUTUBE") {
-        setTimeout(() => {
-          setItems([{
-            _id: "69cb81c06faa0f76d35c741f",
-            unique: "v9c6MupMJ8U",
-            video_link: "https://dl.dropboxusercontent.com/s/b5c8x8k5s5h9d8o/sample-mp4-file.mp4?dl=0", // Use a generic available video or keeping the original
-            original_video_link: "https://www.youtube.com/watch?v=v9c6MupMJ8U",
-            username: "RAJNITI NEWS",
-            user_profile_link: "https://www.youtube.com/@rajnitinewsmh",
-            caption: "Solapur Accident News",
-            media_type: "vid",
-            views: "15K views",
-            upload_date: "2026-03-28T00:00:00.000+00:00",
-            scraped_dateTime: "2026-03-31T08:11:44.641+00:00",
-            keyword: "#SolapurAccidentRajniti",
-            place: "Solapur"
-          }]);
-          setLoading(false);
-        }, 800);
-        return;
-      }
-
       const response = await axios.post(`/${word}/filter`, {
         pageNo: pageNo,
         startDate: startDate,
@@ -465,29 +442,6 @@ finally{
       const apiLink=selectedOption=="socialmedia"?"Db":"Watchlist"
       setLoading(true)
       setItems([]) // Clear previous items
-
-      // MOCK BACKEND DATA FOR YOUTUBE KEYWORD SEARCH
-      if (selectedPlatform === "YOUTUBE") {
-        setTimeout(() => {
-          setItems([{
-            _id: "69cb81c06faa0f76d35c741f",
-            unique: "v9c6MupMJ8U",
-            video_link: "https://dl.dropboxusercontent.com/s/b5c8x8k5s5h9d8o/sample-mp4-file.mp4?dl=0",
-            original_video_link: "https://www.youtube.com/watch?v=v9c6MupMJ8U",
-            username: "RAJNITI NEWS SEARCH RESULT",
-            user_profile_link: "https://www.youtube.com/@rajnitinewsmh",
-            caption: "Solapur Accident News :सोलापूरच्या बोरामणी नाका अपघातात 2 सेकंदात होत्…",
-            media_type: "vid",
-            views: "15K views",
-            upload_date: "2026-03-28T00:00:00.000+00:00",
-            scraped_dateTime: "2026-03-31T08:11:44.641+00:00",
-            keyword: "#SolapurAccidentRajniti",
-            place: "Solapur"
-          }]);
-          setLoading(false);
-        }, 800);
-        return;
-      }
 
       const response = await axios.post(`/dataContainsKeywordIn${apiLink}`, {
         page: pageNo,
@@ -1264,6 +1218,7 @@ console.log(e)
             mediaSrc: item.mediaSrc || item.video_link || item.media_link,
             likes: item.likes || item.likes_count || item.views,
             description: item.description || item.caption,
+            comments: item.comments || [],
             postlink: item.postlink || item.original_video_link || item.post_link,
             userProfileLink: item.userProfileLink || item.user_profile_link || item.profile_link,
             location: item.location || item.place,
