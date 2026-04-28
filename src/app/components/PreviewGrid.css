@@ -1,0 +1,494 @@
+/* ============================================
+   PreviewGrid — 3×3 Preview Grid Overlay
+   ============================================ */
+
+/* --- Wrapper / Container --- */
+.preview-grid-wrapper {
+	position: relative;
+	width: 107vw;
+	min-height: 115vh;
+	margin-left: 0.51vw;
+	padding: 2.5vh 2vw 4vh 2vw;
+	background: #9491914d;
+	border-radius: 0.51vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+/* --- Header row: title + back button --- */
+.preview-grid-header {
+	width: 100%;
+	max-width: 1360px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 2.5vh;
+	padding: 0 0.5vw;
+}
+
+.preview-grid-title {
+	font-family: "Poppins", sans-serif;
+	font-size: 1.4vw;
+	font-weight: 600;
+	color: #fff;
+	letter-spacing: 0.3px;
+	display: flex;
+	align-items: center;
+	gap: 0.6vw;
+}
+
+.preview-grid-title-dot {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #0ca8c3;
+	animation: preview-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes preview-dot-pulse {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50%      { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* --- The 3×3 Grid --- */
+.preview-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.8vw;
+	width: 100%;
+	max-width: 1360px;
+}
+
+/* --- Individual Grid Cell --- */
+.preview-grid-cell {
+	position: relative;
+	background: #1a1a1a;
+	border-radius: 12px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.preview-grid-cell:hover {
+	transform: translateY(-4px) scale(1.015);
+	box-shadow:
+		0 12px 32px rgba(0, 0, 0, 0.45),
+		0 0 0 1px rgba(12, 168, 195, 0.25);
+}
+
+/* --- Outer metadata (above frame) --- */
+.preview-cell-meta-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 14px 6px 14px;
+}
+
+.preview-cell-type {
+	font-family: "Poppins", sans-serif;
+	font-size: 0.72vw;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #0ca8c3;
+	background: rgba(12, 168, 195, 0.12);
+	padding: 3px 10px;
+	border-radius: 4px;
+}
+
+.preview-cell-type.story {
+	color: #e8a838;
+	background: rgba(232, 168, 56, 0.12);
+}
+
+.preview-cell-date {
+	font-family: "Poppins", sans-serif;
+	font-size: 0.68vw;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.55);
+}
+
+/* --- The inner media frame --- */
+.preview-cell-frame {
+	position: relative;
+	margin: 0 12px;
+	border-radius: 10px;
+	overflow: hidden;
+	background: #111;
+	aspect-ratio: 1 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Subtle gradient overlay on the frame for readability of overlays */
+.preview-cell-frame::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0.45) 0%,
+		transparent 35%,
+		transparent 100%
+	);
+	pointer-events: none;
+	border-radius: 10px;
+	z-index: 1;
+}
+
+/* --- Media inside frame --- */
+.preview-cell-media {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	border-radius: 10px;
+	transition: transform 0.35s ease;
+}
+
+.preview-grid-cell:hover .preview-cell-media {
+	transform: scale(1.05);
+}
+
+.preview-cell-video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 10px;
+}
+
+.preview-cell-iframe-wrap {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	pointer-events: none;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.preview-cell-iframe-wrap iframe {
+	width: 100%;
+	height: 100%;
+	border: none;
+	border-radius: 10px;
+}
+
+/* Fallback: no media */
+.preview-cell-no-media {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	color: rgba(255, 255, 255, 0.25);
+	font-size: 0.85vw;
+	font-family: "Poppins", sans-serif;
+	font-style: italic;
+	letter-spacing: 0.5px;
+}
+
+/* Telegram text-only */
+.preview-cell-text-content {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	font-family: "Poppins", sans-serif;
+	font-size: 0.78vw;
+	color: rgba(255, 255, 255, 0.7);
+	text-align: center;
+	line-height: 1.5;
+	overflow: hidden;
+	word-break: break-word;
+}
+
+/* --- Overlays inside the frame --- */
+.preview-frame-overlay {
+	position: absolute;
+	z-index: 2;
+	font-family: "Poppins", sans-serif;
+}
+
+/* Username — top-left inside frame */
+.preview-frame-username {
+	top: 10px;
+	left: 10px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: 0.7vw;
+	font-weight: 500;
+	color: #fff;
+	max-width: 65%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.preview-frame-username-icon {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 9px;
+	flex-shrink: 0;
+}
+
+/* Like count — top-right inside frame */
+.preview-frame-likes {
+	top: 10px;
+	right: 10px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	padding: 4px 10px;
+	border-radius: 6px;
+	font-size: 0.7vw;
+	font-weight: 500;
+	color: #fff;
+}
+
+.preview-likes-icon {
+	color: #ff4d6a;
+	font-size: 0.75vw;
+}
+
+/* --- Outer metadata (below frame) --- */
+.preview-cell-meta-bottom {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 6px 14px 10px 14px;
+}
+
+.preview-cell-location {
+	font-family: "Poppins", sans-serif;
+	font-size: 0.65vw;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.45);
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.preview-location-icon {
+	font-size: 0.72vw;
+	flex-shrink: 0;
+}
+
+/* --- "Back to Grid" button used in list view --- */
+.preview-back-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: rgba(12, 168, 195, 0.12);
+	color: #0ca8c3;
+	border: 1px solid rgba(12, 168, 195, 0.3);
+	border-radius: 8px;
+	padding: 8px 20px;
+	font-family: "Poppins", sans-serif;
+	font-size: 0.82vw;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	letter-spacing: 0.3px;
+}
+
+.preview-back-btn:hover {
+	background: rgba(12, 168, 195, 0.22);
+	border-color: rgba(12, 168, 195, 0.5);
+	transform: translateX(-2px);
+}
+
+.preview-back-btn-arrow {
+	font-size: 1vw;
+	transition: transform 0.2s ease;
+}
+
+.preview-back-btn:hover .preview-back-btn-arrow {
+	transform: translateX(-3px);
+}
+
+/* --- Click hint overlay on hover --- */
+.preview-cell-click-hint {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transition: opacity 0.25s ease;
+	border-radius: 10px;
+	pointer-events: none;
+}
+
+.preview-grid-cell:hover .preview-cell-click-hint {
+	opacity: 1;
+}
+
+.preview-cell-click-hint-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 0.82vw;
+	font-weight: 500;
+	color: #fff;
+	background: rgba(12, 168, 195, 0.35);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	padding: 8px 18px;
+	border-radius: 8px;
+	letter-spacing: 0.5px;
+}
+
+/* --- Empty state (< 1 item) --- */
+.preview-grid-empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 40vh;
+	color: rgba(255, 255, 255, 0.35);
+	font-family: "Poppins", sans-serif;
+	font-size: 1vw;
+	font-style: italic;
+}
+
+/* ============================================
+   Responsive — Tablet
+   ============================================ */
+@media (max-width: 1100px) {
+	.preview-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2vw;
+	}
+
+	.preview-grid-title {
+		font-size: 2.2vw;
+	}
+
+	.preview-cell-type,
+	.preview-cell-date,
+	.preview-frame-username,
+	.preview-frame-likes,
+	.preview-cell-location {
+		font-size: 1.3vw;
+	}
+}
+
+/* ============================================
+   Responsive — Mobile (≤ 500px)
+   ============================================ */
+@media (max-width: 500px) {
+	.preview-grid-wrapper {
+		width: 100%;
+		margin-left: 0;
+		padding: 15px 10px 30px 10px;
+	}
+
+	.preview-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+	}
+
+	.preview-grid-header {
+		padding: 0 5px;
+		margin-bottom: 15px;
+	}
+
+	.preview-grid-title {
+		font-size: 16px;
+	}
+
+	.preview-cell-meta-top {
+		padding: 8px 10px 4px 10px;
+	}
+
+	.preview-cell-type {
+		font-size: 10px;
+		padding: 2px 7px;
+	}
+
+	.preview-cell-date {
+		font-size: 9px;
+	}
+
+	.preview-cell-frame {
+		margin: 0 8px;
+	}
+
+	.preview-frame-username {
+		font-size: 10px;
+		padding: 3px 7px;
+		gap: 3px;
+	}
+
+	.preview-frame-username-icon {
+		width: 11px;
+		height: 11px;
+		font-size: 7px;
+	}
+
+	.preview-frame-likes {
+		font-size: 10px;
+		padding: 3px 7px;
+		gap: 3px;
+	}
+
+	.preview-likes-icon {
+		font-size: 11px;
+	}
+
+	.preview-cell-meta-bottom {
+		padding: 4px 10px 8px 10px;
+	}
+
+	.preview-cell-location {
+		font-size: 9px;
+	}
+
+	.preview-cell-click-hint-text {
+		font-size: 11px;
+		padding: 5px 12px;
+	}
+
+	.preview-back-btn {
+		font-size: 13px;
+		padding: 7px 14px;
+	}
+
+	.preview-grid-empty {
+		font-size: 14px;
+	}
+
+	.preview-cell-no-media {
+		font-size: 11px;
+	}
+
+	.preview-cell-text-content {
+		font-size: 11px;
+	}
+}
