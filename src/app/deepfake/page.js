@@ -58,7 +58,8 @@ export default function DeepfakeDetect() {
   const platforms =  [
       { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
       { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-      { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+      // { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+      { name: 'YouTube', value: 'YOUTUBE', icon: { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg' } },
       { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
       // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
       { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },

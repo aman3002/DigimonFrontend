@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import './HomePage.css';
 import ContentCardSlider from '../components/slider';
+import PreviewGrid from '../components/PreviewGrid';
+import '../components/PreviewGrid.css';
 
 import policeLogo from '../Assets/PoliceLogo.png';
 import instagramLogo from '../Assets/instagramLogo.png';
@@ -28,10 +30,10 @@ import Cookie from '../lib/cookie';
 import axios from "../lib/axios"
 import { collapseClasses } from '@mui/material';
 import { Search } from "lucide-react";
-import {CircularProgress,Button} from '@mui/material';
+import { CircularProgress, Button } from '@mui/material';
 import PopupModal from '../components/PopUp';
 import RadioSelector from '../components/TypeSelector';
-import { FormControl, InputLabel, Select, MenuItem ,Box} from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 import UserPopupModal from '../components/SearchAllUsers';
 import { SettingsBackupRestore } from '@mui/icons-material';
 import SendMailPopupModal from '../components/SendMailPopUp';
@@ -114,26 +116,27 @@ function HomePage() {
   const [items, setItems] = useState([])
   const [selectedPlatform, setSelectedPlatform] = useState('INSTAGRAM');
   const [userLocation, setUserLocation] = useState("--Tehsil--");
-  const [selectWatchedUser,setSelectWatchedUser]=useState("--Select-User--")
+  const [selectWatchedUser, setSelectWatchedUser] = useState("--Select-User--")
   const [userSearch, setUserSearch] = useState(''); // search keyword or any keyword in hashtags
   const [isViolent, setIsViolent] = useState(false);
   const [isViralSelected, setIsViralSelected] = useState(false);
   const [IsPredictedToBeViral, setIsPredictedToBeViral] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false)
   const [pageNo, setPageNo] = useState(1);
   const [hashtags, setKeywords] = useState([])
   const [selectedHashtag, setSelectedHashtag] = useState(null)
   const [showModal, setShowModal] = useState(false);
-  const [captionSearch,setCaptionSearch]=useState(null)
+  const [captionSearch, setCaptionSearch] = useState(null)
   const [selectedOption, setSelectedOption] = useState('socialmedia');
-  const [watchlists,setWatchlist]=useState([])
+  const [watchlists, setWatchlist] = useState([])
   const [modalOpen, setModalOpen] = useState(false);
-  const [watchlistHashtags,setWatchlistHashtags]=useState([])
+  const [watchlistHashtags, setWatchlistHashtags] = useState([])
   const users = ['user1', 'user2', 'user3'];
-  const [sexual,setSexual]=useState(false)
-  const [takeDown,setTakeDown]=useState(false)
+  const [sexual, setSexual] = useState(false)
+  const [takeDown, setTakeDown] = useState(false)
+  const [showGridPreview, setShowGridPreview] = useState(true)
 
 
   const handleSubmit = (value) => {
@@ -147,73 +150,73 @@ function HomePage() {
     }
   };
   const [location, setLocation] = useState(null);
-useEffect(() => {
-  const fetchLocation = async () => {
-    const getLocationByIP = async () => {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-        console.log("📍 IP Location:", data);
-        setLocation(data);
-        await axios.post("/location", {
-          lat: data.latitude,
-          lng: data.longitude,
-          location: data,
-          source: "ip"
-        });
-      } catch (err) {
-        // console.error("🌐 IP location error:", err);
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const getLocationByIP = async () => {
+        try {
+          const res = await fetch("https://ipapi.co/json/");
+          const data = await res.json();
+          console.log("📍 IP Location:", data);
+          setLocation(data);
+          await axios.post("/location", {
+            lat: data.latitude,
+            lng: data.longitude,
+            location: data,
+            source: "ip"
+          });
+        } catch (err) {
+          // console.error("🌐 IP location error:", err);
+        }
+      };
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              const res = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+              );
+              const data = await res.json();
+              // console.log("📍 GPS Location:", data.address);
+              setLocation(data.address);
+
+              await axios.post("/location", {
+                lat: latitude,
+                lng: longitude,
+                location: data.address,
+                source: "gps"
+              });
+            } catch (err) {
+              // console.error("🗺️ Error in reverse geocoding:", err);
+              await getLocationByIP(); // fallback if reverse fails
+            }
+          },
+          async (error) => {
+            // console.warn("⚠️ Geolocation error:", error.message);
+            await getLocationByIP(); // fallback on denial or error
+          },
+          { enableHighAccuracy: true }
+        );
+      } else {
+        await getLocationByIP(); // fallback if geolocation unsupported
       }
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-            );
-            const data = await res.json();
-            // console.log("📍 GPS Location:", data.address);
-            setLocation(data.address);
-
-            await axios.post("/location", {
-              lat: latitude,
-              lng: longitude,
-              location: data.address,
-              source: "gps"
-            });
-          } catch (err) {
-            // console.error("🗺️ Error in reverse geocoding:", err);
-            await getLocationByIP(); // fallback if reverse fails
-          }
-        },
-        async (error) => {
-          // console.warn("⚠️ Geolocation error:", error.message);
-          await getLocationByIP(); // fallback on denial or error
-        },
-        { enableHighAccuracy: true }
-      );
-    } else {
-      await getLocationByIP(); // fallback if geolocation unsupported
-    }
+    fetchLocation();
+  }, []);
+  const MenuProps = {
+    anchorOrigin: {
+      vertical: 'bottom',
+      horizontal: 'left',
+    },
+    transformOrigin: {
+      vertical: 'top',
+      horizontal: 'left',
+    },
+    // This is important to fix misalignment in MUI v5+
+    disablePortal: true,
   };
-
-  fetchLocation();
-}, []);
-const MenuProps = {
-  anchorOrigin: {
-    vertical: 'bottom',
-    horizontal: 'left',
-  },
-  transformOrigin: {
-    vertical: 'top',
-    horizontal: 'left',
-  },
-  // This is important to fix misalignment in MUI v5+
-  disablePortal: true,
-};
 
   // user filter state end 
   const getKeyword = async () => {
@@ -236,7 +239,10 @@ const MenuProps = {
     else if (selectedPlatform == "TELEGRAM") {
       word = "telegram"
     }
-   let watch = ""
+    else if (selectedPlatform == "YOUTUBE") {
+      word = "youtube"
+    }
+    let watch = ""
     if (selectedPlatform == "INSTAGRAM") {
       watch = "insta"
     }
@@ -255,54 +261,62 @@ const MenuProps = {
     else if (selectedPlatform == "TELEGRAM") {
       watch = "telegram"
     }
-  console.log(selectedOption,"options")
-  setLoading(true)
-if(selectedOption==="socialmedia"){
-    try {
-      const response = await axios.get(`/${word}ViralKeywords`)
-      if (response.status == 200) {
-        console.log(response)
-        setKeywords(response.data.data)
-      }
+    else if (selectedPlatform == "YOUTUBE") {
+      watch = "youtube"
     }
-    catch (e) {
-      console.log(e)
-    }}
-    else{
+    console.log(selectedOption, "options")
+    setLoading(true)
+    if (selectedOption === "socialmedia") {
       try {
-      const response = await axios.post(`/ViralKeywordsInWatchlist`,{collection:`${watch}_watchlist_data`})
-      if (response.status == 200) {
-        console.log(response)
-        setWatchlistHashtags(response.data.data)
+        const response = await axios.get(`/${word}ViralKeywords`)
+        if (response.status == 200) {
+          console.log(response)
+          setKeywords(response.data.data)
+        }
+      }
+      catch (e) {
+        console.log(e)
       }
     }
-    catch (e) {
-      console.log(e)
+    else {
+      try {
+        const response = await axios.post(`/ViralKeywordsInWatchlist`, { collection: `${watch}_watchlist_data` })
+        if (response.status == 200) {
+          console.log(response)
+          setWatchlistHashtags(response.data.data)
+        }
+      }
+      catch (e) {
+        console.log(e)
+      }
+      finally {
+        setLoading(false)
+      }
+
     }
-finally{
-   setLoading(false)    
   }
- 
-}}
   const getData = async () => {
-    let word=""
-    word=selectedOption=="socialmedia"?"instagram":"watchlist"
+    let word = ""
+    word = selectedOption == "socialmedia" ? "instagram" : "watchlist"
     try {
       setLoading(true)
+      setItems([]) // Clear previous items
+
       const response = await axios.post(`/${word}/filter`, {
         pageNo: pageNo,
+        ...(showGridPreview ? { pageSize: 9 } : {}),
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
         isViolent: isViolent,
-        isSexual:sexual,
-        caption:captionSearch,
-        selectedUser:selectWatchedUser,
+        isSexual: sexual,
+        caption: captionSearch,
+        selectedUser: selectWatchedUser,
         all: IsPredictedToBeViral,
         selectedPlatform: selectedPlatform,
         userLocation: userLocation
       })
-      console.log(response,"getdaya")
+      console.log(response, "getdaya")
       if (response.status == 200) {
         setItems(response.data.data)
       }
@@ -310,7 +324,7 @@ finally{
     catch (e) {
       console.log(e)
     }
-    finally{
+    finally {
       setLoading(false)
     }
     //  if(pageNo!==1||hashtags.length!=0)
@@ -318,16 +332,16 @@ finally{
   }
   function adjustTimestamp(timestamp, platform) {
     const date = new Date(timestamp);
-    if (platform.toLowerCase() === "facebook" ) {
+    if (platform.toLowerCase() === "facebook") {
       date.setMinutes(date.getMinutes() - 330);
     }
-    else if(platform.toLowerCase() === "snapchat"){
+    else if (platform.toLowerCase() === "snapchat") {
       date.setMinutes(date.getMinutes() + 330);
     }
     return date.toLocaleString(); // or .toISOString()
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     setUserSearch("")
     setSexual(false)
     setIsViolent(false)
@@ -339,10 +353,10 @@ finally{
     setIsPredictedToBeViral(false)
     setIsViralSelected(false)
     setUserLocation("--tehsil--")
-    getKeyword() 
+    getKeyword()
   }, [selectedOption])
 
-  useEffect(() => { 
+  useEffect(() => {
     setUserSearch("")
     setIsViolent(false)
     setSexual(false)
@@ -354,7 +368,8 @@ finally{
     setIsPredictedToBeViral(false)
     setIsViralSelected(false)
     setUserLocation("--tehsil--")
-    getKeyword() 
+    setShowGridPreview(true)
+    getKeyword()
   }, [selectedPlatform])
   useEffect(() => {
     if (selectedHashtag) {
@@ -364,17 +379,18 @@ finally{
       getData()
     }
 
-  }, [selectedHashtag,sexual, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate,watchlists, isViralSelected, selectedPlatform,captionSearch,selectedOption,selectWatchedUser])
+  }, [selectedHashtag, sexual, isViolent, IsPredictedToBeViral, userLocation, pageNo, startDate, endDate, watchlists, isViralSelected, selectedPlatform, captionSearch, selectedOption, selectWatchedUser])
   const Cities = [
-  '--tehsil--',
-  "Solapur North", "Solapur South", "Akkalkot", "Barshi", "Mohol", "Karmala", "Pandharpur"
-];
+    '--tehsil--',
+    "Solapur North", "Solapur South", "Akkalkot", "Barshi", "Mohol", "Karmala", "Pandharpur"
+  ];
 
 
   const platforms = [
     { name: 'Instagram', value: 'INSTAGRAM', icon: instagramLogo },
     { name: 'Twitter', value: 'TWITTER', icon: twitterLogo },
-    { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+    // { name: 'Facebook', value: 'FACEBOOK', icon: facebookLogo },
+    { name: 'YouTube', value: 'YOUTUBE', icon: { src: 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg' } },
     { name: 'Snapchat', value: 'SNAPCHAT', icon: snapchatLogo },
     // { name: 'Whatsapp', value: 'WHATSAPP', icon: whatsappLogo },
     { name: 'Telegram', value: 'TELEGRAM', icon: telegramLogo },
@@ -408,7 +424,7 @@ finally{
     let word = ""
 
     if (selectedPlatform == "INSTAGRAM") {
-      word = selectedOption=="socialmedia"?"instagram":"insta"
+      word = selectedOption == "socialmedia" ? "instagram" : "insta"
     }
     else if (selectedPlatform == "TWITTER") {
       word = "twitter"
@@ -425,22 +441,28 @@ finally{
     else if (selectedPlatform == "TELEGRAM") {
       word = "telegram"
     }
+    else if (selectedPlatform == "YOUTUBE") {
+      word = "youtube"
+    }
     try {
-      const portal=selectedOption=="socialmedia"?"selenium":"watchlist_data"
-      const apiLink=selectedOption=="socialmedia"?"Db":"Watchlist"
+      const portal = selectedOption == "socialmedia" ? "selenium" : "watchlist_data"
+      const apiLink = selectedOption == "socialmedia" ? "Db" : "Watchlist"
       setLoading(true)
+      setItems([]) // Clear previous items
+
       const response = await axios.post(`/dataContainsKeywordIn${apiLink}`, {
         page: pageNo,
         pageNo: pageNo,
+        ...(showGridPreview ? { pageSize: 9 } : {}),
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
-        isSexual:sexual,
+        isSexual: sexual,
         isViolent: isViolent,
         all: IsPredictedToBeViral,
-        selectUser:selectWatchedUser,
+        selectUser: selectWatchedUser,
         selectedPlatform: selectedPlatform,
-        caption:captionSearch,
+        caption: captionSearch,
         userLocation: userLocation,
         keyword: selectedHashtag,
         collection2: `${word}_${portal}`,
@@ -455,9 +477,10 @@ finally{
     catch (e) {
       console.log(e)
     }
-    finally{
-    setLoading(false)
-  }}
+    finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -472,54 +495,57 @@ finally{
   }, []);
 
 
-const watchlist=async()=>{
-        try{
-            let word = ""
+  const watchlist = async () => {
+    try {
+      let word = ""
 
-            if (selectedPlatform == "INSTAGRAM") {
-            word = "Instagram"
-            }
-            else if (selectedPlatform == "TWITTER") {
-            word = "Twitter"
-            }
-            else if (selectedPlatform == "SNAPCHAT") {
-            word = "Snapchat"
-            }
-            else if (selectedPlatform == "FACEBOOK") {
-            word = "Fb"
-            }
-            else if (selectedPlatform == "WHATSAPP") {
-              word = "whatsapp"
-            }
-            else if (selectedPlatform == "TELEGRAM") {
-              word = "telegram"
-            }
-            // setLoading(true)
-            const response=await axios.get(`/watchlist${word}`,{})
-            console.log(response,"watchlist")
-            if(response.status==200){
-                setWatchlist(response.data.result)
-            }
-        }
-        catch(e){
-
-        }
-       
+      if (selectedPlatform == "INSTAGRAM") {
+        word = "Instagram"
+      }
+      else if (selectedPlatform == "TWITTER") {
+        word = "Twitter"
+      }
+      else if (selectedPlatform == "SNAPCHAT") {
+        word = "Snapchat"
+      }
+      else if (selectedPlatform == "FACEBOOK") {
+        word = "Fb"
+      }
+      else if (selectedPlatform == "WHATSAPP") {
+        word = "whatsapp"
+      }
+      else if (selectedPlatform == "TELEGRAM") {
+        word = "telegram"
+      }
+      else if (selectedPlatform == "YOUTUBE") {
+        word = "Youtube"
+      }
+      // setLoading(true)
+      const response = await axios.get(`/watchlist${word}`, {})
+      console.log(response, "watchlist")
+      if (response.status == 200) {
+        setWatchlist(response.data.result)
+      }
     }
-    useEffect(()=>{
-        watchlist()
-    },[selectedPlatform])
-const addNewUserToList=async(username,userid)=>{
-  try{
-    const response=await axios.post("/addNewUserToList",{username,userid})
-    if(response.status==200){
-      alert(response.data.data)
+    catch (e) {
+
+    }
+
+  }
+  useEffect(() => {
+    watchlist()
+  }, [selectedPlatform])
+  const addNewUserToList = async (username, userid) => {
+    try {
+      const response = await axios.post("/addNewUserToList", { username, userid })
+      if (response.status == 200) {
+        alert(response.data.data)
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   }
-  catch(e){
-console.log(e)
-  }
-}
 
   // Filter button style for top-right corner
   const filterButtonStyle = {
@@ -679,19 +705,19 @@ console.log(e)
     setUserLocation(city);
     setLocationMenuOpen(false);
   };
-  const sendMail=async(link,type,reason)=>{
-    try{
-      const response=await axios.post("/sendMail",{link:link,type,reason})
-      if(response.status==200){
+  const sendMail = async (link, type, reason) => {
+    try {
+      const response = await axios.post("/sendMail", { link: link, type, reason })
+      if (response.status == 200) {
         alert("Report Submitted we will take action as soon as possible")
       }
     }
-    catch(e){
+    catch (e) {
 
     }
   }
 
-  const container=(
+  const container = (
     <div className="home-page">
       {/* Hamburger Menu Button in Top-Left Corner - Only show on screens <= 500px */}
       {isMobile && (
@@ -734,9 +760,9 @@ console.log(e)
           {/* {selectedPlatform.name=="INSTAGRAM"&&
                     <RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} />
           } */}
-           <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
+          <div className="dropdown-item" onClick={() => { router.push("/deepfake");; setMenuOpen(false); }}>
             <img src={deepfakeIcon.src} alt="Deepfake" />
-          
+
             Deepfake Detect
           </div>
           {/*<div className="dropdown-item" onClick={() => { router.push('/reverse-search'); setMenuOpen(false); }}>
@@ -781,7 +807,7 @@ console.log(e)
           <div style={{ width: '40px', height: '40px' }}></div>
         )}
 
-        <img src={user.name.includes("HITAC")?ccu.src:policeLogo.src} style={{ marginRight: '30px', borderRadius: '100px' }} alt="Logo" className="logo" />
+        <img src={user.name.includes("HITAC") ? ccu.src : policeLogo.src} style={{ marginRight: '30px', borderRadius: '100px' }} alt="Logo" className="logo" />
 
         {!isMobile && (
           <>
@@ -827,11 +853,11 @@ console.log(e)
                 <span style={{ fontSize: '25px',paddingBottom:5 }}><RadioSelector mobile={isMobile} selectedOption={selectedOption} setSelectedOption={setSelectedOption} /></span>
               </div>
               } */}
-               <div className="nav-item" onClick={() => router.push('/deepfake')} >
+              <div className="nav-item" onClick={() => router.push('/deepfake')} >
                 <img src={deepfakeIcon.src} alt="Deepfake" />
                 <span style={{ fontSize: '25px' }}>Deepfake Detect</span>
               </div>
-             {/* <div className="nav-item" onClick={() => router.push('/reverse-search')}>
+              {/* <div className="nav-item" onClick={() => router.push('/reverse-search')}>
                 <img src={reverseSearchIcon.src} alt="Reverse Search" />
                 <span style={{ fontSize: '25px' }}>Reverse Image Search</span>
               </div> */}
@@ -865,7 +891,7 @@ console.log(e)
 
         <div className="filter-container" style={mobileFilterContainerStyle}>
           <div className="filter-buttons" style={mobileFilterButtonsStyle}>
-            <label className="filter-btn all" style={{paddingLeft:"2.5vw",paddingRight:"2.5vw"}}>
+            <label className="filter-btn all" style={{ paddingLeft: "2.5vw", paddingRight: "2.5vw" }}>
               <input
                 type="checkbox"
                 checked={IsPredictedToBeViral}
@@ -882,25 +908,25 @@ console.log(e)
               />
               Viral
             </label>
-</div>
+          </div>
           <div className="filter-buttons" style={mobileFilterButtonsStyle}>
-            
-             <label className="min-h-screen flex items-center justify-center" >
-      <button
-      style={{"backgroundColor":"yellowgreen",paddingLeft:"3vw",paddingRight:"3.5vw"}}
-        className="filter-btn bg-blue-600  px-6 py-3 rounded shadow flex items-center gap-2"
-        onClick={() => setShowModal(true)}
-      >
-        <Search size={25} />  Caption Search {/* search icon */}
-      </button>
 
-      <PopupModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onSubmit={handleSubmit}
-      />
-    </label>
-    <label className="filter-btn violent">
+            <label className="min-h-screen flex items-center justify-center" >
+              <button
+                style={{ "backgroundColor": "yellowgreen", paddingLeft: "3vw", paddingRight: "3.5vw" }}
+                className="filter-btn bg-blue-600  px-6 py-3 rounded shadow flex items-center gap-2"
+                onClick={() => setShowModal(true)}
+              >
+                <Search size={25} />  Caption Search {/* search icon */}
+              </button>
+
+              <PopupModal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                onSubmit={handleSubmit}
+              />
+            </label>
+            <label className="filter-btn violent">
               <input
                 type="checkbox"
                 checked={isViolent}
@@ -910,8 +936,8 @@ console.log(e)
             </label>
           </div>
 
-                 <div className="filter-buttons" style={{mobileFilterButtonsStyle}}>
-                <label className="filter-btn sexual" style={{paddingLeft:"3vw",paddingRight:"3.5vw"}} >
+          <div className="filter-buttons" style={{ mobileFilterButtonsStyle }}>
+            <label className="filter-btn sexual" style={{ paddingLeft: "3vw", paddingRight: "3.5vw" }} >
               <input
                 type="checkbox"
                 checked={sexual}
@@ -919,22 +945,22 @@ console.log(e)
               />
               Sexual Content
             </label>
-        
-<label className="filter-btn blocker" style={{marginLeft:1,paddingLeft:"0.5vw",paddingRight:0}}>
-  <button
-    className=" filter-btn"
-    onClick={() => setTakeDown(true)}
-  style={{backgroundColor:"transparent",color:"white",border:0,maxWidth:"fit-content",margin:0,padding:0}}
-  >
-    Take Down
-  </button>
 
-  <SendMailPopupModal
-    isOpen={takeDown}
-    onClose={() => setTakeDown(false)}
-    onSubmit={sendMail}
-  />
-</label>
+            <label className="filter-btn blocker" style={{ marginLeft: 1, paddingLeft: "0.5vw", paddingRight: 0 }}>
+              <button
+                className=" filter-btn"
+                onClick={() => setTakeDown(true)}
+                style={{ backgroundColor: "transparent", color: "white", border: 0, maxWidth: "fit-content", margin: 0, padding: 0 }}
+              >
+                Take Down
+              </button>
+
+              <SendMailPopupModal
+                isOpen={takeDown}
+                onClose={() => setTakeDown(false)}
+                onSubmit={sendMail}
+              />
+            </label>
           </div>
           <div className="date-inputs" style={mobileDateInputsStyle}>
             <div className="date-box">
@@ -953,29 +979,29 @@ console.log(e)
             </div>
           </div>
         </div>
-{selectedOption=="socialmedia"&&
-        <div className="location-container" style={mobileLocationContainerStyle}>
-          <div className="location-box">
-            <div className="location-label location-value2" onClick={() => setLocationMenuOpen(!locationMenuOpen)}>
-              Location
-              <img src={locationIcon.src} alt="Location Icon" />
+        {selectedOption == "socialmedia" &&
+          <div className="location-container" style={mobileLocationContainerStyle}>
+            <div className="location-box">
+              <div className="location-label location-value2" onClick={() => setLocationMenuOpen(!locationMenuOpen)}>
+                Location
+                <img src={locationIcon.src} alt="Location Icon" />
+              </div>
             </div>
-          </div>
-          <div className="selected-location">{userLocation}</div>
-          {locationMenuOpen && (
-            <div className="location-dropdown">
-              {Cities.map((city) => (
-                <div
-                  key={city}
-                  className="location-dropdown-item"
-                  onClick={() => handleSelectLocation(city)}
-                >
-                  {city}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>}
+            <div className="selected-location">{userLocation}</div>
+            {locationMenuOpen && (
+              <div className="location-dropdown">
+                {Cities.map((city) => (
+                  <div
+                    key={city}
+                    className="location-dropdown-item"
+                    onClick={() => handleSelectLocation(city)}
+                  >
+                    {city}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>}
         <div className="search-value-input-wrapper" style={mobileSearchWrapperStyle}>
           <input
             type="text"
@@ -987,7 +1013,7 @@ console.log(e)
         </div>
 
         <div className="list-value-wrapper" style={mobileListWrapperStyle}>
-          {(selectedOption=="socialmedia"?hashtags:watchlistHashtags)
+          {(selectedOption == "socialmedia" ? hashtags : watchlistHashtags)
             .filter(tag => !userSearch || tag.toLowerCase().includes(userSearch.toLowerCase()))
             .map((tag, index) => (
               <div
@@ -1019,7 +1045,7 @@ console.log(e)
 
 
       <div>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {!showGridPreview && <div style={{ display: 'flex', flexDirection: 'row' }}>
 
           <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '40px', gap: '10px' }}>
             <span>{selectedHashtag}</span>
@@ -1039,7 +1065,7 @@ console.log(e)
                 Clear
               </button>
             )}
-                        <span>{captionSearch}</span>
+            <span>{captionSearch}</span>
 
             {captionSearch && (
               <button
@@ -1092,129 +1118,163 @@ console.log(e)
         > */}
             {/* ⏭ */}
             {/* </button> */}
-            
-          </div>
-          {selectedOption=="watchlist"&&!isMobile&&
-       <div style={{ width: '20vw', marginTop: '10px',paddingLeft:100 }}>
-      
-      <select
-        id="user-select"
-        value={selectWatchedUser}
-        onChange={(e) => setSelectWatchedUser(e.target.value)}
-        style={{
-          width: '100%',
-          padding: '8px 10px',
-          borderRadius: '4px',
-          backgroundColor: '#121212',
-          color: 'white',
-          border: '1px solid skyblue',
-          fontSize: '16px',
-        }}
-      >
-        <option value="--Select-User--">-- Select User --</option>
-        {watchlists.map((item) => (
-          <option key={item.username} value={item.username} style={{padding:5}}>
-            {item.username}
-          </option>
-        ))}
-      </select>
-      </div>}
-{selectedOption === "watchlist" && isMobile && (
-  <div
-    style={{
-      width: '100%',
-      marginTop: '10px',
-      paddingLeft: '20px',
-      paddingRight: '20px',
-      zIndex: 9999,
-      position: 'relative', // required for zIndex to take effect
-    }}
-  >
-    <select
-      id="user-select"
-      value={selectWatchedUser}
-      onChange={(e) => setSelectWatchedUser(e.target.value)}
-      style={{
-        width: '100%',
-        padding: '10px 14px',
-        borderRadius: '6px',
-        backgroundColor: '#121212',
-        color: 'white',
-        border: '1px solid skyblue',
-        fontSize: '16px',
-        appearance: 'none',
-        WebkitAppearance: 'none', // for iOS Safari
-        zIndex: 9999,
-        position: 'relative',
-        pointerEvents: 'auto', // allow touch interactions
-      }}
-    >
-      <option value="--Select-User--">-- Select User --</option>
-      {watchlists.map((item) => (
-        <option
-          key={item.username}
-          value={item.username}
-          style={{ padding: 5, backgroundColor: '#121212', color: 'white' }}
-        >
-          {item.username}
-        </option>
-      ))}
-    </select>
-  </div>
-)}
 
- {  selectedOption=="watchlist" &&   <div>
- <Button
-    onClick={()=>{setModalOpen(true)}}
-    variant="contained"
-    sx={{
-      backgroundColor: '#000',
-      color: '#fff',
-      marginTop:1,
-      marginLeft:10,
-      fontSize:"16px",
-      border:"2px white solid",
-      textTransform: 'none',
-      '&:hover': {
-        backgroundColor: '#222',
-      },
-    }}
-  >
-    Search Users
-  </Button>
-      <UserPopupModal
-  open={modalOpen}
-  onClose={() => setModalOpen(false)}
-  selectedPlatform={currentPlatform}
-  watchlist={watchlists}
-  watchlistUpdate={watchlist}
-  onAddUser={addNewUserToList}
-/>
-    </div>}
-        </div>
-        
-        <ContentCardSlider
-          items={items.map(item => ({
-            ...item,currentPlatform,watchlists,watchlist,selectedOption,
-            timestamp: adjustTimestamp(item.timestamp, selectedPlatform)
-          }))}
-        />
+          </div>
+          {selectedOption == "watchlist" && !isMobile &&
+            <div style={{ width: '20vw', marginTop: '10px', paddingLeft: 100 }}>
+
+              <select
+                id="user-select"
+                value={selectWatchedUser}
+                onChange={(e) => setSelectWatchedUser(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px 10px',
+                  borderRadius: '4px',
+                  backgroundColor: '#121212',
+                  color: 'white',
+                  border: '1px solid skyblue',
+                  fontSize: '16px',
+                }}
+              >
+                <option value="--Select-User--">-- Select User --</option>
+                {watchlists.map((item) => (
+                  <option key={item.username} value={item.username} style={{ padding: 5 }}>
+                    {item.username}
+                  </option>
+                ))}
+              </select>
+            </div>}
+          {selectedOption === "watchlist" && isMobile && (
+            <div
+              style={{
+                width: '100%',
+                marginTop: '10px',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                zIndex: 9999,
+                position: 'relative', // required for zIndex to take effect
+              }}
+            >
+              <select
+                id="user-select"
+                value={selectWatchedUser}
+                onChange={(e) => setSelectWatchedUser(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  borderRadius: '6px',
+                  backgroundColor: '#121212',
+                  color: 'white',
+                  border: '1px solid skyblue',
+                  fontSize: '16px',
+                  appearance: 'none',
+                  WebkitAppearance: 'none', // for iOS Safari
+                  zIndex: 9999,
+                  position: 'relative',
+                  pointerEvents: 'auto', // allow touch interactions
+                }}
+              >
+                <option value="--Select-User--">-- Select User --</option>
+                {watchlists.map((item) => (
+                  <option
+                    key={item.username}
+                    value={item.username}
+                    style={{ padding: 5, backgroundColor: '#121212', color: 'white' }}
+                  >
+                    {item.username}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {selectedOption == "watchlist" && <div>
+            <Button
+              onClick={() => { setModalOpen(true) }}
+              variant="contained"
+              sx={{
+                backgroundColor: '#000',
+                color: '#fff',
+                marginTop: 1,
+                marginLeft: 10,
+                fontSize: "16px",
+                border: "2px white solid",
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#222',
+                },
+              }}
+            >
+              Search Users
+            </Button>
+            <UserPopupModal
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              selectedPlatform={currentPlatform}
+              watchlist={watchlists}
+              watchlistUpdate={watchlist}
+              onAddUser={addNewUserToList}
+            />
+          </div>}
+        </div>}
+
+        {(() => {
+          const normalizedItems = items.map(item => ({
+            ...item, currentPlatform, watchlists, watchlist, selectedOption,
+            id: item.id || item._id,
+            mediaType: item.mediaType || item.media_type,
+            mediaSrc: item.mediaSrc || item.video_link || item.media_link,
+            likes: item.likes || item.likes_count || item.views,
+            description: item.description || item.caption,
+            comments: item.comments || [],
+            postlink: item.postlink || item.original_video_link || item.post_link,
+            userProfileLink: item.userProfileLink || item.user_profile_link || item.profile_link,
+            location: item.location || item.place,
+            timestamp: adjustTimestamp(item.timestamp || item.upload_date || item.dateTime_of_post_str, selectedPlatform)
+          }));
+
+          if (showGridPreview) {
+            return (
+              <PreviewGrid
+                items={normalizedItems}
+                platformName={currentPlatform?.name || ''}
+                onItemClick={() => setShowGridPreview(false)}
+              />
+            );
+          }
+
+          return (
+            <>
+              <div style={{ paddingLeft: '20px', paddingTop: '8px' }}>
+                <button
+                  className="preview-back-btn"
+                  onClick={() => setShowGridPreview(true)}
+                >
+                  <span className="preview-back-btn-arrow">←</span>
+                  Back to Grid
+                </button>
+              </div>
+              <ContentCardSlider items={normalizedItems} />
+            </>
+          );
+        })()}
 
       </div>
 
     </div>
   );
   return (
-  <>
-    {loading ? (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-        <CircularProgress />
-      </Box>
-    ) : (
-      container
-    )}
-  </>
-);
+    <>
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+          <CircularProgress />
+        </Box>
+      ) : (
+        container
+      )}
+    </>
+  );
 
 }
 

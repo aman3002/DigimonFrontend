@@ -404,6 +404,9 @@ export default function ContentCard({
             else if (selectedPlatform == "TELEGRAM") {
             word = "telegram"
             }
+            else if (selectedPlatform == "YOUTUBE") {
+            word = "Youtube"
+            }
             const response=await axios.post(`/addWatchedUser${word}`,{username:username,userid:userid})
             
             if(response.status==200){
@@ -441,6 +444,9 @@ export default function ContentCard({
             else if (selectedPlatform == "TELEGRAM") {
             word = "telegram"
             }
+            else if (selectedPlatform == "YOUTUBE") {
+            word = "youtube"
+            }
             const response=await axios.post(`/watchlistRemove`,{username:username,userid:userid,collectionList:`${word}_watchlist`,collectionData:`${word}_watchlist_data`})
             
             if(response.status==200){
@@ -471,7 +477,6 @@ export default function ContentCard({
         controls
         style={{ maxWidth: '100%', borderRadius: '12px' }}
       >
-        <source src={mediaSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     )}
@@ -614,7 +619,7 @@ export default function ContentCard({
                             <Image src={locationn} alt="clock" className="icon clock" />
                             <p className="timestamp">{location}</p>
                         </div>
-                        {postlink.includes("https://") &&
+                        {postlink?.includes("https://") &&
                             <div className="info-group">
                                 <a href={postlink} target="_blank" rel="noopener noreferrer">
                                     <Image
@@ -626,7 +631,7 @@ export default function ContentCard({
                                 </a>
                             </div>}
                             
-                            {/^\d+$/.test(postlink.split('/').pop()) && !postlink.includes("t.me")&&
+                            {postlink && /^\d+$/.test(postlink.split('/').pop()) && !postlink.includes("t.me")&&
                             <div className="info-group">
                                 <a href={`https://x.com/premium/status/${postlink}`} target="_blank" rel="noopener noreferrer">
                                     <Image
@@ -639,7 +644,7 @@ export default function ContentCard({
                             </div>}
                     </div>
                       <div className="description-box">
-                        <p className="description-text">Type : {postlink.includes("https://") ?"Post": selectedPlatform=="TWITTER"?"Post":"Story"}</p>
+                        <p className="description-text">Type : {postlink?.includes("https://") ?"Post": selectedPlatform=="TWITTER"?"Post":"Story"}</p>
                     </div>
                     <div className="description-box">
                         <p className="description-text">{description}</p>
