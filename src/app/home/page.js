@@ -304,7 +304,7 @@ function HomePage() {
 
       const response = await axios.post(`/${word}/filter`, {
         pageNo: pageNo,
-        ...(showGridPreview ? { pageSize: 9 } : {}),
+        ...(showGridPreview ? { pageSize: 8 } : {}),
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,
@@ -453,7 +453,7 @@ function HomePage() {
       const response = await axios.post(`/dataContainsKeywordIn${apiLink}`, {
         page: pageNo,
         pageNo: pageNo,
-        ...(showGridPreview ? { pageSize: 9 } : {}),
+        ...(showGridPreview ? { pageSize: 8 } : {}),
         startDate: startDate,
         endDate: endDate,
         isViralSelected: isViralSelected,

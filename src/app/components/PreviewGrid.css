@@ -1,494 +1,317 @@
 /* ============================================
-   PreviewGrid — 3×3 Preview Grid Overlay
+   PreviewGrid — 4×2 Compact ContentCard Grid
+   Fills viewport, readable font sizes
    ============================================ */
 
-/* --- Wrapper / Container --- */
+/* --- Wrapper: fills the full content area --- */
 .preview-grid-wrapper {
 	position: relative;
 	width: 107vw;
-	min-height: 115vh;
+	height: 115vh;
 	margin-left: 0.51vw;
-	padding: 2.5vh 2vw 4vh 2vw;
+	padding: 4px 4px;
 	background: #9491914d;
 	border-radius: 0.51vw;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
-/* --- Header row: title + back button --- */
-.preview-grid-header {
-	width: 100%;
-	max-width: 1360px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 2.5vh;
-	padding: 0 0.5vw;
-}
-
-.preview-grid-title {
-	font-family: "Poppins", sans-serif;
-	font-size: 1.4vw;
-	font-weight: 600;
-	color: #fff;
-	letter-spacing: 0.3px;
-	display: flex;
-	align-items: center;
-	gap: 0.6vw;
-}
-
-.preview-grid-title-dot {
-	display: inline-block;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #0ca8c3;
-	animation: preview-dot-pulse 2s ease-in-out infinite;
-}
-
-@keyframes preview-dot-pulse {
-	0%, 100% { opacity: 1; transform: scale(1); }
-	50%      { opacity: 0.5; transform: scale(1.3); }
-}
-
-/* --- The 3×3 Grid --- */
+/* --- Grid: stretches to fill wrapper --- */
 .preview-grid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 1.8vw;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: repeat(4, 1fr);
+	gap: 5px;
 	width: 100%;
-	max-width: 1360px;
+	height: 100%;
 }
 
 /* --- Individual Grid Cell --- */
-.preview-grid-cell {
-	position: relative;
-	background: #1a1a1a;
-	border-radius: 12px;
+.pgrid-cell {
+	background: #151515;
+	border-radius: 9px;
 	overflow: hidden;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	cursor: pointer;
-	transition: transform 0.25s ease, box-shadow 0.25s ease;
-	border: 1px solid rgba(255, 255, 255, 0.06);
+	transition: outline 0.15s ease;
+	outline: 1px solid transparent;
+	min-height: 0;
 }
 
-.preview-grid-cell:hover {
-	transform: translateY(-4px) scale(1.015);
-	box-shadow:
-		0 12px 32px rgba(0, 0, 0, 0.45),
-		0 0 0 1px rgba(12, 168, 195, 0.25);
+.pgrid-cell:hover {
+	outline: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* --- Outer metadata (above frame) --- */
-.preview-cell-meta-top {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 14px 6px 14px;
-}
-
-.preview-cell-type {
-	font-family: "Poppins", sans-serif;
-	font-size: 0.72vw;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	color: #0ca8c3;
-	background: rgba(12, 168, 195, 0.12);
-	padding: 3px 10px;
-	border-radius: 4px;
-}
-
-.preview-cell-type.story {
-	color: #e8a838;
-	background: rgba(232, 168, 56, 0.12);
-}
-
-.preview-cell-date {
-	font-family: "Poppins", sans-serif;
-	font-size: 0.68vw;
-	font-weight: 400;
-	color: rgba(255, 255, 255, 0.55);
-}
-
-/* --- The inner media frame --- */
-.preview-cell-frame {
-	position: relative;
-	margin: 0 12px;
-	border-radius: 10px;
-	overflow: hidden;
-	background: #111;
-	aspect-ratio: 1 / 1;
+/* --- Left: Media Section --- */
+.pgrid-media {
+	width: 30%;
+	flex-shrink: 0;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	background: #0d0d0d;
+	overflow: hidden;
 }
 
-/* Subtle gradient overlay on the frame for readability of overlays */
-.preview-cell-frame::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		180deg,
-		rgba(0, 0, 0, 0.45) 0%,
-		transparent 35%,
-		transparent 100%
-	);
-	pointer-events: none;
-	border-radius: 10px;
-	z-index: 1;
-}
-
-/* --- Media inside frame --- */
-.preview-cell-media {
+.pgrid-media video,
+.pgrid-media img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
-	border-radius: 10px;
-	transition: transform 0.35s ease;
 }
 
-.preview-grid-cell:hover .preview-cell-media {
-	transform: scale(1.05);
-}
-
-.preview-cell-video {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 10px;
-}
-
-.preview-cell-iframe-wrap {
-	width: 100%;
-	height: 100%;
-	position: relative;
-	pointer-events: none;
-	border-radius: 10px;
-	overflow: hidden;
-}
-
-.preview-cell-iframe-wrap iframe {
+.pgrid-media iframe {
 	width: 100%;
 	height: 100%;
 	border: none;
-	border-radius: 10px;
 }
 
-/* Fallback: no media */
-.preview-cell-no-media {
+.pgrid-media-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	color: rgba(255, 255, 255, 0.15);
+	font-size: 14px;
+	font-family: "Poppins", sans-serif;
+	border: 1px dashed rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+	margin: 8px;
+}
+
+.pgrid-media-text {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 12px;
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 14px;
+	font-family: "Poppins", sans-serif;
+	text-align: center;
+	line-height: 1.4;
+	overflow: hidden;
+	word-break: break-word;
+}
+
+/* --- Right: Info Section --- */
+.pgrid-info {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+	overflow-y: auto;
+	padding: 8px 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	background: rgba(255, 255, 255, 0.04);
+}
+
+/* Scrollbar */
+.pgrid-info::-webkit-scrollbar {
+	width: 3px;
+}
+.pgrid-info::-webkit-scrollbar-track {
+	background: transparent;
+}
+.pgrid-info::-webkit-scrollbar-thumb {
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 2px;
+}
+
+/* --- Info bar (username, likes, time, location, link) --- */
+.pgrid-info-bar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	padding: 6px 10px;
+	border: 1px solid #515151;
+	border-radius: 6px;
+	min-height: 30px;
+}
+
+.pgrid-info-group {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	white-space: nowrap;
+}
+
+.pgrid-icon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.pgrid-info-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	color: #fff;
+	margin: 0;
+	line-height: 1.3;
+}
+
+.pgrid-info-text.username {
+	font-weight: 500;
+}
+
+/* --- Type / Description box --- */
+.pgrid-desc-box {
+	padding: 5px 10px;
+	border: 1px solid #515151;
+	border-radius: 6px;
+}
+
+.pgrid-desc-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	color: #fff;
+	margin: 0;
+	line-height: 1.35;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+/* --- Comments section --- */
+.pgrid-comments-header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
+.pgrid-comments-title {
+	font-family: "Poppins", sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	color: #fff;
+	margin: 0;
+}
+
+.pgrid-comments-box {
+	padding: 5px 10px;
+	border: 1px solid #515151;
+	border-radius: 6px;
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
+
+.pgrid-comment-text {
+	font-family: "Poppins", sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	color: #fff;
+	margin: 0 0 4px 0;
+	line-height: 1.3;
+}
+
+.pgrid-comment-text a {
+	color: #fff;
+	text-decoration: underline;
+	font-weight: 500;
+	font-size: 14px;
+}
+
+/* --- "Back to Grid" button --- */
+.preview-back-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	background: transparent;
+	color: rgba(255, 255, 255, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 4px;
+	padding: 7px 18px;
+	font-family: "Poppins", sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.preview-back-btn:hover {
+	background: rgba(255, 255, 255, 0.06);
+	color: #fff;
+	border-color: rgba(255, 255, 255, 0.4);
+}
+
+.preview-back-btn-arrow {
+	font-size: 16px;
+	transition: transform 0.15s ease;
+}
+
+.preview-back-btn:hover .preview-back-btn-arrow {
+	transform: translateX(-2px);
+}
+
+/* --- Empty state --- */
+.preview-grid-empty {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 	height: 100%;
 	color: rgba(255, 255, 255, 0.25);
-	font-size: 0.85vw;
 	font-family: "Poppins", sans-serif;
-	font-style: italic;
-	letter-spacing: 0.5px;
-}
-
-/* Telegram text-only */
-.preview-cell-text-content {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 16px;
-	font-family: "Poppins", sans-serif;
-	font-size: 0.78vw;
-	color: rgba(255, 255, 255, 0.7);
-	text-align: center;
-	line-height: 1.5;
-	overflow: hidden;
-	word-break: break-word;
-}
-
-/* --- Overlays inside the frame --- */
-.preview-frame-overlay {
-	position: absolute;
-	z-index: 2;
-	font-family: "Poppins", sans-serif;
-}
-
-/* Username — top-left inside frame */
-.preview-frame-username {
-	top: 10px;
-	left: 10px;
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	background: rgba(0, 0, 0, 0.55);
-	backdrop-filter: blur(6px);
-	-webkit-backdrop-filter: blur(6px);
-	padding: 4px 10px;
-	border-radius: 6px;
-	font-size: 0.7vw;
-	font-weight: 500;
-	color: #fff;
-	max-width: 65%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.preview-frame-username-icon {
-	width: 14px;
-	height: 14px;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.2);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 9px;
-	flex-shrink: 0;
-}
-
-/* Like count — top-right inside frame */
-.preview-frame-likes {
-	top: 10px;
-	right: 10px;
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	background: rgba(0, 0, 0, 0.55);
-	backdrop-filter: blur(6px);
-	-webkit-backdrop-filter: blur(6px);
-	padding: 4px 10px;
-	border-radius: 6px;
-	font-size: 0.7vw;
-	font-weight: 500;
-	color: #fff;
-}
-
-.preview-likes-icon {
-	color: #ff4d6a;
-	font-size: 0.75vw;
-}
-
-/* --- Outer metadata (below frame) --- */
-.preview-cell-meta-bottom {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 6px 14px 10px 14px;
-}
-
-.preview-cell-location {
-	font-family: "Poppins", sans-serif;
-	font-size: 0.65vw;
-	font-weight: 400;
-	color: rgba(255, 255, 255, 0.45);
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	max-width: 100%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.preview-location-icon {
-	font-size: 0.72vw;
-	flex-shrink: 0;
-}
-
-/* --- "Back to Grid" button used in list view --- */
-.preview-back-btn {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-	background: rgba(12, 168, 195, 0.12);
-	color: #0ca8c3;
-	border: 1px solid rgba(12, 168, 195, 0.3);
-	border-radius: 8px;
-	padding: 8px 20px;
-	font-family: "Poppins", sans-serif;
-	font-size: 0.82vw;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.2s ease;
-	letter-spacing: 0.3px;
-}
-
-.preview-back-btn:hover {
-	background: rgba(12, 168, 195, 0.22);
-	border-color: rgba(12, 168, 195, 0.5);
-	transform: translateX(-2px);
-}
-
-.preview-back-btn-arrow {
-	font-size: 1vw;
-	transition: transform 0.2s ease;
-}
-
-.preview-back-btn:hover .preview-back-btn-arrow {
-	transform: translateX(-3px);
-}
-
-/* --- Click hint overlay on hover --- */
-.preview-cell-click-hint {
-	position: absolute;
-	inset: 0;
-	z-index: 3;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: rgba(0, 0, 0, 0.5);
-	opacity: 0;
-	transition: opacity 0.25s ease;
-	border-radius: 10px;
-	pointer-events: none;
-}
-
-.preview-grid-cell:hover .preview-cell-click-hint {
-	opacity: 1;
-}
-
-.preview-cell-click-hint-text {
-	font-family: "Poppins", sans-serif;
-	font-size: 0.82vw;
-	font-weight: 500;
-	color: #fff;
-	background: rgba(12, 168, 195, 0.35);
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
-	padding: 8px 18px;
-	border-radius: 8px;
-	letter-spacing: 0.5px;
-}
-
-/* --- Empty state (< 1 item) --- */
-.preview-grid-empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 40vh;
-	color: rgba(255, 255, 255, 0.35);
-	font-family: "Poppins", sans-serif;
-	font-size: 1vw;
-	font-style: italic;
+	font-size: 16px;
 }
 
 /* ============================================
-   Responsive — Tablet
+   Responsive — Mobile (≤ 768px)
    ============================================ */
-@media (max-width: 1100px) {
-	.preview-grid {
-		grid-template-columns: repeat(2, 1fr);
-		gap: 2vw;
-	}
-
-	.preview-grid-title {
-		font-size: 2.2vw;
-	}
-
-	.preview-cell-type,
-	.preview-cell-date,
-	.preview-frame-username,
-	.preview-frame-likes,
-	.preview-cell-location {
-		font-size: 1.3vw;
-	}
-}
-
-/* ============================================
-   Responsive — Mobile (≤ 500px)
-   ============================================ */
-@media (max-width: 500px) {
+@media (max-width: 768px) {
 	.preview-grid-wrapper {
 		width: 100%;
 		margin-left: 0;
-		padding: 15px 10px 30px 10px;
+		height: auto;
+		min-height: calc(100vh - 80px);
+		padding: 4px;
 	}
 
 	.preview-grid {
-		grid-template-columns: repeat(2, 1fr);
-		gap: 12px;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+		gap: 5px;
 	}
 
-	.preview-grid-header {
-		padding: 0 5px;
-		margin-bottom: 15px;
+	.pgrid-cell {
+		min-height: 140px;
+		max-height: 200px;
 	}
 
-	.preview-grid-title {
-		font-size: 16px;
+	.pgrid-media {
+		width: 30%;
 	}
 
-	.preview-cell-meta-top {
-		padding: 8px 10px 4px 10px;
-	}
-
-	.preview-cell-type {
-		font-size: 10px;
-		padding: 2px 7px;
-	}
-
-	.preview-cell-date {
-		font-size: 9px;
-	}
-
-	.preview-cell-frame {
-		margin: 0 8px;
-	}
-
-	.preview-frame-username {
-		font-size: 10px;
-		padding: 3px 7px;
-		gap: 3px;
-	}
-
-	.preview-frame-username-icon {
-		width: 11px;
-		height: 11px;
-		font-size: 7px;
-	}
-
-	.preview-frame-likes {
-		font-size: 10px;
-		padding: 3px 7px;
-		gap: 3px;
-	}
-
-	.preview-likes-icon {
-		font-size: 11px;
-	}
-
-	.preview-cell-meta-bottom {
-		padding: 4px 10px 8px 10px;
-	}
-
-	.preview-cell-location {
-		font-size: 9px;
-	}
-
-	.preview-cell-click-hint-text {
-		font-size: 11px;
-		padding: 5px 12px;
-	}
-
-	.preview-back-btn {
+	.pgrid-info-text {
 		font-size: 13px;
-		padding: 7px 14px;
 	}
 
-	.preview-grid-empty {
-		font-size: 14px;
+	.pgrid-desc-text {
+		font-size: 12px;
 	}
 
-	.preview-cell-no-media {
+	.pgrid-comments-title {
+		font-size: 13px;
+	}
+
+	.pgrid-comment-text {
 		font-size: 11px;
 	}
 
-	.preview-cell-text-content {
-		font-size: 11px;
+	.pgrid-icon {
+		width: 14px;
+		height: 14px;
 	}
 }
